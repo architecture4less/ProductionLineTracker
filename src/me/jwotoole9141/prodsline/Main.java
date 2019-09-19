@@ -1,4 +1,4 @@
-package sample;
+package me.jwotoole9141.prodsline;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
