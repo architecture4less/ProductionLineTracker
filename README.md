@@ -74,3 +74,59 @@ In addition to the ability to record production, the software also needs the abi
         -   Professor
 -   **Timelines** (a breakdown of the Product Backlog into time-bound smaller, more detailed tasks in Sprint Backlogs)
     -   Three 5-week sprints, detailed below.
+
+## Sprint 1
+
+_GUI, basic database_
+
+**Week 1**
+
+- [X] Create JavaFX project. See [IntelliJ](https://sites.google.com/site/profvanselow/course/cop-3003/intellij) page and [IntelliJ Help](https://www.google.com/url?q=https%3A%2F%2Fwww.jetbrains.com%2Fhelp%2Fidea%2Fpreparing-for-javafx-application-development.html&sa=D&sntz=1&usg=AFQjCNGfhsMWgBGucMqbhHbov50HxK9IPA)
+- [X] Share to private repository on GitHub. See [GitHub](https://sites.google.com/site/profvanselow/programming/github) page.
+- [X] Create README. Details in Documentation Expectations at bottom of page.
+
+**Week 2**
+
+- [ ]   Add a tab view with three tabs: Product Line, Produce, and Production Log
+- [ ] Add a CSS file
+- [ ] Quality expectations: see bottom of page
+- [ ] Style expectations: see bottom of page
+- [ ] Documentation expectations: see bottom of page
+
+**Week 3**
+
+-   In the Product Line tab
+    -   In the AnchorPane
+        - [ ] Add a 2x3 GridPane
+            - [ ] Add a Label and text field for Product Name in row 0, columns 0 and 1
+            - [ ] Add a Label and text field for Manufacturer in row 1, columns 0 and 1
+            - [ ] Add a Label and ChoiceBox for Item Type in row 2, columns 0 and 1
+        - [ ] Add a Button that says Add Product
+            - [ ] Add an event handler to the button click event. For now, just have it print to the console (System.out.println)
+        - [ ] Add a Label and a Table View for Existing Products
+-   In the Produce tab
+    -   In the AnchorPane
+        - [ ] Add a Label and ListView for Choose Product
+        - [ ] Add a Label and ComboBox (data type String) for Choose Quantity
+        - [ ] Add a Button that says Record Production
+            -   For now, just have the button print to the console (System.out.println)
+-   In the Production Log tab
+    -   In the AnchorPane
+        - [ ] Add a TextArea
+
+**Week 4**
+
+- [ ] Install database software if necessary
+- [ ] Create database
+	- See course website for example
+- [ ] Connect to database
+
+**Week 5**
+
+- [ ] Add Product to database in Product Line tab
+    -   Could be hard coded to button click or built from user interface, like `INSERT INTO Product(type, manufacturer, name) VALUES ( 'AUDIO', 'Apple', 'iPod' );`
+-   In the Produce tab, for the ComboBox
+    - [ ] Populate with values 1-10 in an _initialize_ method in the Controller
+    - [ ] getSelectionModel().selectFirst();
+    - [ ] setEditable(true);
+- [ ] Prepare for submission
