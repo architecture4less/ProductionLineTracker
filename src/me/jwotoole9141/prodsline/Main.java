@@ -17,11 +17,8 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("gui.fxml"));
 
-        Scene scene = new Scene(root, 800, 600);
-        scene.getStylesheets().add(getClass().getResource("./gui.css").toExternalForm());
-
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 }
