@@ -87,32 +87,32 @@ _GUI, basic database_
 
 **Week 2**
 
-- [ ]   Add a tab view with three tabs: Product Line, Produce, and Production Log
-- [ ] Add a CSS file
+- [X] Add a tab view with three tabs: Product Line, Produce, and Production Log
+- [X] Add a CSS file
 - [ ] Quality expectations: see bottom of page
 - [ ] Style expectations: see bottom of page
 - [ ] Documentation expectations: see bottom of page
 
 **Week 3**
 
--   In the Product Line tab
-    -   In the AnchorPane
-        - [ ] Add a 2x3 GridPane
-            - [ ] Add a Label and text field for Product Name in row 0, columns 0 and 1
-            - [ ] Add a Label and text field for Manufacturer in row 1, columns 0 and 1
-            - [ ] Add a Label and ChoiceBox for Item Type in row 2, columns 0 and 1
-        - [ ] Add a Button that says Add Product
-            - [ ] Add an event handler to the button click event. For now, just have it print to the console (System.out.println)
-        - [ ] Add a Label and a Table View for Existing Products
--   In the Produce tab
-    -   In the AnchorPane
-        - [ ] Add a Label and ListView for Choose Product
-        - [ ] Add a Label and ComboBox (data type String) for Choose Quantity
-        - [ ] Add a Button that says Record Production
-            -   For now, just have the button print to the console (System.out.println)
--   In the Production Log tab
-    -   In the AnchorPane
-        - [ ] Add a TextArea
+- In the Product Line tab
+    - In the AnchorPane
+        - [X] Add a 2x3 GridPane
+            - [X] Add a Label and text field for Product Name in row 0, columns 0 and 1
+            - [X] Add a Label and text field for Manufacturer in row 1, columns 0 and 1
+            - [X] Add a Label and ChoiceBox for Item Type in row 2, columns 0 and 1
+        - [X] Add a Button that says Add Product
+            - [X] Add an event handler to the button click event. For now, just have it print to the console (System.out.println)
+        - [X] Add a Label and a Table View for Existing Products
+- In the Produce tab
+    - In the AnchorPane
+        - [X] Add a Label and ListView for Choose Product
+        - [X] Add a Label and ComboBox (data type String) for Choose Quantity
+        - [X] Add a Button that says Record Production
+            - For now, just have the button print to the console (System.out.println)
+- In the Production Log tab
+    - In the AnchorPane
+        - [X] Add a TextArea
 
 **Week 4**
 
@@ -124,8 +124,8 @@ _GUI, basic database_
 **Week 5**
 
 - [ ] Add Product to database in Product Line tab
-    -   Could be hard coded to button click or built from user interface, like `INSERT INTO Product(type, manufacturer, name) VALUES ( 'AUDIO', 'Apple', 'iPod' );`
--   In the Produce tab, for the ComboBox
+    - Could be hard coded to button click or built from user interface, like `INSERT INTO Product(type, manufacturer, name) VALUES ( 'AUDIO', 'Apple', 'iPod' );`
+- In the Produce tab, for the ComboBox
     - [ ] Populate with values 1-10 in an _initialize_ method in the Controller
     - [ ] getSelectionModel().selectFirst();
     - [ ] setEditable(true);
