@@ -116,10 +116,10 @@ _GUI, basic database_
 
 **Week 4**
 
-- [ ] Install database software if necessary
-- [ ] Create database
+- [X] Install database software if necessary
+- [X] Create database
 	- See course website for example
-- [ ] Connect to database
+- [X] Connect to database
 
 **Week 5**
 
