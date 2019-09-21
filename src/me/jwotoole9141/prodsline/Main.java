@@ -17,8 +17,8 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("gui.fxml"));
 
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 800, 600));
+        primaryStage.setTitle("Production Line Tracker");
+        primaryStage.setScene(new Scene(root, 350, 450));
         primaryStage.show();
     }
 }
