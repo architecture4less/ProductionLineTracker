@@ -8,7 +8,57 @@ A description of the project.
 -->
 
 # ProductionLineTracker
-[COP3003 Class Project](https://sites.google.com/site/profvanselow/course/cop-3003/oop-project)
+This is my OOP project submission for Professor Vanselow's [COP3003: Object Oriented Programming](https://sites.google.com/site/profvanselow/course/cop-3003/oop-project)
+class at Florida Gulf Coast University for the 2019 fall semester. It is a Java FX application that simulates a production line management system.
+
+## Demonstration
+![A demonstrative GIF of the application](demo.gif)
+
+## Documentation
+[JavaDoc](https://Architecture4less.github.io/ProductionLineTracker/doc/index.html)
+
+**Since private repositories cannot use GitHub pages through a free account, this link will not work.
+The documentation is still available in the 'doc' folder.
+
+## Diagrams
+
+The project's classes diagram:
+
+![A diagram of the project's classes](diagram_classes.png)
+
+---
+
+The project's database diagram:
+
+![A diagram of the project's database](diagram_database.png)
+
+## Getting Started
+
+This project was made using JDK 1.8.0.
+The only dependency is an H2 Driver, which is included in the 'lib' folder.
+
+## Built With
+- JetBrain's IntelliJ IDEA Ultimate
+- Gluon's Scene Builder
+
+<!-- ## Contributing -->
+
+## Author
+
+Jared O'Toole <jwotoole9141@eagle.fgcu.edu>
+
+<!-- ## License -->
+
+<!-- ## Acknowledgments -->
+
+<!-- ## History -->
+
+## Key Programming Concepts Utilized
+
+- Creating a GUI application using JavaFX
+- Designing a GUI, using Scene Builder to generate the fxml file
+- Applying a CSS style sheet to a JavaFX application
+- Creating and interacting with a database using JDBC
 
 ## Problem Statement
 
@@ -138,4 +188,4 @@ _GUI, basic database_
     - [X] Populate with values 1-10 in an _initialize_ method in the Controller
     - [X] getSelectionModel().selectFirst();
     - [X] setEditable(true);
-- [ ] Prepare for submission
+- [X] Prepare for submission
