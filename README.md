@@ -1,5 +1,14 @@
+<!--
+AUTH: Jared O'Toole
+DATE: Wed, Sep 11th, 2019
+PROJ: ProductionLineTracker
+FILE: README.md
+
+A description of the project.
+-->
+
 # ProductionLineTracker
-COP3003 Class Project
+[COP3003 Class Project](https://sites.google.com/site/profvanselow/course/cop-3003/oop-project)
 
 ## Problem Statement
 
@@ -89,9 +98,9 @@ _GUI, basic database_
 
 - [X] Add a tab view with three tabs: Product Line, Produce, and Production Log
 - [X] Add a CSS file
-- [ ] Quality expectations: see bottom of page
-- [ ] Style expectations: see bottom of page
-- [ ] Documentation expectations: see bottom of page
+- [X] Quality expectations: see course website
+- [X] Style expectations: see course website
+- [X] Documentation expectations: see course website
 
 **Week 3**
 
@@ -123,10 +132,10 @@ _GUI, basic database_
 
 **Week 5**
 
-- [ ] Add Product to database in Product Line tab
+- [X] Add Product to database in Product Line tab
     - Could be hard coded to button click or built from user interface, like `INSERT INTO Product(type, manufacturer, name) VALUES ( 'AUDIO', 'Apple', 'iPod' );`
 - In the Produce tab, for the ComboBox
-    - [ ] Populate with values 1-10 in an _initialize_ method in the Controller
-    - [ ] getSelectionModel().selectFirst();
-    - [ ] setEditable(true);
+    - [X] Populate with values 1-10 in an _initialize_ method in the Controller
+    - [X] getSelectionModel().selectFirst();
+    - [X] setEditable(true);
 - [ ] Prepare for submission
