@@ -22,9 +22,19 @@ import java.sql.Statement;
 @SuppressWarnings("WeakerAccess")
 public class Model {
 
+  /**
+   * The JDBC driver class to use.
+   */
   private static final String JDBC_DRIVER = "org.h2.Driver";
+
+  /**
+   * The URL of the database.
+   */
   private static final String DB_URL = "jdbc:h2:./res/database";
 
+  /**
+   * The database connection.
+   */
   private static Connection conn;
 
   /**

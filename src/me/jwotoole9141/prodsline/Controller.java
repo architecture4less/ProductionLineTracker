@@ -27,27 +27,51 @@ import javafx.scene.control.TextField;
 @SuppressWarnings("unused")
 public class Controller {
 
+  /**
+   * The 'new product name' field.
+   */
   @FXML
   private TextField fldNewProdName;
 
+  /**
+   * The 'new product manufacturer' field.
+   */
   @FXML
   private TextField fldNewProdManuf;
 
+  /**
+   * The 'new product type' choice box.
+   */
   @FXML
   private ChoiceBox<String> chbNewProdType;
 
+  /**
+   * The 'add product' button.
+   */
   @FXML
   private Button btnAddProd;
 
+  /**
+   * The 'products' table.
+   */
   @FXML
   private TableView<?> tblProducts;
 
+  /**
+   * The 'production options' list.
+   */
   @FXML
   private ListView<?> lstProdsOpts;
 
+  /**
+   * The 'production quantity' combo box.
+   */
   @FXML
   private ComboBox<Integer> cboProdsQnty;
 
+  /**
+   * The 'production log' text area.
+   */
   @FXML
   private TextArea txtProdsLog;
 
