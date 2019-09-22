@@ -19,8 +19,7 @@ import java.sql.Statement;
  *
  * @author Jared O'Toole
  */
-@SuppressWarnings("WeakerAccess")
-public class Model {
+class Model {
 
   /**
    * The JDBC driver class to use.
@@ -40,7 +39,7 @@ public class Model {
   /**
    * Open a connection to the database.
    */
-  public static void open() {
+  static void open() {
 
     // try to open a database conn...
     try {
@@ -55,7 +54,7 @@ public class Model {
   /**
    * Close the database connection.
    */
-  public static void close() {
+  static void close() {
 
     // try to close the database conn...
     if (conn != null) {
@@ -74,7 +73,7 @@ public class Model {
    * @param manuf The new product's manufacturer.
    * @param name  The new product's name.
    */
-  public static void addProduct(String type, String manuf, String name) {
+  static void addProduct(String type, String manuf, String name) {
 
     // try to add a row to the product table...
     try {
