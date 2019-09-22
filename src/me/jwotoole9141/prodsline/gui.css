@@ -1,0 +1,12 @@
+/*
+AUTH: Jared O'Toole
+DATE: Fri, Sep 20th, 2019
+PROJ: ProductionLineTracker
+FILE: gui.css
+
+Defines the stylesheet for the GUI window.
+ */
+
+TextField, TextArea, ChoiceBox, ComboBox {
+  -fx-font-family: "Consolas", monospace;
+}
