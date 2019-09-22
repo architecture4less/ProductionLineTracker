@@ -1,3 +1,4 @@
+/* from course website */
 create table Product
 (
     id int auto_increment,
