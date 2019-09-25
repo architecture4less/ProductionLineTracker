@@ -73,7 +73,7 @@ class Model {
    * @param manuf The new product's manufacturer.
    * @param name  The new product's name.
    */
-  static void addProduct(String type, String manuf, String name) {
+  static void addProduct(ItemType type, String manuf, String name) {
 
     // try to add a row to the product table...
     try {
@@ -81,7 +81,7 @@ class Model {
       stmt.execute(String.format(
           "INSERT INTO Product(type, manufacturer, name) "
               + "VALUES ( '%s', '%s', '%s' );",
-          type, manuf, name
+          type.getCode(), manuf, name
       ));
       stmt.close();
     } catch (SQLException e) {

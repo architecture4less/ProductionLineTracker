@@ -90,7 +90,9 @@ public class Controller {
     cboProdsQnty.getSelectionModel().selectFirst();
 
     // initialize the 'item type' choice box...
-    chbNewProdType.getItems().add("AUDIO");
+    for (ItemType type : ItemType.values()) {
+      chbNewProdType.getItems().add(type.getName());
+    }
     chbNewProdType.getSelectionModel().selectFirst();
   }
 
@@ -105,10 +107,15 @@ public class Controller {
     System.out.println("The 'Add Product' button was clicked!");
 
     // add product to database using form info...
-    String type = chbNewProdType.getValue();
-    String manuf = fldNewProdManuf.getText().trim();
-    String name = fldNewProdName.getText().trim();
+    try {
+      ItemType type = ItemType.valueOf(chbNewProdType.getValue());  // throws ex
+      String manuf = fldNewProdManuf.getText().trim();
+      String name = fldNewProdName.getText().trim();
 
-    Model.addProduct(type, manuf, name);
+      Model.addProduct(type, manuf, name);
+
+    } catch (IllegalArgumentException ex) {
+      ex.printStackTrace();
+    }
   }
 }
