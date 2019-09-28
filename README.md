@@ -138,13 +138,13 @@ In addition to the ability to record production, the software also needs the abi
 
 _GUI, basic database_
 
-**Week 1**
+#### Week 1
 
 - [X] Create JavaFX project. See [IntelliJ](https://sites.google.com/site/profvanselow/course/cop-3003/intellij) page and [IntelliJ Help](https://www.google.com/url?q=https%3A%2F%2Fwww.jetbrains.com%2Fhelp%2Fidea%2Fpreparing-for-javafx-application-development.html&sa=D&sntz=1&usg=AFQjCNGfhsMWgBGucMqbhHbov50HxK9IPA)
 - [X] Share to private repository on GitHub. See [GitHub](https://sites.google.com/site/profvanselow/programming/github) page.
 - [X] Create README. Details in Documentation Expectations at bottom of page.
 
-**Week 2**
+#### Week 2
 
 - [X] Add a tab view with three tabs: Product Line, Produce, and Production Log
 - [X] Add a CSS file
@@ -152,7 +152,7 @@ _GUI, basic database_
 - [X] Style expectations: see course website
 - [X] Documentation expectations: see course website
 
-**Week 3**
+#### Week 3
 
 - In the Product Line tab
     - In the AnchorPane
@@ -173,14 +173,14 @@ _GUI, basic database_
     - In the AnchorPane
         - [X] Add a TextArea
 
-**Week 4**
+#### Week 4
 
 - [X] Install database software if necessary
 - [X] Create database
 	- See course website for example
 - [X] Connect to database
 
-**Week 5**
+#### Week 5
 
 - [X] Add Product to database in Product Line tab
     - Could be hard coded to button click or built from user interface, like `INSERT INTO Product(type, manufacturer, name) VALUES ( 'AUDIO', 'Apple', 'iPod' );`
@@ -189,3 +189,119 @@ _GUI, basic database_
     - [X] getSelectionModel().selectFirst();
     - [X] setEditable(true);
 - [X] Prepare for submission
+
+
+## Sprint 2
+
+#### Week 6 Enum, Interface, Abstract Class
+
+- [x] **Issue 1 - Product**
+- [x] All items will have a pre-set type. Currently there are 4 types. Create an enum called ItemType that will store the following information.
+    
+    _Type_ | _Code_
+    --- | ---
+    Audio | AU
+    Visual | VI
+    AudioMobile | AM
+    VisualMobile | VM
+    
+- [x] In the Product Line tab
+  - Fill the ChoiceBox with the types using an enhanced for loop.
+
+- [x] Create an interface called Item that will force all classes to implement the following functions.
+  - A method getId that would return an int
+  - A method setName that would have one String parameter
+  - A method getName that would return a String
+  - A method setManufacturer that would have one String parameter
+  - A method getManufacturer that would return a String
+
+- [x] Create an abstract type called Product that will implement the Item interface. Product will implement the basic functionality that all items on a production line should have. Add the following fields to Product
+  - int id
+  - String type
+  - String manufacturer
+  - String name
+
+- [x] Complete the methods from the interface Item.
+- [x] Add a constructor that will take in the name of the product and set this to the field variable name.
+- [x] Add a toString method that will return the following: (example data shown).
+    ```
+    Name: iPod
+    Manufacturer: Apple
+    Type: AM
+    ```
+- [ ] To test the Product class, temporarily create a Widget class that extends Product. Store a created Widget object to the database and a productLine collection.
+
+#### Week 7 Inheritance
+
+- [ ] **Issue 2 - AudioPlayer**
+- [ ] All of the items on this production line will have basic media controls. Create an interface called MultimediaControl that will define the following methods which don't need to return anything.
+  - play()
+  - stop()
+  - previous()
+  - next();
+  
+- [ ] We require a concrete class that will allow us to capture the details of an audio player. Create a class called AudioPlayer that is a subclass of Product and implements the MultimediaControl interface.
+  - The class will have 2 fields
+  - String audioSpecification
+  - String mediaType
+  
+- [ ] Create a constructor that will take in 3 parameters – name, manufacturer, and audioSpecification.
+- [ ] The constructor should call its parents constructor and also setup the media type.
+- [ ] Implement the methods from the MultimediaControl interface by simply writing the action to the console.
+   - E.g. in play `System.out.println("Playing");` Normally we would have code that would instruct the media player to play, but we will simply display a message.
+   
+- [ ] Create a toString method that will display the superclass's toString method, but also add rows for Audio Spec and Type.
+- [ ] Create a driver class for AudioPlayer that will test to see whether we can instantiate occurrences of it, use the media controls and print out their details to the console.
+
+#### Week 8 Polymorphism
+
+- [ ] **Issue 3 - Production**
+
+Allow the user to record production of a given product. 
+
+- [ ] Create a Production class and table. The user should be able to input a quantity. 
+- [ ] Create a production record for each produced item. 
+- [ ] Set manufacturedOn as the current date and time. 
+- [ ] Store each record in a productionRun collection. 
+- [ ] Store the contents of the collection to a Production table in the database. 
+- [ ] Display the contents of the Production table in a TextView.
+
+#### Week 9 Polymorphism
+
+- [ ] **Issue 4 - MoviePlayer**
+
+The production facility will also create portable movie players. The main difference between these and the audio players is that they contain screens. 
+
+- [ ] Create an enum called MonitorType that will store
+
+    Type |
+    --- |
+    LCD |
+    LED |
+
+- [ ] Create an interface called ScreenSpec. This will define 3 methods:
+  - public String getResolution();
+  - public int getRefreshRate();
+  - public int getResponseTime();
+
+- [ ] Create a class called Screen that implements ScreenSpec. Add three fields
+  - String resolution
+  - int refreshrate
+  - int responsetime
+
+- [ ] Complete the methods from the ScreenSpec interface.
+- [ ] Add a toString method that will return the details of the 3 field in the same format as the Product Class.
+- [ ] Create a Driver class for Screen that tests the functionality of the screen class.
+- [ ] Create a class called MoviePlayer that extends Product and implements MultimediaControl.
+- [ ] Add 2 fields to this class called screen and monitor type and assign appropriate types to them.
+- [ ] Complete the methods from the MultimediaControl interface in a similar fashion to the audio player.
+- [ ] Create a toString method that calls the product toString, displays the monitor and the screen details.
+- [ ] Create a diver class to test the functionality of the movie player.
+
+#### Week 10 Encapsulation
+
+- [ ] **Issue 5 - MultimediaControl**
+
+The audio players and the movie players share the same control interface on the physical devices. The control interface does not care if the device is a video player or an audio player. 
+
+- [ ] Create a driver class that will demonstrate that any class that implements the MultimediaControl Interface would be able to be instantiated and use its methods used no matter if it was an audio or movie player.
