@@ -1,7 +1,15 @@
+/*
+AUTH: Jared O'Toole
+DATE: Fri, Sep 27th, 2019
+PROJ: ProductionLineTracker
+FILE: Item.java
+
+Defines the Item interface.
+ */
+
 package me.jwotoole9141.prodsline;
 
 /**
- * 
  * An interface for an item with an id, name, and manufacturer.
  * 
  * @author Jared O'Toole
