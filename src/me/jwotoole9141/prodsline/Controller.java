@@ -82,6 +82,7 @@ public class Controller {
   public void initialize() {
 
     // initialize the 'produce quantity' combo box...
+
     for (int i = 0; i < 10; i++) {
 
       cboProdsQnty.getItems().add(i + 1);
@@ -90,8 +91,9 @@ public class Controller {
     cboProdsQnty.getSelectionModel().selectFirst();
 
     // initialize the 'item type' choice box...
+
     for (ItemType type : ItemType.values()) {
-      chbNewProdType.getItems().add(type.getName());
+      chbNewProdType.getItems().add(type.getDisplay());
     }
     chbNewProdType.getSelectionModel().selectFirst();
   }
@@ -108,7 +110,7 @@ public class Controller {
 
     // add product to database using form info...
     try {
-      ItemType type = ItemType.valueOf(chbNewProdType.getValue());  // throws ex
+      ItemType type = ItemType.getFromDisplay(chbNewProdType.getValue());  // throws ex
       String manuf = fldNewProdManuf.getText().trim();
       String name = fldNewProdName.getText().trim();
 

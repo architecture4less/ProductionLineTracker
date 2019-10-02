@@ -18,21 +18,21 @@ public enum ItemType {
 
   AUDIO("Audio", "AU"),
   VISUAL("Visual", "VI"),
-  AUDIO_MOBILE("AudioMobile", "AM"),
-  VISUAL_MOBILE("VisualMobile", "VM");
+  AUDIO_MOBILE("Audio Mobile", "AM"),
+  VISUAL_MOBILE("Visual Mobile", "VM");
 
   /**
    * The display name of the type.
    */
-  private String name;
+  private String display;
 
   /**
    * The database code of the type.
    */
   private String code;
 
-  ItemType(String name, String code) {
-    this.name = name;
+  ItemType(String display, String code) {
+    this.display = display;
     this.code = code;
   }
 
@@ -41,8 +41,8 @@ public enum ItemType {
    *
    * @return Display name.
    */
-  public String getName() {
-    return name;
+  public String getDisplay() {
+    return display;
   }
 
   /**
@@ -52,5 +52,23 @@ public enum ItemType {
    */
   public String getCode() {
     return code;
+  }
+
+  /**
+   * Get the ItemType with the specified display.
+   *
+   * @param display The display name of the ItemType.
+   * @return The ItemType object.
+   * @throws IllegalArgumentException No ItemType has the specified display.
+   */
+  public static ItemType getFromDisplay(String display) throws IllegalArgumentException {
+
+    for (ItemType itemType : ItemType.values()) {
+      if (itemType.display.equals(display)) {
+        return itemType;
+      }
+    }
+    throw new IllegalArgumentException(
+        "No ItemType with display: '" + display + "'");
   }
 }
