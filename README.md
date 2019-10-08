@@ -11,6 +11,30 @@ A description of the project.
 This is my OOP project submission for Professor Vanselow's [COP3003: Object Oriented Programming](https://sites.google.com/site/profvanselow/course/cop-3003/oop-project)
 class at Florida Gulf Coast University for the 2019 fall semester. It is a Java FX application that simulates a production line management system.
 
+## Table of Contents
+
+- [Demonstration](#demonstration)
+- [Documentation](#documentation)
+- [Diagrams](#diagrams)
+- [Getting Started](#getting-started)
+- [Built With](#built-with)
+- [Author](#author)
+- [Key Programming Concepts Utilized](#key-programming-concepts-utilized)
+- [Problem Statement](#problem-statement)
+- [Sprint 1](#sprint-1)
+  - [Week 1](#week-1)
+  - [Week 2](#week-2)
+  - [Week 3](#week-3)
+  - [Week 4](#week-4)
+  - [Week 5](#week-5)
+- [Sprint 2](#sprint-2)
+  - [Week 6](#week-6)
+  - [Week 7](#week-7)
+  - [Week 8](#week-8)
+  - [Week 9](#week-9)
+  - [Week 10](#week-10)
+- [Sprint 3](#sprint-3)
+
 ## Demonstration
 ![A demonstrative GIF of the application](demo.gif)
 
