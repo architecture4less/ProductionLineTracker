@@ -51,9 +51,9 @@ public class AudioPlayer extends Product implements MultimediaControl {
   @Override
   public String toString() {
 
-    return super.toString() + String.format(
-        "Type: %s\nSupported Audio Formats: %s\n Supported Playlist Formats: %s",
-        type, String.join("/", supportedAudioFormats), String.join("/", supportedPlaylistFormats)
+    return super.toString() + "\n" + String.format(
+        "Supported Audio Formats: %s\nSupported Playlist Formats: %s",
+        supportedAudioFormats, supportedPlaylistFormats
     );
   }
 }
