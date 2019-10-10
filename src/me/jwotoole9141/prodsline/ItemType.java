@@ -10,7 +10,7 @@ Defines the ItemType enum.
 package me.jwotoole9141.prodsline;
 
 /**
- * Enumerates the item types of products.
+ * An enumeration of product item types.
  *
  * @author Jared O'Toole
  */
@@ -22,12 +22,12 @@ public enum ItemType {
   VISUAL_MOBILE("Visual Mobile", "VM");
 
   /**
-   * The display name of the type.
+   * The display name.
    */
   private String display;
 
   /**
-   * The database code of the type.
+   * The database code name.
    */
   private String code;
 
@@ -39,27 +39,27 @@ public enum ItemType {
   /**
    * Get the type's display name.
    *
-   * @return Display name.
+   * @return the display name
    */
   public String getDisplay() {
     return display;
   }
 
   /**
-   * Get the type's database code.
+   * Get the type's database code name.
    *
-   * @return Database code.
+   * @return the database code name
    */
   public String getCode() {
     return code;
   }
 
   /**
-   * Get the ItemType with the specified display.
+   * Get the ItemType with the specified display name.
    *
-   * @param display The display name of the ItemType.
-   * @return The ItemType object.
-   * @throws IllegalArgumentException No ItemType has the specified display.
+   * @param display the display name of the ItemType
+   * @return the ItemType object
+   * @throws IllegalArgumentException no ItemType with the specified display name
    */
   public static ItemType getFromDisplay(String display) throws IllegalArgumentException {
 

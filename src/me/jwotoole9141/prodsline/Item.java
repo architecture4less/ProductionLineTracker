@@ -19,36 +19,35 @@ public interface Item {
   /**
    * Get the identification number of the item.
    *
-   * @return The ID number.
+   * @return the ID number
    */
   int getId();
 
   /**
    * Get the name of this item.
    *
-   * @return The item name.
+   * @return the item name
    */
   String getName();
 
   /**
    * Get manufacturer name of this item.
    *
-   * @return The manufacturer name.
+   * @return the manufacturer name
    */
   String getManufacturer();
 
   /**
    * Set the name of this item.
    *
-   * @param name The item name.
+   * @param name the item name
    */
   void setName(String name);
 
   /**
    * Set the manufacturer name of this item.
    *
-   * @param manufacturer The manufacturer name.
+   * @param manufacturer the manufacturer name
    */
   void setManufacturer(String manufacturer);
-
 }

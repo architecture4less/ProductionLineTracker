@@ -9,13 +9,30 @@ Defines the MultimediaControl interface.
 
 package me.jwotoole9141.prodsline;
 
+/**
+ * An interface for simulating the controls of a multimedia device.
+ *
+ * @author Jared O'Toole
+ */
 public interface MultimediaControl {
 
+  /**
+   * Simulate pressing the 'play' button.
+   */
   void play();
 
+  /**
+   * Simulate pressing the 'stop' button.
+   */
   void stop();
 
+  /**
+   * Simulate pressing the 'previous' button.
+   */
   void previous();
 
+  /**
+   * Simulate pressing the 'next' button.
+   */
   void next();
 }

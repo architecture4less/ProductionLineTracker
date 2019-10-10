@@ -19,7 +19,7 @@ import java.sql.Statement;
  *
  * @author Jared O'Toole
  */
-class Model {
+public class Model {
 
   /**
    * The JDBC driver class to use.
@@ -69,11 +69,11 @@ class Model {
   /**
    * Add a new product to the database.
    *
-   * @param type  The new product's type.
-   * @param manuf The new product's manufacturer.
-   * @param name  The new product's name.
+   * @param type  the new product's type
+   * @param manuf the new product's manufacturer
+   * @param name  the new product's name
    */
-  static void addProduct(ItemType type, String manuf, String name) {
+  public static void addProduct(ItemType type, String manuf, String name) {
 
     // try to add a row to the product table...
     try {

@@ -25,7 +25,7 @@ public class Main extends Application {
   /**
    * Launch the application.
    *
-   * @param args Command-line arguments.
+   * @param args command-line arguments
    */
   public static void main(String[] args) {
     launch(args);
@@ -38,8 +38,8 @@ public class Main extends Application {
    * Creates the GUI window and connects to the database.
    * </p>
    *
-   * @param primaryStage The root JavaFX container.
-   * @throws Exception The fxml file can't be loaded.
+   * @param primaryStage the root JavaFX container
+   * @throws Exception the fxml file can't be loaded
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -48,7 +48,7 @@ public class Main extends Application {
     Model.open();
 
     // create the gui window...
-    Parent root = FXMLLoader.load(getClass().getResource("gui.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("gui/gui.fxml"));
 
     primaryStage.setTitle("Production Line Tracker");
     primaryStage.setScene(new Scene(root, 350, 450));
