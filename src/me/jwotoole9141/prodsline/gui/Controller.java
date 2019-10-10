@@ -26,7 +26,6 @@ import me.jwotoole9141.prodsline.Model;
  *
  * @author Jared O'Toole
  */
-@SuppressWarnings("unused")
 public class Controller {
 
   /**
@@ -78,7 +77,7 @@ public class Controller {
   private TextArea txtProdsLog;
 
   /**
-   * Initializes the GUI with additional data.
+   * Initialize the GUI with additional data.
    */
   @FXML
   public void initialize() {
@@ -103,7 +102,7 @@ public class Controller {
   /**
    * Handles the 'btnAddProd' button being pressed.
    *
-   * @param event The action performed.
+   * @param event the action performed
    */
   @FXML
   void btnAddProdAction(ActionEvent event) {
