@@ -7,7 +7,7 @@ FILE: Controller.java
 Defines the controller class.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +18,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import me.jwotoole9141.prodsline.ItemType;
+import me.jwotoole9141.prodsline.Model;
 
 /**
  * Handles user interaction with the GUI.
