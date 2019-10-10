@@ -293,35 +293,35 @@ _GUI, basic database_
 
 > Polymorphism
 
-- [ ] **Issue 3 - Production**
+- [X] **Issue 3 - Production**
 
 The production facility will also create portable movie players. The main difference between these and the audio players is that they contain screens. 
 
-- [ ] Create an enum called MonitorType that will store
+- [X] Create an enum called MonitorType that will store
 
     Type |
     --- |
     LCD |
     LED |
 
-- [ ] Create an interface called ScreenSpec. This will define 3 methods:
+- [X] Create an interface called ScreenSpec. This will define 3 methods:
   - public String getResolution();
   - public int getRefreshRate();
   - public int getResponseTime();
 
-- [ ] Create a class called Screen that implements ScreenSpec. Add three fields
+- [X] Create a class called Screen that implements ScreenSpec. Add three fields
   - String resolution
   - int refreshrate
   - int responsetime
 
-- [ ] Complete the methods from the ScreenSpec interface.
-- [ ] Add a toString method that will return the details of the 3 field in the same format as the Product Class.
-- [ ] Create a Driver class for Screen that tests the functionality of the screen class.
-- [ ] Create a class called MoviePlayer that extends Product and implements MultimediaControl.
-- [ ] Add 2 fields to this class called screen and monitor type and assign appropriate types to them.
-- [ ] Complete the methods from the MultimediaControl interface in a similar fashion to the audio player.
-- [ ] Create a toString method that calls the product toString, displays the monitor and the screen details.
-- [ ] Create a diver class to test the functionality of the movie player.
+- [X] Complete the methods from the ScreenSpec interface.
+- [X] Add a toString method that will return the details of the 3 field in the same format as the Product Class.
+- [X] Create a Driver class for Screen that tests the functionality of the screen class.
+- [X] Create a class called MoviePlayer that extends Product and implements MultimediaControl.
+- [X] Add 2 fields to this class called screen and monitor type and assign appropriate types to them.
+- [X] Complete the methods from the MultimediaControl interface in a similar fashion to the audio player.
+- [X] Create a toString method that calls the product toString, displays the monitor and the screen details.
+- [X] Create a diver class to test the functionality of the movie player.
 
 ### Week 9
 
