@@ -7,7 +7,7 @@ FILE: Screen.java
 Defines the Screen class.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.items;
 
 /**
  * A representation of a screen.

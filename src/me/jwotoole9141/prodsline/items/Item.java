@@ -7,7 +7,7 @@ FILE: Item.java
 Defines the Item interface.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.items;
 
 /**
  * An interface for an item with an id, name, and manufacturer.

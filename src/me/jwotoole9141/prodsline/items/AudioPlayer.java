@@ -7,7 +7,7 @@ FILE: AudioPlayer.java
 Defines the AudioPlayer class.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.items;
 
 /**
  * A representation of an audio player product with multimedia controls.

@@ -7,7 +7,7 @@ FILE: MoviePlayer.java
 Defines the MoviePlayer class.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.items;
 
 /**
  * A representation of a movie player product with multimedia controls.

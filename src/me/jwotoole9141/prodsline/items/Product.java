@@ -7,7 +7,7 @@ FILE: Product.java
 Defines the Product abstract class.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.items;
 
 /**
  * An abstract representation of a product.

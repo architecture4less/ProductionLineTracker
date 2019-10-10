@@ -18,7 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import me.jwotoole9141.prodsline.ItemType;
+import me.jwotoole9141.prodsline.items.ItemType;
 import me.jwotoole9141.prodsline.Model;
 
 /**

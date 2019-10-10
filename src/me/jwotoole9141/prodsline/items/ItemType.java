@@ -7,7 +7,7 @@ FILE: ItemType.java
 Defines the ItemType enum.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.items;
 
 /**
  * An enumeration of product item types.

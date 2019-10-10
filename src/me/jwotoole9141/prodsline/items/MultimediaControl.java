@@ -7,7 +7,7 @@ FILE: MultimediaControl.java
 Defines the MultimediaControl interface.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.items;
 
 /**
  * An interface for simulating the controls of a multimedia device.

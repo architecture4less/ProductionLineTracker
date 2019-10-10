@@ -7,7 +7,7 @@ FILE: MonitorType.java
 Defines the MonitorType enum.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.items;
 
 /**
  * An enumeration of the monitor types of visual products.
@@ -15,5 +15,5 @@ package me.jwotoole9141.prodsline;
  * @author Jared O'Toole
  */
 public enum MonitorType {
-  LCD, LED;
+  LCD, LED
 }

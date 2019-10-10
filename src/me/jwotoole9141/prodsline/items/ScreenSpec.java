@@ -7,7 +7,7 @@ FILE: ScreenSpec.java
 Defines the ScreenSpec interface.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.items;
 
 /**
  * An interface for accessing a screen resolution, refresh rate, and response time.
