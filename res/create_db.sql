@@ -20,12 +20,17 @@ create table product (
 );
 
 create table prodsrecord (
-    primary key (prodid, prodsnum),
+    primary key (prodsnum),
     foreign key (prodid) references product (id)
         on delete restrict on update cascade,
 
-    date      datetime not null,
+    prodsnum  int      not null auto_increment unique,
     prodid    int      not null,
-    prodsnum  int      not null,
-    serialnum varchar  not null,
+    date      datetime not null,
+    serialnum varchar  not null generated always as
+        concat(
+            substring(select first manuf from product where id = prodid, 0, 3),
+            select first type from product where id = prodid,
+            lpad(select count(*) from prodsrecord where id = prodid, 5, '0')
+        ),
 );
