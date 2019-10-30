@@ -42,7 +42,7 @@ class at Florida Gulf Coast University for the 2019 fall semester. It is a Java 
 [JavaDoc](https://Architecture4less.github.io/ProductionLineTracker/doc/index.html)
 
 **Since private repositories cannot use GitHub pages through a free account, this link will not work.
-The documentation is still available in the 'doc' folder.
+The documentation will become available with the final submission.
 
 ## Diagrams
 
@@ -158,6 +158,8 @@ In addition to the ability to record production, the software also needs the abi
 -   **Timelines** (a breakdown of the Product Backlog into time-bound smaller, more detailed tasks in Sprint Backlogs)
     -   Three 5-week sprints, detailed below.
 
+---
+
 ## Sprint 1
 
 _GUI, basic database_
@@ -219,6 +221,8 @@ _GUI, basic database_
     - [X] To show a default value, call the method `getSelectionModel().selectFirst();`
 - [X] Prepare for submission
 
+---
+
 ## Sprint 2
 
 ### Week 6
@@ -270,16 +274,21 @@ _GUI, basic database_
 > Inheritance
 
 - [X] **Issue 2 - AudioPlayer**
+
+**MultimediaControl**
+
 - [X] All of the items on this production line will have basic media controls. Create an interface called MultimediaControl that will define the following methods which don't need to return anything.
   - play()
   - stop()
   - previous()
   - next();
-  
+
+**AudioPlayer**
+
 - [X] We require a concrete class that will allow us to capture the details of an audio player. Create a class called AudioPlayer that is a subclass of Product and implements the MultimediaControl interface.
-  - The class will have 2 fields
-  - String audioSpecification
-  - String mediaType
+  - The class will have 2 fields:
+    - String audioSpecification
+    - String mediaType
   
 - [X] Create a constructor that will take in 3 parameters – name, manufacturer, and audioSpecification.
 - [X] The constructor should call its parents constructor and also setup the media type.
@@ -293,7 +302,9 @@ _GUI, basic database_
 
 > Polymorphism
 
-- [X] **Issue 3 - Production**
+- [X] **Issue 3 - MultimediaControl**
+
+**MonitorType**
 
 The production facility will also create portable movie players. The main difference between these and the audio players is that they contain screens. 
 
@@ -304,12 +315,16 @@ The production facility will also create portable movie players. The main differ
     LCD |
     LED |
 
+**ScreenSpec**
+
 - [X] Create an interface called ScreenSpec. This will define 3 methods:
   - public String getResolution();
   - public int getRefreshRate();
   - public int getResponseTime();
 
-- [X] Create a class called Screen that implements ScreenSpec. Add three fields
+**Screen**
+
+- [X] Create a class called Screen that implements ScreenSpec. Add three fields:
   - String resolution
   - int refreshrate
   - int responsetime
@@ -317,18 +332,71 @@ The production facility will also create portable movie players. The main differ
 - [X] Complete the methods from the ScreenSpec interface.
 - [X] Add a toString method that will return the details of the 3 field in the same format as the Product Class.
 - [X] Create a Driver class for Screen that tests the functionality of the screen class.
+
+**MoviePlayer**
+
 - [X] Create a class called MoviePlayer that extends Product and implements MultimediaControl.
 - [X] Add 2 fields to this class called screen and monitor type and assign appropriate types to them.
+- [X] Create a constructor that accepts the name, manufacturer, a screen, and a monitor type. The constructor can set the item type to VISUAL.
 - [X] Complete the methods from the MultimediaControl interface in a similar fashion to the audio player.
 - [X] Create a toString method that calls the product toString, displays the monitor and the screen details.
-- [X] Create a diver class to test the functionality of the movie player.
+<!-- - [X] Create a diver class to test the functionality of the movie player. -->
+
+**MultimediaControl**
+
+The audio players and the movie players share the same control interface on the physical devices. The control interface does not care if the device is a video player or an audio player. Below is a driver that will demonstrate that any class that implements the MultimediaControl Interface would be able to be instantiated and use its methods used no matter if it was an audio or movie player.
+
+**GUI Update**
+
+- [ ] Demonstrate this functionality in your user interface. For example, you could use the code below and call testMultimedia in your initialize method or you could do something more elaborate in the GUI.
+    ```java
+    public class Test {
+      public static void testMultimedia() {
+        AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
+            "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+        Screen newScreen = new Screen("720x480", 40, 22);
+        MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
+            MonitorType.LCD);
+        ArrayList<MultimediaControl> productList = new ArrayList<MultimediaControl>();
+        productList.add(newAudioProduct);
+        productList.add(newMovieProduct);
+        for (MultimediaControl p : productList) {
+          System.out.println(p);
+          p.play();
+          p.stop();
+          p.next();
+          p.previous();
+        }
+      }
+    }
+    ```
 
 ### Week 9
 
 > Polymorphism
 
-- [ ] **Issue 4 - MoviePlayer**
+- [X] **Issue 4 - ProductionRecord**
 
+- [X] Create a ProductionRecord class with fields:
+  - int productionNumber (this will be unique for every item produced and get auto incremented by the database)
+  - int field for productID (to correspond to the productID from the Product table / class)
+  - String field for serialNumber
+  - dateProduced that is type Date (from java.util)
+
+- [X] Create accessors and mutators for all fields. 
+- [X] Make one constructor that just has a parameter for the productID. This will be the constructor called when the user records production from the user interface. 
+
+- In this constructor, 
+  - [X] Set the productionNumber to 0 (because the database will end up auto-incrementing)
+  - [X] Set the serialNumber to "0" for now
+  - [X] Set the date to the current date using new Date()
+
+- [X] Create an overloaded constructor to use when creating ProductionRecord objects from the database. This constructor needs parameters for all fields. 
+- [X] Override toString to return a string in the format `"Prod. Num: 0 Product ID: 0 Serial Num: 0 Date: Mon Oct 14 10:29:48 UTC 2019"`
+- [ ] Display the production record in the TextArea on the Production Log tab.
+- Security / FindBugs tip: [Defensive copying](http://www.google.com/url?q=http%3A%2F%2Fwww.javapractices.com%2Ftopic%2FTopicAction.do%3FId%3D15&sa=D&sntz=1&usg=AFQjCNFz5mwRPjotdMVuv8z0xfhycnM0Rg)
+
+<!--
 Allow the user to record production of a given product. 
 
 - [ ] Create a Production class and table. The user should be able to input a quantity. 
@@ -341,14 +409,46 @@ Allow the user to record production of a given product.
 
 - [ ] In the Add Product event handler, declare a Product.
 - [ ] Depending on the chosen item type, assign a new AudioPlayer object or MoviePlayer object to the Product, using the input from the form elements.
+-->
 
 ### Week 10
 
 > Encapsulation
 
-- [ ] **Issue 5 - MultimediaControl**
+- [X] **Issue 5 - Production enhancement**
 
+- [X] Add the ability for the program to generate a unique serial number for each produced product. 
+- [X] Overload the ProductionRecord constructor to accept a Product and an int which holds the count of the number of items of its type that have been created. (You can write the code to generate the count later.)
+- [X] Set the serialNumber to start with the first three letters of the Manufacturer name, then the two letter ItemType code, then five digits (with leading 0s if necessary) that are unique and sequential for the item type. The entire Serial Number should be programmatically created and assigned. 
+- [ ] Optional (for now) challenge: Show the product name instead of the product ID in the TextArea on the Production Log tab.
+
+<!--
 - [ ] The audio players and the movie players share the same control interface on the physical devices. The control interface does not care if the device is a video player or an audio player. 
 - [ ] Create a driver class that will demonstrate that any class that implements the MultimediaControl Interface would be able to be instantiated and use its methods used no matter if it was an audio or movie player.
+-->
+
+### Week 11
+
+> Lists and ArrayLists
+
+- [ ] **Issue 6 - TableView**
+
+- [ ] Show all Products in the Product Line tab TableView. 
+  - See <http://tutorials.jenkov.com/javafx/tableview.html> and [TableViewData sample program](https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Fprofvanselow%2FTableViewData&sa=D&sntz=1&usg=AFQjCNE-kK-F_6R2GWHSJXBM14C5JTyi_Q).
+
+- [ ] Create an ArrayList named productLine to hold all of the Products that can be produced. 
+  - For now, when the Add Product button is clicked, add to this ArrayList.
+
+- [ ] Create an ObservableList from the ArrayList in initialize. 
+
+- [ ] Set the items of the TableView to the ObservableList
+  - You do this in a `setupProductLineTable` that also sets the columns and does the setCellValueFactory
+
+- [ ] Show all Products in the Produce tab ListView.
+  - Use the selected item from the ListView as the item used to record production.
+
+- [ ] Show the production log in the Production Log tab TextArea. 
+
+---
 
 ## Sprint 3
