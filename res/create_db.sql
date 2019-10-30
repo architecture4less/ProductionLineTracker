@@ -27,10 +27,5 @@ create table prodsrecord (
     prodsnum  int      not null auto_increment unique,
     prodid    int      not null,
     date      datetime not null,
-    serialnum varchar  not null generated always as
-        concat(
-            substring(select first manuf from product where id = prodid, 0, 3),
-            select first type from product where id = prodid,
-            lpad(select count(*) from prodsrecord where id = prodid, 5, '0')
-        ),
+    serialnum varchar  not null,
 );
