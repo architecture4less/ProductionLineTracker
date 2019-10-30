@@ -1,23 +1,27 @@
-/* from course website */
-create table Product
-(
-    id int auto_increment,
-    name varchar,
-    type varchar,
-    manufacturer varchar
+/*
+AUTH: Jared O'Toole
+DATE: Thu, Oct 24th, 2019
+PROJ: ProductionLineTracker
+FILE: create_db.sql
+
+The SQL to initialize the database.
+ */
+
+drop table if exists product;
+drop table if exists prodsrecord;
+
+create table product (
+    primary key (id),
+    id int not null auto_increment unique,
+    name varchar not null,
+    type varchar not null,
+    manuf varchar not null,
 );
 
-create unique index Product_id_uindex
-    on Product (id);
-
-alter table Product
-    add constraint Product_pk
-        primary key (id);
-
-create table ProductionRecord
-(
-    production_num int auto_increment,
-    product_id int,
-    serial_num varchar,
-    date_produced datetime
+create table prodsrecord (
+    primary key (prodsnum),
+    prodsnum int not null auto_increment unique,
+    date datetime not null,
+    prodid int not null,
+    serialnum varchar not null,
 );
