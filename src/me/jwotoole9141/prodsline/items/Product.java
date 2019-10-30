@@ -14,35 +14,38 @@ package me.jwotoole9141.prodsline.items;
  *
  * @author Jared O'Toole
  */
-public abstract class Product implements Item {
+public class Product implements Item {
 
   /**
    * The identity number of the product.
    */
-  protected int id;
+  private int id;
 
   /**
    * The display name of the product.
    */
-  protected String name;
+  private String name;
 
   /**
    * The item type of the product.
    */
-  protected String type;
+  private ItemType type;
 
   /**
    * The manufacturer name of the product.
    */
-  protected String manufacturer;
+  private String manuf;
 
   /**
    * Create a Product with the given name.
    *
    * @param name the display name
    */
-  public Product(String name) {
+  public Product(int id, String name, ItemType type, String manuf) {
+    this.id = id;
     this.name = name;
+    this.type = type;
+    this.manuf = manuf;
   }
 
   /**
@@ -65,8 +68,8 @@ public abstract class Product implements Item {
    * {@inheritDoc}
    */
   @Override
-  public String getManufacturer() {
-    return manufacturer;
+  public String getManuf() {
+    return manuf;
   }
 
   /**
@@ -81,8 +84,8 @@ public abstract class Product implements Item {
    * {@inheritDoc}
    */
   @Override
-  public void setManufacturer(String manufacturer) {
-    this.manufacturer = manufacturer;
+  public void setManuf(String manuf) {
+    this.manuf = manuf;
   }
 
   /**
@@ -92,10 +95,13 @@ public abstract class Product implements Item {
    */
   @Override
   public String toString() {
-
     return String.format(
         "Name: %s%nManufacturer: %s%nType: %s",
-        name, manufacturer, type
+        name, manuf, type.name()
     );
+  }
+
+  public String genSerialNum(int idProdsNum) {
+    return manuf.substring(0, 3) + type.getCode() + String.format("%05d", idProdsNum);
   }
 }

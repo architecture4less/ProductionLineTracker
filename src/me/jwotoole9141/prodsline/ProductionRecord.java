@@ -10,11 +10,19 @@ Defines the ProductionRecord class.
 package me.jwotoole9141.prodsline;
 
 import java.util.Date;
+import me.jwotoole9141.prodsline.items.Product;
 
 /**
  * A collection of metadata for the production of a product in the production line.
+ *
+ * @author Jared O'Toole
  */
 public class ProductionRecord {
+
+  /**
+   * The recorded date of production.
+   */
+  private Date dateProduced;
 
   /**
    * The recorded product identification number.
@@ -24,34 +32,29 @@ public class ProductionRecord {
   /**
    * The recorded production number.
    */
-  private int productionNumber;
+  private int prodsNumber;
 
   /**
    * The recorded product serial number.
    */
   private String serialNumber;
 
-  /**
-   * The recorded date of production.
-   */
-  private Date dateProduced;
-
-  /**
-   * Create a record for a new production.
-   *
-   * <p>
-   * This constructor is for use in the user GUI.
-   * </p>
-   *
-   * @param productID the product identification number
-   */
-  public ProductionRecord(int productID) {
-
-    this.productID = productID;
-    productionNumber = 0;
-    serialNumber = "0";
-    dateProduced = new Date();
-  }
+//  /**
+//   * Create a record for a new production.
+//   *
+//   * <p>
+//   * This constructor is for use in the user GUI.
+//   * </p>
+//   *
+//   * @param productID the product identification number
+//   */
+//  public ProductionRecord(int productID) {
+//
+//    this.dateProduced = new Date();
+//    this.productID = productID;
+//    this.prodsNumber = 0;
+//    this.serialNumber = "0";
+//  }
 
   /**
    * Create a representation of an existing record.
@@ -60,18 +63,33 @@ public class ProductionRecord {
    * This constructor is for use in loading database information.
    * </p>
    *
-   * @param productID        the product identification number
-   * @param productionNumber the production number
-   * @param serialNumber     the serial number
-   * @param dateProduced     the date and time of this production
+   * @param productID    the product identification number
+   * @param prodsNumber  the production number
+   * @param serialNumber the serial number
+   * @param dateProduced the date and time of this production
    */
-  public ProductionRecord(int productID, int productionNumber, String serialNumber,
-      Date dateProduced) {
+  public ProductionRecord(Date dateProduced, int productID, int prodsNumber, String serialNumber) {
 
-    this.productID = productID;
-    this.productionNumber = productionNumber;
-    this.serialNumber = serialNumber;
     this.dateProduced = dateProduced;
+    this.productID = productID;
+    this.prodsNumber = prodsNumber;
+    this.serialNumber = serialNumber;
+  }
+
+//  public ProductionRecord(Product product, int index) {
+//
+//    this.productID = product.getId();
+//    this.serialNumber = product.genSerialNum(index);
+//    this.dateProduced = new Date();
+//  }
+
+  /**
+   * Get the recorded date of production.
+   *
+   * @return the production date & time
+   */
+  public Date getDateProduced() {
+    return dateProduced;
   }
 
   /**
@@ -84,21 +102,12 @@ public class ProductionRecord {
   }
 
   /**
-   * Get the recorded date of production.
-   *
-   * @return the production date & time
-   */
-  public Date getDateProduced() {
-    return dateProduced;
-  }
-
-  /**
    * Get the recorded production number.
    *
    * @return the production number
    */
-  public int getProductionNumber() {
-    return productionNumber;
+  public int getProdsNumber() {
+    return prodsNumber;
   }
 
   /**
@@ -110,47 +119,47 @@ public class ProductionRecord {
     return serialNumber;
   }
 
-  /**
-   * Set the recorded date of production.
-   *
-   * @param dateProduced the production date & time
-   */
-  public void setDateProduced(Date dateProduced) {
-    this.dateProduced = dateProduced;
-  }
-
-  /**
-   * Set the recorded product identification number.
-   *
-   * @param productID the product id
-   */
-  public void setProductID(int productID) {
-    this.productID = productID;
-  }
-
-  /**
-   * Set the recorded production number.
-   *
-   * @param productionNumber the production number
-   */
-  public void setProductionNumber(int productionNumber) {
-    this.productionNumber = productionNumber;
-  }
-
-  /**
-   *  Set the recorded product serial number.
-   *
-   * @param serialNumber the product serial number
-   */
-  public void setSerialNumber(String serialNumber) {
-    this.serialNumber = serialNumber;
-  }
+//  /**
+//   * Set the recorded date of production.
+//   *
+//   * @param dateProduced the production date & time
+//   */
+//  public void setDateProduced(Date dateProduced) {
+//    this.dateProduced = dateProduced;
+//  }
+//
+//  /**
+//   * Set the recorded product identification number.
+//   *
+//   * @param productID the product id
+//   */
+//  public void setProductID(int productID) {
+//    this.productID = productID;
+//  }
+//
+//  /**
+//   * Set the recorded production number.
+//   *
+//   * @param prodsNumber the production number
+//   */
+//  public void setProdsNumber(int prodsNumber) {
+//    this.prodsNumber = prodsNumber;
+//  }
+//
+//  /**
+//   * Set the recorded product serial number.
+//   *
+//   * @param serialNumber the product serial number
+//   */
+//  public void setSerialNumber(String serialNumber) {
+//    this.serialNumber = serialNumber;
+//  }
 
   @Override
   public String toString() {
     return String.format(
         "Prod. Num: %d Product ID: %d Serial Num: %s Date: %s",
-        productionNumber, productID, serialNumber, dateProduced
+        prodsNumber, productID, serialNumber, dateProduced
     );
   }
 }

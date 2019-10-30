@@ -35,7 +35,7 @@ public interface Item {
    *
    * @return the manufacturer name
    */
-  String getManufacturer();
+  String getManuf();
 
   /**
    * Set the name of this item.
@@ -47,7 +47,7 @@ public interface Item {
   /**
    * Set the manufacturer name of this item.
    *
-   * @param manufacturer the manufacturer name
+   * @param manuf the manufacturer name
    */
-  void setManufacturer(String manufacturer);
+  void setManuf(String manuf);
 }

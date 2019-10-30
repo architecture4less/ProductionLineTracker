@@ -11,9 +11,12 @@ package me.jwotoole9141.prodsline;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import me.jwotoole9141.prodsline.items.ItemType;
+import me.jwotoole9141.prodsline.items.Product;
 
 /**
  * Facilitates interaction with the application's database.
@@ -70,23 +73,78 @@ public class Model {
   /**
    * Add a new product to the database.
    *
+   * @param name  the new product's name
    * @param type  the new product's type
    * @param manuf the new product's manufacturer
-   * @param name  the new product's name
    */
-  public static void addProduct(ItemType type, String manuf, String name) {
+  public static void addProduct(String name, ItemType type, String manuf) {
 
-    // try to add a row to the product table...
-    try {
-      Statement stmt = conn.createStatement();
-      stmt.execute(String.format(
-          "INSERT INTO Product(type, manufacturer, name) "
-              + "VALUES ( '%s', '%s', '%s' );",
-          type.getCode(), manuf, name
+    // try to add a row to the products table...
+    try (Statement stmt = conn.createStatement()) {
+
+      stmt.execute(String.format(  // language=SQL
+          "INSERT INTO product (name, type, manuf)"
+              + " VALUES ('%s', '%s', '%s');",
+          name, type.getCode(), manuf
       ));
-      stmt.close();
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
     }
+  }
+
+  public static void recordProduction(Product prod, int qnty) {
+
+    Date curDate = new Date();
+    int idProdsNum = getMaxProdsNum(prod.getId()) + 1;
+
+    // try to add a row to the records table...
+    try (Statement stmt = conn.createStatement()) {
+      for (int i = 0; i < qnty; i++) {
+
+        stmt.execute(String.format(  // language=SQL
+            "INSERT INTO prodsrecord (date, prodid, prodsnum, serialnum)"
+                + " VALUES ('%s', '%s', '%s', '%s');",
+            curDate, prod.getId(), idProdsNum, prod.genSerialNum(idProdsNum)
+        ));
+        idProdsNum++;
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public static int getMaxProdId() {
+
+    try (Statement stmt = conn.createStatement()) {
+
+      stmt.execute("SELECT MAX(id) FROM product");
+      ResultSet rs = stmt.getResultSet();
+      if (rs.next()) {
+        return rs.getInt("id");
+      }
+    }
+    catch (SQLException ex) {
+      ex.printStackTrace();
+    }
+    return 0;
+  }
+
+  public static int getMaxProdsNum(int prodId) {
+
+    try (Statement stmt = conn.createStatement()) {
+
+      stmt.execute(String.format(  // language=SQL
+          "SELECT MAX(prodsnum) FROM prodsrecord WHERE (prodid = '%s')",
+          prodId
+      ));
+      ResultSet rs = stmt.getResultSet();
+      if (rs.next()) {
+        return rs.getInt("prodsnum");
+      }
+
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+    }
+    return 0;
   }
 }
