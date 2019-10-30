@@ -12,16 +12,20 @@ drop table if exists prodsrecord;
 
 create table product (
     primary key (id),
-    id int not null auto_increment unique,
-    name varchar not null,
-    type varchar not null,
+
+    id    int     not null auto_increment unique,
+    name  varchar not null,
+    type  varchar not null,
     manuf varchar not null,
 );
 
 create table prodsrecord (
-    primary key (prodsnum),
-    prodsnum int not null auto_increment unique,
-    date datetime not null,
-    prodid int not null,
-    serialnum varchar not null,
+    primary key (prodid, prodsnum),
+    foreign key (prodid) references product (id)
+        on delete restrict on update cascade,
+
+    date      datetime not null,
+    prodid    int      not null,
+    prodsnum  int      not null,
+    serialnum varchar  not null,
 );
