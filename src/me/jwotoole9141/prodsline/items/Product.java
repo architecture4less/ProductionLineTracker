@@ -64,6 +64,10 @@ public class Product implements Item {
     return name;
   }
 
+  public ItemType getType() {
+    return type;
+  }
+
   /**
    * {@inheritDoc}
    */

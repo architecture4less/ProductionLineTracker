@@ -36,14 +36,14 @@ public enum ItemType {
     this.code = code;
   }
 
-//  /**
-//   * Get the type's display name.
-//   *
-//   * @return the display name
-//   */
-//  public String getDisplay() {
-//    return display;
-//  }
+  /**
+   * Get the type's display name.
+   *
+   * @return the display name
+   */
+  public String getDisplay() {
+    return display;
+  }
 
   /**
    * Get the type's database code name.
@@ -59,21 +59,21 @@ public enum ItemType {
     return display;
   }
 
-  //  /**
-//   * Get the ItemType with the specified display name.
-//   *
-//   * @param display the display name of the ItemType
-//   * @return the ItemType object
-//   * @throws IllegalArgumentException no ItemType with the specified display name
-//   */
-//  public static ItemType getFromDisplay(String display) throws IllegalArgumentException {
-//
-//    for (ItemType itemType : ItemType.values()) {
-//      if (itemType.display.equals(display)) {
-//        return itemType;
-//      }
-//    }
-//    throw new IllegalArgumentException(
-//        "No ItemType with display: '" + display + "'");
-//  }
+  /**
+   * Get the ItemType with the specified display name.
+   *
+   * @param code the display name of the ItemType
+   * @return the ItemType object
+   * @throws IllegalArgumentException no ItemType with the specified display name
+   */
+  public static ItemType getFromCode(String code) throws IllegalArgumentException {
+
+    for (ItemType itemType : ItemType.values()) {
+      if (itemType.code.equals(code)) {
+        return itemType;
+      }
+    }
+    throw new IllegalArgumentException(
+        "No ItemType with code '" + code + "'");
+  }
 }

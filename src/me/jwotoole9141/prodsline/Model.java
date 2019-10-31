@@ -77,7 +77,7 @@ public class Model {
    * @param type  the new product's type
    * @param manuf the new product's manufacturer
    */
-  public static void addProduct(String name, ItemType type, String manuf) {
+  public static Product addProduct(String name, ItemType type, String manuf) {
 
     // try to add a row to the products table...
     try (Statement stmt = conn.createStatement()) {
@@ -87,26 +87,47 @@ public class Model {
               + " VALUES ('%s', '%s', '%s');",
           name, type.getCode(), manuf
       ));
+      stmt.execute("SELECT SCOPE_IDENTITY() AS newprod");
+      ResultSet rs = stmt.getResultSet();
+      if (rs.next()) {
+
+        return new Product(
+            rs.getInt("id"),
+            rs.getString("name"),
+            ItemType.getFromCode(rs.getString("type")),
+            rs.getString("manuf")
+        );
+      }
     } catch (SQLException ex) {
       ex.printStackTrace();
     }
+    return null;
   }
 
-  public static void recordProduction(Product prod, int qnty) {
+  public static ProductionRecord[] recordProduction(Product prod, int qnty) {
 
+    ProductionRecord[] records = new ProductionRecord[qnty];
+    int prodsCount = getProdsCount(prod.getId()) + 1;
     Date curDate = new Date();
-    int idProdsNum = getMaxProdsNum(prod.getId()) + 1;
 
     // try to add a row to the records table...
     try (Statement stmt = conn.createStatement()) {
       for (int i = 0; i < qnty; i++) {
 
+        String serialNum = genSerialNum(prod.getManuf(), prod.getType(), prodsCount);
+
         stmt.execute(String.format(  // language=SQL
             "INSERT INTO prodsrecord (date, prodid, prodsnum, serialnum)"
                 + " VALUES ('%s', '%s', '%s', '%s');",
-            curDate, prod.getId(), idProdsNum, prod.genSerialNum(idProdsNum)
+            curDate, prod.getId(), prodsCount, serialNum
         ));
-        idProdsNum++;
+        stmt.execute("SELECT SCOPE_IDENTITY() AS newprodsrecord");
+        prodsCount++;
+
+        ResultSet rs = stmt.getResultSet();
+        if (rs.next()) {
+          records[i] = new ProductionRecord()
+        }
       }
     } catch (SQLException ex) {
       ex.printStackTrace();
@@ -129,22 +150,42 @@ public class Model {
     return 0;
   }
 
-  public static int getMaxProdsNum(int prodId) {
+  public static int getMaxProdsNum() {
+
+    try (Statement stmt = conn.createStatement()) {
+
+      stmt.execute("SELECT MAX(prodsnum) FROM prodsrecord");
+      ResultSet rs = stmt.getResultSet();
+      if (rs.next()) {
+        return rs.getInt("prodsnum");
+      }
+    }
+    catch (SQLException ex) {
+      ex.printStackTrace();
+    }
+    return 0;
+  }
+
+  public static int getProdsCount(int prodId) {
 
     try (Statement stmt = conn.createStatement()) {
 
       stmt.execute(String.format(  // language=SQL
-          "SELECT MAX(prodsnum) FROM prodsrecord WHERE (prodid = '%s')",
+          "SELECT COUNT(*) AS prodscount FROM prodsrecord WHERE (prodid = '%s')",
           prodId
       ));
       ResultSet rs = stmt.getResultSet();
       if (rs.next()) {
-        return rs.getInt("prodsnum");
+        return rs.getInt("prodscount");
       }
 
     } catch (SQLException ex) {
       ex.printStackTrace();
     }
     return 0;
+  }
+
+  public static String genSerialNum(String manuf, ItemType type, int prodsCount) {
+    return manuf.substring(0, 3) + type.getCode() + String.format("%05d", prodsCount);
   }
 }

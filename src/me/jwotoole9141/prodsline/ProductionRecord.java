@@ -10,7 +10,6 @@ Defines the ProductionRecord class.
 package me.jwotoole9141.prodsline;
 
 import java.util.Date;
-import me.jwotoole9141.prodsline.items.Product;
 
 /**
  * A collection of metadata for the production of a product in the production line.
@@ -20,9 +19,9 @@ import me.jwotoole9141.prodsline.items.Product;
 public class ProductionRecord {
 
   /**
-   * The recorded date of production.
+   * The recorded production number.
    */
-  private Date dateProduced;
+  private int prodsNumber;
 
   /**
    * The recorded product identification number.
@@ -30,14 +29,14 @@ public class ProductionRecord {
   private int productID;
 
   /**
-   * The recorded production number.
-   */
-  private int prodsNumber;
-
-  /**
    * The recorded product serial number.
    */
   private String serialNumber;
+
+  /**
+   * The recorded date of production.
+   */
+  private Date dateProduced;
 
 //  /**
 //   * Create a record for a new production.
@@ -62,18 +61,17 @@ public class ProductionRecord {
    * <p>
    * This constructor is for use in loading database information.
    * </p>
-   *
-   * @param productID    the product identification number
    * @param prodsNumber  the production number
+   * @param productID    the product identification number
    * @param serialNumber the serial number
    * @param dateProduced the date and time of this production
    */
-  public ProductionRecord(Date dateProduced, int productID, int prodsNumber, String serialNumber) {
+  public ProductionRecord(int prodsNumber, int productID, String serialNumber, Date dateProduced) {
 
-    this.dateProduced = dateProduced;
-    this.productID = productID;
     this.prodsNumber = prodsNumber;
+    this.productID = productID;
     this.serialNumber = serialNumber;
+    this.dateProduced = dateProduced;
   }
 
 //  public ProductionRecord(Product product, int index) {
@@ -84,12 +82,12 @@ public class ProductionRecord {
 //  }
 
   /**
-   * Get the recorded date of production.
+   * Get the recorded production number.
    *
-   * @return the production date & time
+   * @return the production number
    */
-  public Date getDateProduced() {
-    return dateProduced;
+  public int getProdsNumber() {
+    return prodsNumber;
   }
 
   /**
@@ -102,21 +100,21 @@ public class ProductionRecord {
   }
 
   /**
-   * Get the recorded production number.
-   *
-   * @return the production number
-   */
-  public int getProdsNumber() {
-    return prodsNumber;
-  }
-
-  /**
    * Get the recorded product serial number.
    *
    * @return the product serial number
    */
   public String getSerialNumber() {
     return serialNumber;
+  }
+
+  /**
+   * Get the recorded date of production.
+   *
+   * @return the production date & time
+   */
+  public Date getDateProduced() {
+    return dateProduced;
   }
 
 //  /**
