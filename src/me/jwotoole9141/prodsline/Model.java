@@ -87,58 +87,53 @@ public class Model {
               + " VALUES ('%s', '%s', '%s');",
           name, type.getCode(), manuf
       ));
-      stmt.execute("SELECT SCOPE_IDENTITY() AS newprod");
-      ResultSet rs = stmt.getResultSet();
-      if (rs.next()) {
+      return new Product(getMaxProdId(), name, type, manuf);
 
-        return new Product(
-            rs.getInt("id"),
-            rs.getString("name"),
-            ItemType.getFromCode(rs.getString("type")),
-            rs.getString("manuf")
-        );
-      }
     } catch (SQLException ex) {
       ex.printStackTrace();
     }
     return null;
   }
 
-  public static ProductionRecord[] recordProduction(Product prod, int qnty) {
+  public static ProductionRecord[] recordProduction(Product prod, Integer qnty) {
 
-    ProductionRecord[] records = new ProductionRecord[qnty];
-    int prodsCount = getProdsCount(prod.getId()) + 1;
-    Date curDate = new Date();
+    if (prod != null && qnty != null && qnty >= 1) {
 
-    // try to add a row to the records table...
-    try (Statement stmt = conn.createStatement()) {
-      for (int i = 0; i < qnty; i++) {
+      ProductionRecord[] records = new ProductionRecord[qnty];
+      int prodsCount = getProdsCount(prod.getId()) + 1;
+      Date curDate = new Date();
 
-        String serialNum = genSerialNum(prod.getManuf(), prod.getType(), prodsCount);
+      // try to add a row to the records table...
+      try (Statement stmt = conn.createStatement()) {
+        for (int i = 0; i < qnty; i++) {
 
-        stmt.execute(String.format(  // language=SQL
-            "INSERT INTO prodsrecord (date, prodid, prodsnum, serialnum)"
-                + " VALUES ('%s', '%s', '%s', '%s');",
-            curDate, prod.getId(), prodsCount, serialNum
-        ));
-        stmt.execute("SELECT SCOPE_IDENTITY() AS newprodsrecord");
-        prodsCount++;
+          String serialNum = genSerialNum(
+              prod.getManuf(), prod.getType(), prodsCount
+          );
 
-        ResultSet rs = stmt.getResultSet();
-        if (rs.next()) {
-          records[i] = new ProductionRecord()
+          stmt.execute(String.format(  // language=SQL
+              "INSERT INTO prodsrecord (date, prodid, prodsnum, serialnum)"
+                  + " VALUES ('%s', '%s', '%s', '%s');",
+              curDate, prod.getId(), prodsCount, serialNum
+          ));
+          records[i] = new ProductionRecord(
+              getMaxProdsNum(), prod.getId(), serialNum, curDate
+          );
         }
+        return records;
+
+      } catch (SQLException ex) {
+        ex.printStackTrace();
       }
-    } catch (SQLException ex) {
-      ex.printStackTrace();
     }
+    return new ProductionRecord[0];
   }
 
   public static int getMaxProdId() {
 
     try (Statement stmt = conn.createStatement()) {
 
-      stmt.execute("SELECT MAX(id) FROM product");
+      stmt.execute("SELECT MAX(id) AS id FROM product");
       ResultSet rs = stmt.getResultSet();
       if (rs.next()) {
         return rs.getInt("id");
@@ -154,7 +149,7 @@ public class Model {
 
     try (Statement stmt = conn.createStatement()) {
 
-      stmt.execute("SELECT MAX(prodsnum) FROM prodsrecord");
+      stmt.execute("SELECT MAX(prodsnum) AS prodsnum FROM prodsrecord");
       ResultSet rs = stmt.getResultSet();
       if (rs.next()) {
         return rs.getInt("prodsnum");
