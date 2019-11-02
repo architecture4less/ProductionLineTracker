@@ -48,7 +48,7 @@ public class Main extends Application {
     Model.open();
 
     // create the gui window...
-    Parent root = FXMLLoader.load(getClass().getResource("gui/gui.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("gui/prodsline_gui.fxml"));
 
     primaryStage.setTitle("Production Line Tracker");
     primaryStage.setScene(new Scene(root, 350, 450));
