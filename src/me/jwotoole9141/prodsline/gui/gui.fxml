@@ -71,7 +71,7 @@ Defines the JavaFX layout of the GUI window.
             text="Add Product"/>
         </HBox>
         <HBox alignment="TOP_RIGHT">
-          <Label fx:id="lblErrMsgAddProd" text="Error: Could not create new product."/>
+          <Label fx:id="lblAddProdMsg" text="Error: Could not create new product."/>
         </HBox>
         <Label text="Existing Products">
           <VBox.margin>
@@ -110,7 +110,7 @@ Defines the JavaFX layout of the GUI window.
             text="Produce"/>
         </HBox>
         <HBox alignment="TOP_RIGHT">
-          <Label fx:id="lblErrMsgProduce" text="Error: Could not produce item."/>
+          <Label fx:id="lblProduceMsg" text="Error: Could not produce item."/>
         </HBox>
       </VBox>
     </AnchorPane>
