@@ -14,7 +14,7 @@ package me.jwotoole9141.prodsline.items;
  *
  * @author Jared O'Toole
  */
-public class Product implements Item {
+public abstract class Product implements Item {
 
   /**
    * The identity number of the product.
@@ -36,16 +36,20 @@ public class Product implements Item {
    */
   private String manuf;
 
+  public Product(String name, ItemType type, String manuf) {
+    this.name = name;
+    this.manuf = manuf;
+    this.type = type;
+  }
+
   /**
    * Create a Product with the given name.
    *
    * @param name the display name
    */
   public Product(int id, String name, ItemType type, String manuf) {
+    this(name, type, manuf);
     this.id = id;
-    this.name = name;
-    this.type = type;
-    this.manuf = manuf;
   }
 
   /**
@@ -101,7 +105,7 @@ public class Product implements Item {
   public String toString() {
     return String.format(
         "Name: %s%nManufacturer: %s%nType: %s",
-        name, manuf, type.name()
+        name, manuf, type.getCode()
     );
   }
 }
