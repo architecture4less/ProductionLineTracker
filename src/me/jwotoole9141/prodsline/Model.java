@@ -10,13 +10,17 @@ Defines the Model class.
 package me.jwotoole9141.prodsline;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import me.jwotoole9141.prodsline.items.ItemType;
 import me.jwotoole9141.prodsline.items.Product;
+import me.jwotoole9141.prodsline.items.ProductionRecord;
 
 /**
  * Facilitates interaction with the application's database.
@@ -43,7 +47,7 @@ public class Model {
   /**
    * Open a connection to the database.
    */
-  static void open() {
+  public static void open() {
 
     // try to open a database conn...
     try {
@@ -58,7 +62,7 @@ public class Model {
   /**
    * Close the database connection.
    */
-  static void close() {
+  public static void close() {
 
     // try to close the database conn...
     if (conn != null) {
@@ -77,56 +81,149 @@ public class Model {
    * @param type  the new product's type
    * @param manuf the new product's manufacturer
    */
-  public static Product addProduct(String name, ItemType type, String manuf) {
+  public static Product addProduct(String name, ItemType type, String manuf)
+      throws SQLException, IllegalArgumentException {
 
     // try to add a row to the products table...
-    try (Statement stmt = conn.createStatement()) {
+    try (PreparedStatement stmt = conn.prepareStatement(
+        "INSERT INTO product (name, type, manuf) VALUES (?, ?, ?);"
+    )) {
 
-      stmt.execute(String.format(  // language=SQL
-          "INSERT INTO product (name, type, manuf)"
-              + " VALUES ('%s', '%s', '%s');",
-          name, type.getCode(), manuf
-      ));
+      if (name == null || name.isEmpty()) {
+        throw new IllegalArgumentException("A product name was not given.");
+      }
+      if (type == null) {
+        throw new IllegalArgumentException("A product type was not selected.");
+      }
+      if (manuf == null || manuf.length() < 3) {
+        throw new IllegalArgumentException("The Manufacturer name must be at least three chars.");
+      }
+
+      stmt.setString(1, name);
+      stmt.setString(2, type.getCode());
+      stmt.setString(3, manuf);
+
+      stmt.execute();
+
       return new Product(getMaxProdId(), name, type, manuf);
+    }
+  }
 
+  public static ProductionRecord[] recordProduction(Product prod, Integer qnty)
+      throws SQLException, IllegalArgumentException {
+
+    // try to add a row to the records table...
+    try (PreparedStatement stmt = conn.prepareStatement(
+        "INSERT INTO prodsrecord (prodid, serialnum, date) VALUES (?, ?, ?);"
+    )) {
+
+      if (prod == null) {
+        throw new IllegalArgumentException("No product was selected.");
+      }
+      if (qnty == null || qnty < 1) {
+        throw new IllegalArgumentException("Invalid quantity chosen.");
+      }
+
+      ProductionRecord[] records = new ProductionRecord[qnty];
+
+      int prodsCount = getProdsCount(prod.getId()) + 1;
+      Date curDate = new Date(System.currentTimeMillis());
+
+      for (int i = 0; i < qnty; i++) {
+
+        String serialNum = genSerialNum(
+            prod.getManuf(), prod.getType(), prodsCount++
+        );
+        stmt.setInt(1, prod.getId());
+        stmt.setString(2, serialNum);
+        stmt.setDate(3, curDate);
+
+        stmt.execute();
+
+        records[i] = new ProductionRecord(
+            getMaxProdsNum(), prod.getId(), serialNum, curDate
+        );
+      }
+      return records;
+    }
+  }
+
+  public static Product getProduct(int id) {
+
+    try (PreparedStatement stmt = conn.prepareStatement(
+        "SELECT * FROM product WHERE id = ?"
+    )) {
+
+      stmt.setInt(1, id);
+      stmt.execute();
+
+      try (ResultSet rs = stmt.getResultSet()) {
+        if (rs.next()) {
+
+          String name = rs.getString("name");
+          ItemType type = ItemType.getFromCode(rs.getString("type"));
+          String manuf = rs.getString("manuf");
+
+          return new Product(id, name, type, manuf);
+        }
+      } catch (IllegalArgumentException ignored) {
+
+      }
     } catch (SQLException ex) {
       ex.printStackTrace();
     }
     return null;
   }
 
-  public static ProductionRecord[] recordProduction(Product prod, Integer qnty) {
+  public static List<Product> getProducts() {
 
-    if (prod != null && qnty != null && qnty >= 1) {
+    List<Product> products = new ArrayList<>();
 
-      ProductionRecord[] records = new ProductionRecord[qnty];
-      int prodsCount = getProdsCount(prod.getId()) + 1;
-      Date curDate = new Date();
+    try (
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM product");
+        ResultSet rs = stmt.executeQuery()
+    ) {
+      while (rs.next()) {
+        try {
 
-      // try to add a row to the records table...
-      try (Statement stmt = conn.createStatement()) {
-        for (int i = 0; i < qnty; i++) {
+          int id = rs.getInt("id");
+          String name = rs.getString("name");
+          ItemType type = ItemType.getFromCode(rs.getString("type"));
+          String manuf = rs.getString("manuf");
 
-          String serialNum = genSerialNum(
-              prod.getManuf(), prod.getType(), prodsCount
-          );
+          products.add(new Product(id, name, type, manuf));
+        } catch (IllegalArgumentException ignored) {
 
-          stmt.execute(String.format(  // language=SQL
-              "INSERT INTO prodsrecord (date, prodid, prodsnum, serialnum)"
-                  + " VALUES ('%s', '%s', '%s', '%s');",
-              curDate, prod.getId(), prodsCount, serialNum
-          ));
-          records[i] = new ProductionRecord(
-              getMaxProdsNum(), prod.getId(), serialNum, curDate
-          );
         }
-        return records;
-
-      } catch (SQLException ex) {
-        ex.printStackTrace();
       }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
     }
-    return new ProductionRecord[0];
+    return products;
+  }
+
+  public static List<ProductionRecord> getProdsRecords() {
+
+    List<ProductionRecord> records = new ArrayList<>();
+
+    try (
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM prodsrecord");
+        ResultSet rs = stmt.executeQuery()
+    ) {
+      while (rs.next()) {
+
+        int prodsNum = rs.getInt("prodsnum");
+        int prodId = rs.getInt("prodid");
+        String serialNum = rs.getString("serialnum");
+        Date date = rs.getDate("date");
+
+        records.add(new ProductionRecord(prodsNum, prodId, serialNum, date));
+      }
+
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+    }
+    return records;
   }
 
   public static int getMaxProdId() {
@@ -138,8 +235,7 @@ public class Model {
       if (rs.next()) {
         return rs.getInt("id");
       }
-    }
-    catch (SQLException ex) {
+    } catch (SQLException ex) {
       ex.printStackTrace();
     }
     return 0;
@@ -154,8 +250,7 @@ public class Model {
       if (rs.next()) {
         return rs.getInt("prodsnum");
       }
-    }
-    catch (SQLException ex) {
+    } catch (SQLException ex) {
       ex.printStackTrace();
     }
     return 0;
