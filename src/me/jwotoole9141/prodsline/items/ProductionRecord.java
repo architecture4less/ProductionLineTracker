@@ -7,7 +7,7 @@ FILE: ProductionRecord.java
 Defines the ProductionRecord class.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.items;
 
 import java.util.Date;
 
