@@ -4,7 +4,7 @@
 AUTH: Jared O'Toole
 DATE: Wed, Sep 11th, 2019
 PROJ: ProductionLineTracker
-FILE: gui.fxml
+FILE: prodsline_gui.fxml
 
 Defines the JavaFX layout of the GUI window.
  -->
@@ -29,7 +29,7 @@ Defines the JavaFX layout of the GUI window.
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane prefHeight="450.0" prefWidth="350.0" stylesheets="@gui.css" tabClosingPolicy="UNAVAILABLE"
+<TabPane prefHeight="450.0" prefWidth="350.0" stylesheets="@stylesheet.css" tabClosingPolicy="UNAVAILABLE"
   xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="me.jwotoole9141.prodsline.Controller">
   <Tab text="Production Line">
