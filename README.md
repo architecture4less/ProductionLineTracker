@@ -298,7 +298,7 @@ _GUI, basic database_
 - [X] Create a toString method that will display the superclass's toString method, but also add rows for Audio Spec and Type.
 - [X] Create a driver class for AudioPlayer that will test to see whether we can instantiate occurrences of it, use the media controls and print out their details to the console.
 
-#### Week 8
+### Week 8
 
 > Polymorphism
 
