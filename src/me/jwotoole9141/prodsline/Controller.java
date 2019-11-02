@@ -29,7 +29,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import me.jwotoole9141.prodsline.items.ProductionRecord;
 import me.jwotoole9141.prodsline.items.ItemType;
-import me.jwotoole9141.prodsline.Model;
 import me.jwotoole9141.prodsline.items.Product;
 
 /**
@@ -130,10 +129,8 @@ public class Controller {
 
     refreshChbNewProdType();
     refreshTblProducts();
-
     refreshLstProdOpts();
     refreshCboProdQnty();
-
     refreshTxtProdsLog(Model.getProdsRecords());
 
     lblProduceMsg.setText("");
@@ -192,7 +189,7 @@ public class Controller {
    * @param event the action performed
    */
   @FXML
-  void btnAddProdAction(ActionEvent event) {
+  public void btnAddProdAction(ActionEvent event) {
 
     // add product to database using form info...
     ItemType type = chbNewProdType.getValue();
@@ -223,7 +220,7 @@ public class Controller {
 
 
   @FXML
-  void btnProduceAction(ActionEvent event) {
+  public void btnProduceAction(ActionEvent event) {
 
     // produce a record using form info...
     Product prod = lstProdOpts.getSelectionModel().getSelectedItem();
