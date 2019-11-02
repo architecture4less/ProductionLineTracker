@@ -9,9 +9,6 @@ Defines the ItemType enum.
 
 package me.jwotoole9141.prodsline.items;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 /**
  * An enumeration of product item types.
  *
@@ -19,26 +16,24 @@ import java.util.stream.Collectors;
  */
 public enum ItemType {
 
-  AUDIO("AU"),
-  VISUAL("VI"),
-  AUDIO_MOBILE("AM"),
-  VISUAL_MOBILE("VM");
-
-  /**
-   * The database code name.
-   */
-  private String code;
+  AUDIO("Audio", "AU"),
+  VISUAL("Visual", "VI"),
+  AUDIO_MOBILE("Audio Mobile", "AM"),
+  VISUAL_MOBILE("Visual Mobile", "VM");
 
   /**
    * The display name.
    */
   private String display;
 
-  ItemType(String code) {
+  /**
+   * The database code name.
+   */
+  private String code;
+
+  ItemType(String display, String code) {
+    this.display = display;
     this.code = code;
-    this.display = Arrays.stream(name().split("_"))
-        .map((s) -> (s.substring(0, 1) + s.substring(1).toLowerCase()))
-        .collect(Collectors.joining(" "));
   }
 
   /**
@@ -65,7 +60,7 @@ public enum ItemType {
   public static ItemType getFromCode(String code) throws IllegalArgumentException {
 
     for (ItemType itemType : ItemType.values()) {
-      if (itemType.code.equals(code)) {
+      if (itemType.code.equalsIgnoreCase(code)) {
         return itemType;
       }
     }
