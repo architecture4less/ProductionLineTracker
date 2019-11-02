@@ -12,6 +12,7 @@ package me.jwotoole9141.prodsline.gui;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,9 +21,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import me.jwotoole9141.prodsline.items.ProductionRecord;
 import me.jwotoole9141.prodsline.items.ItemType;
@@ -72,6 +75,18 @@ public class Controller {
   @FXML
   private TableView<Product> tblProducts;
 
+  @FXML
+  private TableColumn<?, Product> colProductsId;
+
+  @FXML
+  private TableColumn<?, Product> colProductsName;
+
+  @FXML
+  private TableColumn<?, Product> colProductsType;
+
+  @FXML
+  private TableColumn<?, Product> colProductsManuf;
+
   /**
    * The 'production options' list.
    */
@@ -110,16 +125,19 @@ public class Controller {
   @FXML
   public void initialize() {
 
-    List<Product> products = Model.getProducts();
-    List<ProductionRecord> records = Model.getProdsRecords();
+    Model.productLine.clear();
+    Model.productLine.addAll(Model.getProducts());
 
     refreshChbNewProdType();
-    refreshTblProducts(products);
+    refreshTblProducts();
 
-    refreshLstProdOpts(products);
+    refreshLstProdOpts();
     refreshCboProdQnty();
 
-    refreshTxtProdsLog(records);
+    refreshTxtProdsLog(Model.getProdsRecords());
+
+    lblProduceMsg.setText("");
+    lblAddProdMsg.setText("");
   }
 
   public void refreshChbNewProdType() {
@@ -133,14 +151,19 @@ public class Controller {
     chbNewProdType.getSelectionModel().selectFirst();
   }
 
-  public void refreshTblProducts(List<Product> products) {
-    tblProducts.getItems().clear();
-    tblProducts.getItems().addAll(products);
+  public void refreshTblProducts() {
+
+    tblProducts.setItems(Model.productLine);
+
+    colProductsId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    colProductsName.setCellValueFactory(new PropertyValueFactory<>("name"));
+    colProductsType.setCellValueFactory(new PropertyValueFactory<>("type"));
+    colProductsManuf.setCellValueFactory(new PropertyValueFactory<>("manuf"));
   }
 
-  public void refreshLstProdOpts(List<Product> products) {
-    lstProdOpts.getItems().clear();
-    lstProdOpts.getItems().addAll(products);
+  public void refreshLstProdOpts() {
+
+    lstProdOpts.setItems(Model.productLine);
   }
 
   public void refreshCboProdQnty() {
@@ -157,6 +180,7 @@ public class Controller {
   }
 
   public void refreshTxtProdsLog(List<ProductionRecord> records) {
+
     txtProdsLog.setText(records.stream()
         .map(ProductionRecord::toString)
         .collect(Collectors.joining("\n")) + "\n");
@@ -170,8 +194,6 @@ public class Controller {
   @FXML
   void btnAddProdAction(ActionEvent event) {
 
-    System.out.println("The 'Add Product' button was clicked!");
-
     // add product to database using form info...
     ItemType type = chbNewProdType.getValue();
     String manuf = fldNewProdManuf.getText().trim();
@@ -179,17 +201,14 @@ public class Controller {
 
     try {
       Product newProd = Model.addProduct(name, type, manuf);
-
-      // add new prod to table and list...
-      tblProducts.getItems().add(newProd);
-      lstProdOpts.getItems().add(newProd);
+      Model.productLine.add(newProd);
 
       // set add prod message label to success...
+      lblAddProdMsg.setTextFill(Color.web("green"));
       lblAddProdMsg.setText(String.format(
           "Added product #%d '%s' successfully.",
           newProd.getId(), newProd.getName()
       ));
-      lblAddProdMsg.setTextFill(Color.web("green"));
 
     } catch (SQLException ex) {
       ex.printStackTrace();
@@ -197,16 +216,14 @@ public class Controller {
     } catch (IllegalArgumentException ex) {
 
       // set add prod message label to failure...
-      lblAddProdMsg.setText("Couldn't add new product: " + ex.getMessage());
       lblAddProdMsg.setTextFill(Color.web("red"));
+      lblAddProdMsg.setText("Couldn't add new product: " + ex.getMessage());
     }
   }
 
 
   @FXML
   void btnProduceAction(ActionEvent event) {
-
-    System.out.println("The 'Produce' button was clicked!");
 
     // produce a record using form info...
     Product prod = lstProdOpts.getSelectionModel().getSelectedItem();
@@ -222,15 +239,16 @@ public class Controller {
 
       // append the prods log...
       txtProdsLog.appendText(Arrays.stream(records)
+          .filter(Objects::nonNull)
           .map(ProductionRecord::toString)
           .collect(Collectors.joining("\n")) + "\n");
 
       // set the produce message label to success...
+      lblProduceMsg.setTextFill(Color.web("green"));
       lblProduceMsg.setText(String.format(
           "Produced #%d '%s' x%d successfully.",
           prod.getId(), prod.getName(), qnty
       ));
-      lblProduceMsg.setTextFill(Color.web("green"));
 
     } catch (SQLException ex) {
       ex.printStackTrace();
@@ -238,24 +256,8 @@ public class Controller {
     } catch (IllegalArgumentException ex) {
 
       // set the produce message label to failure...
-      lblProduceMsg.setText("Couldn't do production: " + ex.getMessage());
       lblProduceMsg.setTextFill(Color.web("red"));
+      lblProduceMsg.setText("Couldn't do production: " + ex.getMessage());
     }
   }
-
-//  public void setLblProduceMsgText(String text) {
-//    lblProduceMsg.setText(text);
-//  }
-//
-//  public void setLblProduceMsgColor(String color) {
-//    lblProduceMsg.setTextFill(Color.web(color));
-//  }
-//
-//  public void setLblAddProdMsgText(String text) {
-//    lblAddProdMsg.setText(text);
-//  }
-//
-//  public void setLblAddProdMsgColor(String color) {
-//    lblAddProdMsg.setTextFill(Color.web(color));
-//  }
 }

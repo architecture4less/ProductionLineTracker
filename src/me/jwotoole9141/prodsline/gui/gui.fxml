@@ -80,8 +80,10 @@ Defines the JavaFX layout of the GUI window.
         </Label>
         <TableView fx:id="tblProducts">
           <columns>
-            <TableColumn prefWidth="75.0" text="C1"/>
-            <TableColumn prefWidth="75.0" text="C2"/>
+            <TableColumn fx:id="colProductsId" prefWidth="75.0" text="Id"/>
+            <TableColumn fx:id="colProductsName" prefWidth="75.0" text="Name"/>
+            <TableColumn fx:id="colProductsType" prefWidth="75.0" text="Type"/>
+            <TableColumn fx:id="colProductsManuf" prefWidth="75.0" text="Manufacturer"/>
           </columns>
         </TableView>
       </VBox>
