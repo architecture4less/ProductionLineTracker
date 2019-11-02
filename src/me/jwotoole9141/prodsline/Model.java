@@ -15,10 +15,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import me.jwotoole9141.prodsline.items.AudioPlayer;
 import me.jwotoole9141.prodsline.items.ItemType;
+import me.jwotoole9141.prodsline.items.MoviePlayer;
 import me.jwotoole9141.prodsline.items.Product;
 import me.jwotoole9141.prodsline.items.ProductionRecord;
 
@@ -28,6 +31,8 @@ import me.jwotoole9141.prodsline.items.ProductionRecord;
  * @author Jared O'Toole
  */
 public class Model {
+
+  public static final ObservableList<Product> productLine = FXCollections.observableArrayList();
 
   /**
    * The JDBC driver class to use.
@@ -51,7 +56,7 @@ public class Model {
 
     // try to open a database conn...
     try {
-      Class.forName(JDBC_DRIVER);
+      Class.forName(JDBC_DRIVER);  // make sure h2 driver class exists
       conn = DriverManager.getConnection(DB_URL);
 
     } catch (Exception ex) {
@@ -84,39 +89,52 @@ public class Model {
   public static Product addProduct(String name, ItemType type, String manuf)
       throws SQLException, IllegalArgumentException {
 
-    // try to add a row to the products table...
     try (PreparedStatement stmt = conn.prepareStatement(
         "INSERT INTO product (name, type, manuf) VALUES (?, ?, ?);"
     )) {
 
+      // validate the given parameters...
       if (name == null || name.isEmpty()) {
         throw new IllegalArgumentException("A product name was not given.");
       }
       if (type == null) {
         throw new IllegalArgumentException("A product type was not selected.");
       }
+      if(type == ItemType.AUDIO_MOBILE || type == ItemType.VISUAL_MOBILE) {
+        throw new IllegalArgumentException("The chosen item type is not yet supported.");
+      }
       if (manuf == null || manuf.length() < 3) {
         throw new IllegalArgumentException("The Manufacturer name must be at least three chars.");
       }
 
+      // add the given properties to a new row on the product table...
       stmt.setString(1, name);
       stmt.setString(2, type.getCode());
       stmt.setString(3, manuf);
-
       stmt.execute();
 
-      return new Product(getMaxProdId(), name, type, manuf);
+      // return a new product of the appropriate class...
+      switch (type) {
+
+        case AUDIO:
+          return new AudioPlayer(getMaxProdId(), name, manuf);
+
+        case VISUAL:
+          return new MoviePlayer(getMaxProdId(), name, manuf);
+      }
     }
+    // shouldn't get here...
+    throw new AssertionError("Unhandled ItemType: '" + type.name() + "'");
   }
 
   public static ProductionRecord[] recordProduction(Product prod, Integer qnty)
       throws SQLException, IllegalArgumentException {
 
-    // try to add a row to the records table...
     try (PreparedStatement stmt = conn.prepareStatement(
         "INSERT INTO prodsrecord (prodid, serialnum, date) VALUES (?, ?, ?);"
     )) {
 
+      // validate the given parameters...
       if (prod == null) {
         throw new IllegalArgumentException("No product was selected.");
       }
@@ -125,21 +143,23 @@ public class Model {
       }
 
       ProductionRecord[] records = new ProductionRecord[qnty];
-
       int prodsCount = getProdsCount(prod.getId()) + 1;
       Date curDate = new Date(System.currentTimeMillis());
 
+      // iterate over the range of the given quantity...
       for (int i = 0; i < qnty; i++) {
 
         String serialNum = genSerialNum(
             prod.getManuf(), prod.getType(), prodsCount++
         );
+
+        // add the given properties to a new row on the records table...
         stmt.setInt(1, prod.getId());
         stmt.setString(2, serialNum);
         stmt.setDate(3, curDate);
-
         stmt.execute();
 
+        // create a new record object to be returned...
         records[i] = new ProductionRecord(
             getMaxProdsNum(), prod.getId(), serialNum, curDate
         );
@@ -160,11 +180,20 @@ public class Model {
       try (ResultSet rs = stmt.getResultSet()) {
         if (rs.next()) {
 
+          // get properties from the result set...
           String name = rs.getString("name");
           ItemType type = ItemType.getFromCode(rs.getString("type"));
           String manuf = rs.getString("manuf");
 
-          return new Product(id, name, type, manuf);
+          // return a new product of the appropriate class...
+          switch (type) {
+
+            case AUDIO:
+              return new AudioPlayer(id, name, manuf);
+
+            case VISUAL:
+              return new MoviePlayer(id, name, manuf);
+          }
         }
       } catch (IllegalArgumentException ignored) {
 
@@ -186,12 +215,23 @@ public class Model {
       while (rs.next()) {
         try {
 
+          // get properties from the result set...
           int id = rs.getInt("id");
           String name = rs.getString("name");
           ItemType type = ItemType.getFromCode(rs.getString("type"));
           String manuf = rs.getString("manuf");
 
-          products.add(new Product(id, name, type, manuf));
+          // create a new product of the appropriate class to be returned...
+          switch (type) {
+
+            case AUDIO:
+              products.add(new AudioPlayer(id, name, manuf));
+              break;
+
+            case VISUAL:
+              products.add(new MoviePlayer(id, name, manuf));
+              break;
+          }
         } catch (IllegalArgumentException ignored) {
 
         }
@@ -212,11 +252,13 @@ public class Model {
     ) {
       while (rs.next()) {
 
+        // get properties from the result set...
         int prodsNum = rs.getInt("prodsnum");
         int prodId = rs.getInt("prodid");
         String serialNum = rs.getString("serialnum");
         Date date = rs.getDate("date");
 
+        // create a new prods record to be returned...
         records.add(new ProductionRecord(prodsNum, prodId, serialNum, date));
       }
 
@@ -228,10 +270,12 @@ public class Model {
 
   public static int getMaxProdId() {
 
-    try (Statement stmt = conn.createStatement()) {
+    try (
+        PreparedStatement stmt = conn.prepareStatement(
+            "SELECT MAX(id) AS id FROM product");
 
-      stmt.execute("SELECT MAX(id) AS id FROM product");
-      ResultSet rs = stmt.getResultSet();
+        ResultSet rs = stmt.executeQuery()
+    ) {
       if (rs.next()) {
         return rs.getInt("id");
       }
@@ -243,10 +287,12 @@ public class Model {
 
   public static int getMaxProdsNum() {
 
-    try (Statement stmt = conn.createStatement()) {
+    try (
+        PreparedStatement stmt = conn.prepareStatement(
+            "SELECT MAX(prodsnum) AS prodsnum FROM prodsrecord");
 
-      stmt.execute("SELECT MAX(prodsnum) AS prodsnum FROM prodsrecord");
-      ResultSet rs = stmt.getResultSet();
+        ResultSet rs = stmt.executeQuery();
+    ) {
       if (rs.next()) {
         return rs.getInt("prodsnum");
       }
@@ -258,17 +304,17 @@ public class Model {
 
   public static int getProdsCount(int prodId) {
 
-    try (Statement stmt = conn.createStatement()) {
+    try (PreparedStatement stmt = conn.prepareStatement(
+        "SELECT COUNT(*) AS prodscount FROM prodsrecord WHERE (prodid = ?)"
+    )) {
 
-      stmt.execute(String.format(  // language=SQL
-          "SELECT COUNT(*) AS prodscount FROM prodsrecord WHERE (prodid = '%s')",
-          prodId
-      ));
-      ResultSet rs = stmt.getResultSet();
-      if (rs.next()) {
-        return rs.getInt("prodscount");
+      stmt.setInt(1, prodId);
+      try (ResultSet rs = stmt.executeQuery()) {
+
+        if (rs.next()) {
+          return rs.getInt("prodscount");
+        }
       }
-
     } catch (SQLException ex) {
       ex.printStackTrace();
     }
@@ -276,6 +322,9 @@ public class Model {
   }
 
   public static String genSerialNum(String manuf, ItemType type, int prodsCount) {
-    return manuf.substring(0, 3) + type.getCode() + String.format("%05d", prodsCount);
+
+    return manuf.substring(0, 3).toUpperCase()
+        + type.getCode()
+        + String.format("%05d", prodsCount);
   }
 }
