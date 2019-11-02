@@ -10,6 +10,7 @@ Defines the ProductionRecord class.
 package me.jwotoole9141.prodsline.items;
 
 import java.util.Date;
+import me.jwotoole9141.prodsline.Model;
 
 /**
  * A collection of metadata for the production of a product in the production line.
@@ -38,22 +39,30 @@ public class ProductionRecord {
    */
   private Date dateProduced;
 
-//  /**
-//   * Create a record for a new production.
-//   *
-//   * <p>
-//   * This constructor is for use in the user GUI.
-//   * </p>
-//   *
-//   * @param productID the product identification number
-//   */
-//  public ProductionRecord(int productID) {
-//
-//    this.dateProduced = new Date();
-//    this.productID = productID;
-//    this.prodsNumber = 0;
-//    this.serialNumber = "0";
-//  }
+  /**
+   * Create a record for a new production.
+   *
+   * <p>
+   * This constructor is for use in the user GUI.
+   * </p>
+   *
+   * @param productID the product identification number
+   */
+  public ProductionRecord(int productID) {
+
+    this.prodsNumber = -1;
+    this.productID = productID;
+    this.serialNumber = "0";
+    this.dateProduced = new Date();
+  }
+
+  public ProductionRecord(Product product, int prodsCount) {
+
+    this.prodsNumber = -1;
+    this.productID = product.getId();
+    this.serialNumber = Model.genSerialNum(product.getManuf(), product.getType(), prodsCount);
+    this.dateProduced = new Date();
+  }
 
   /**
    * Create a representation of an existing record.
@@ -73,13 +82,6 @@ public class ProductionRecord {
     this.serialNumber = serialNumber;
     this.dateProduced = dateProduced;
   }
-
-//  public ProductionRecord(Product product, int index) {
-//
-//    this.productID = product.getId();
-//    this.serialNumber = product.genSerialNum(index);
-//    this.dateProduced = new Date();
-//  }
 
   /**
    * Get the recorded production number.
@@ -117,44 +119,55 @@ public class ProductionRecord {
     return dateProduced;
   }
 
-//  /**
-//   * Set the recorded date of production.
-//   *
-//   * @param dateProduced the production date & time
-//   */
-//  public void setDateProduced(Date dateProduced) {
-//    this.dateProduced = dateProduced;
-//  }
-//
-//  /**
-//   * Set the recorded product identification number.
-//   *
-//   * @param productID the product id
-//   */
-//  public void setProductID(int productID) {
-//    this.productID = productID;
-//  }
-//
-//  /**
-//   * Set the recorded production number.
-//   *
-//   * @param prodsNumber the production number
-//   */
-//  public void setProdsNumber(int prodsNumber) {
-//    this.prodsNumber = prodsNumber;
-//  }
-//
-//  /**
-//   * Set the recorded product serial number.
-//   *
-//   * @param serialNumber the product serial number
-//   */
-//  public void setSerialNumber(String serialNumber) {
-//    this.serialNumber = serialNumber;
-//  }
+  /**
+   * Set the recorded production number.
+   *
+   * @param prodsNumber the production number
+   */
+  public void setProdsNumber(int prodsNumber) {
+    this.prodsNumber = prodsNumber;
+  }
+
+  /**
+   * Set the recorded product identification number.
+   *
+   * @param productID the product id
+   */
+  public void setProductID(int productID) {
+    this.productID = productID;
+  }
+
+  /**
+   * Set the recorded product serial number.
+   *
+   * @param serialNumber the product serial number
+   */
+  public void setSerialNumber(String serialNumber) {
+    this.serialNumber = serialNumber;
+  }
+
+  /**
+   * Set the recorded date of production.
+   *
+   * @param dateProduced the production date & time
+   */
+  public void setDateProduced(Date dateProduced) {
+    this.dateProduced = dateProduced;
+  }
 
   @Override
   public String toString() {
+
+    if (productID >= 0) {
+      Product prod = Model.getProduct(productID);
+
+      if (prod != null) {
+        return String.format(
+            "Prod. Num: %d Product Name: %s Serial Num: %s Date: %s",
+            prodsNumber, prod.getName(), serialNumber, dateProduced
+        );
+      }
+    }
     return String.format(
         "Prod. Num: %d Product ID: %d Serial Num: %s Date: %s",
         prodsNumber, productID, serialNumber, dateProduced
