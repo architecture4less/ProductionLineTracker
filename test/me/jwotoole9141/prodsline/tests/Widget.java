@@ -4,7 +4,7 @@ DATE: Sat, Sep 28th, 2019
 PROJ: ProductionLineTracker
 FILE: Widget.java
 
-Defines the test Widget class.
+Defines the Widget test class.
  */
 
 package me.jwotoole9141.prodsline.tests;

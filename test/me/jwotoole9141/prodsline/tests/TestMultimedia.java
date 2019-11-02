@@ -1,3 +1,12 @@
+/*
+AUTH: Jared O'Toole
+DATE: Thu, Oct 24th, 2019
+PROJ: ProductionLineTracker
+FILE: TestMultimedia.java
+
+Defines the Multimedia test driver class.
+ */
+
 package me.jwotoole9141.prodsline.tests;
 
 import java.util.ArrayList;
