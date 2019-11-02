@@ -26,6 +26,6 @@ create table prodsrecord (
 
     prodsnum  int      not null auto_increment unique,
     prodid    int      not null,
-    date      datetime not null,
     serialnum varchar  not null,
+    date      datetime not null,
 );
