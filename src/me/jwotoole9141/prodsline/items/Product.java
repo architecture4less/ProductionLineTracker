@@ -104,8 +104,4 @@ public class Product implements Item {
         name, manuf, type.name()
     );
   }
-
-  public String genSerialNum(int idProdsNum) {
-    return manuf.substring(0, 3) + type.getCode() + String.format("%05d", idProdsNum);
-  }
 }
