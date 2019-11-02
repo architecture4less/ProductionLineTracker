@@ -26,6 +26,10 @@ public class MoviePlayer extends Product implements MultimediaControl {
    */
   private MonitorType monitorType;
 
+  public MoviePlayer(String name, String manuf, Screen screen, MonitorType monitorType) {
+    this(0, name, manuf, screen, monitorType);
+  }
+
   /**
    * Create a movie player with the given name, manufacturer, screen, and monitor type.
    *
@@ -39,6 +43,14 @@ public class MoviePlayer extends Product implements MultimediaControl {
     super(id, name, ItemType.VISUAL, manuf);
     this.screen = screen;
     this.monitorType = monitorType;
+  }
+
+  public MoviePlayer(int id, String name, String manuf) {
+
+    // temp default values for database-unsupported properties
+    super(id, name, ItemType.VISUAL, manuf);
+    this.screen = new Screen("?", 0, 0);
+    this.monitorType = MonitorType.LCD;
   }
 
   /**
@@ -80,7 +92,11 @@ public class MoviePlayer extends Product implements MultimediaControl {
    */
   @Override
   public String toString() {
-    return super.toString() + "\nScreen: \n" + screen.toString()
-        + "\nMonitor Type: " + monitorType.name();
+    return super.toString() + "\n" + String.format(
+      "Screen: %s%nMonitorType: %s",
+      screen, monitorType
+    );
+//    return super.toString() + "\nScreen: \n" + screen.toString()
+//        + "\nMonitor Type: " + monitorType.name();
   }
 }
