@@ -340,7 +340,6 @@ The production facility will also create portable movie players. The main differ
 - [X] Create a constructor that accepts the name, manufacturer, a screen, and a monitor type. The constructor can set the item type to VISUAL.
 - [X] Complete the methods from the MultimediaControl interface in a similar fashion to the audio player.
 - [X] Create a toString method that calls the product toString, displays the monitor and the screen details.
-<!-- - [X] Create a diver class to test the functionality of the movie player. -->
 
 **MultimediaControl**
 
@@ -348,7 +347,7 @@ The audio players and the movie players share the same control interface on the 
 
 **GUI Update**
 
-- [ ] Demonstrate this functionality in your user interface. For example, you could use the code below and call testMultimedia in your initialize method or you could do something more elaborate in the GUI.
+- [X] Demonstrate this functionality in your user interface. For example, you could use the code below and call testMultimedia in your initialize method or you could do something more elaborate in the GUI.
     ```java
     public class Test {
       public static void testMultimedia() {
@@ -393,23 +392,8 @@ The audio players and the movie players share the same control interface on the 
 
 - [X] Create an overloaded constructor to use when creating ProductionRecord objects from the database. This constructor needs parameters for all fields. 
 - [X] Override toString to return a string in the format `"Prod. Num: 0 Product ID: 0 Serial Num: 0 Date: Mon Oct 14 10:29:48 UTC 2019"`
-- [ ] Display the production record in the TextArea on the Production Log tab.
+- [X] Display the production record in the TextArea on the Production Log tab.
 - Security / FindBugs tip: [Defensive copying](http://www.google.com/url?q=http%3A%2F%2Fwww.javapractices.com%2Ftopic%2FTopicAction.do%3FId%3D15&sa=D&sntz=1&usg=AFQjCNFz5mwRPjotdMVuv8z0xfhycnM0Rg)
-
-<!--
-Allow the user to record production of a given product. 
-
-- [ ] Create a Production class and table. The user should be able to input a quantity. 
-
-- [ ] Create a production record for each produced item. 
-  - [ ] Set manufacturedOn as the current date and time. 
-  - [ ] Store each record in a productionRun collection. 
-    - [ ] Store the contents of the collection to a Production table in the database. 
-    - [ ] Display the contents of the Production table in a TextView.
-
-- [ ] In the Add Product event handler, declare a Product.
-- [ ] Depending on the chosen item type, assign a new AudioPlayer object or MoviePlayer object to the Product, using the input from the form elements.
--->
 
 ### Week 10
 
@@ -420,34 +404,29 @@ Allow the user to record production of a given product.
 - [X] Add the ability for the program to generate a unique serial number for each produced product. 
 - [X] Overload the ProductionRecord constructor to accept a Product and an int which holds the count of the number of items of its type that have been created. (You can write the code to generate the count later.)
 - [X] Set the serialNumber to start with the first three letters of the Manufacturer name, then the two letter ItemType code, then five digits (with leading 0s if necessary) that are unique and sequential for the item type. The entire Serial Number should be programmatically created and assigned. 
-- [ ] Optional (for now) challenge: Show the product name instead of the product ID in the TextArea on the Production Log tab.
-
-<!--
-- [ ] The audio players and the movie players share the same control interface on the physical devices. The control interface does not care if the device is a video player or an audio player. 
-- [ ] Create a driver class that will demonstrate that any class that implements the MultimediaControl Interface would be able to be instantiated and use its methods used no matter if it was an audio or movie player.
--->
+- [X] Optional (for now) challenge: Show the product name instead of the product ID in the TextArea on the Production Log tab.
 
 ### Week 11
 
 > Lists and ArrayLists
 
-- [ ] **Issue 6 - TableView**
+- [X] **Issue 6 - TableView**
 
-- [ ] Show all Products in the Product Line tab TableView. 
+- [X] Show all Products in the Product Line tab TableView. 
   - See <http://tutorials.jenkov.com/javafx/tableview.html> and [TableViewData sample program](https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Fprofvanselow%2FTableViewData&sa=D&sntz=1&usg=AFQjCNE-kK-F_6R2GWHSJXBM14C5JTyi_Q).
 
-- [ ] Create an ArrayList named productLine to hold all of the Products that can be produced. 
+- [X] Create an ArrayList named productLine to hold all of the Products that can be produced. 
   - For now, when the Add Product button is clicked, add to this ArrayList.
 
-- [ ] Create an ObservableList from the ArrayList in initialize. 
+- [X] Create an ObservableList from the ArrayList in initialize. 
 
-- [ ] Set the items of the TableView to the ObservableList
+- [X] Set the items of the TableView to the ObservableList
   - You do this in a `setupProductLineTable` that also sets the columns and does the setCellValueFactory
 
-- [ ] Show all Products in the Produce tab ListView.
+- [X] Show all Products in the Produce tab ListView.
   - Use the selected item from the ListView as the item used to record production.
 
-- [ ] Show the production log in the Production Log tab TextArea. 
+- [X] Show the production log in the Production Log tab TextArea. 
 
 ---
 
