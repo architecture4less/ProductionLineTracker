@@ -7,7 +7,7 @@ FILE: Controller.java
 Defines the controller class.
  */
 
-package me.jwotoole9141.prodsline.gui;
+package me.jwotoole9141.prodsline;
 
 import java.sql.SQLException;
 import java.util.Arrays;
