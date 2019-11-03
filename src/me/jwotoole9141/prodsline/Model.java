@@ -19,9 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import me.jwotoole9141.prodsline.items.AudioPlayer;
+import me.jwotoole9141.prodsline.items.GenericProduct;
 import me.jwotoole9141.prodsline.items.ItemType;
-import me.jwotoole9141.prodsline.items.MoviePlayer;
 import me.jwotoole9141.prodsline.items.Product;
 import me.jwotoole9141.prodsline.items.ProductionRecord;
 
@@ -122,20 +121,8 @@ public class Model {
       stmt.execute();
 
       // return a new product of the appropriate class...
-      switch (type) {
-
-        case AUDIO:
-          return new AudioPlayer(getMaxProdId(), name, manuf);
-
-        case VISUAL:
-          return new MoviePlayer(getMaxProdId(), name, manuf);
-
-        default:
-          break;
-      }
+      return new GenericProduct(getMaxProdId(), name, type, manuf);
     }
-    // shouldn't get here...
-    throw new AssertionError("Unhandled ItemType: '" + type.name() + "'");
   }
 
   /**
@@ -216,17 +203,7 @@ public class Model {
           String manuf = rs.getString("manuf");
 
           // return a new product of the appropriate class...
-          switch (type) {
-
-            case AUDIO:
-              return new AudioPlayer(id, name, manuf);
-
-            case VISUAL:
-              return new MoviePlayer(id, name, manuf);
-
-            default:
-              break;
-          }
+          return new GenericProduct(id, name, type, manuf);
         }
       } catch (IllegalArgumentException ex) {
         return null;
@@ -271,19 +248,7 @@ public class Model {
         String manuf = rs.getString("manuf");
 
         // create a new product of the appropriate class to be returned...
-        switch (type) {
-
-          case AUDIO:
-            products.add(new AudioPlayer(id, name, manuf));
-            break;
-
-          case VISUAL:
-            products.add(new MoviePlayer(id, name, manuf));
-            break;
-
-          default:
-            break;
-        }
+        products.add(new GenericProduct(id, name, type, manuf));
       }
     } catch (SQLException ex) {
       ex.printStackTrace();
