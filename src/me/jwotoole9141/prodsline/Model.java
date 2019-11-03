@@ -110,9 +110,6 @@ public class Model {
       if (type == null) {
         throw new IllegalArgumentException("A product type was not selected.");
       }
-      if (type == ItemType.AUDIO_MOBILE || type == ItemType.VISUAL_MOBILE) {
-        throw new IllegalArgumentException("The chosen item type is not yet supported.");
-      }
       if (manuf == null || manuf.length() < 3) {
         throw new IllegalArgumentException("The Manufacturer name must be at least three chars.");
       }
