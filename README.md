@@ -83,6 +83,10 @@ Jared O'Toole <jwotoole9141@eagle.fgcu.edu>
 - Designing a GUI, using Scene Builder to generate the fxml file
 - Applying a CSS style sheet to a JavaFX application
 - Creating and interacting with a database using JDBC
+- Inserting data to a database
+- Querying data from a database
+- Using Enums
+- Using abstract classes & interfaces with polymorphism
 
 ## Problem Statement
 
