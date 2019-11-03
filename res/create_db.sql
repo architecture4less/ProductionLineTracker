@@ -24,8 +24,8 @@ create table prodsrecord (
     foreign key (prodid) references product (id)
         on delete restrict on update cascade,
 
-    prodsnum  int      not null auto_increment unique,
-    prodid    int      not null,
-    serialnum varchar  not null,
-    date      datetime not null,
+    prodsnum  int       not null auto_increment unique,
+    prodid    int       not null,
+    serialnum varchar   not null,
+    date      timestamp not null,
 );
