@@ -55,7 +55,7 @@ public class Model {
 
     // try to open a database connection...
     try {
-      Class.forName(JDBC_DRIVER);  // make sure h2 driver class exists
+      Class.forName(JDBC_DRIVER);  // make sure the h2 driver class exists
       conn = DriverManager.getConnection(DB_URL);
 
     } catch (Exception ex) {
@@ -114,7 +114,7 @@ public class Model {
         throw new IllegalArgumentException("The Manufacturer name must be at least three chars.");
       }
 
-      // add the given properties to a new row on the product table...
+      // add the given properties to a new row on the PRODUCT table...
       stmt.setString(1, name);
       stmt.setString(2, type.getCode());
       stmt.setString(3, manuf);
@@ -138,7 +138,7 @@ public class Model {
    * @throws SQLException             the database could not perform the operation
    * @throws IllegalArgumentException 'prod' is null or 'qnty' is null or less than one
    */
-  static ProductionRecord[] recordProduction(Product prod, Integer qnty)
+  public static ProductionRecord[] recordProduction(Product prod, Integer qnty)
       throws SQLException, IllegalArgumentException {
 
     try (PreparedStatement stmt = conn.prepareStatement(
@@ -164,7 +164,7 @@ public class Model {
             prod.getManuf(), prod.getType(), prodsCount++
         );
 
-        // add the given properties to a new row on the records table...
+        // add the given properties to a new row on the PRODSRECORD table...
         stmt.setInt(1, prod.getId());
         stmt.setString(2, serialNum);
         stmt.setDate(3, curDate);
@@ -347,7 +347,7 @@ public class Model {
    * @param prodId the product's id
    * @return the number of production records that exist for this product if it exists, else zero
    */
-  private static int getProdsCount(int prodId) {
+  public static int getProdsCount(int prodId) {
 
     try (PreparedStatement stmt = conn.prepareStatement(
         "SELECT COUNT(*) AS prodscount FROM prodsrecord WHERE (prodid = ?)"

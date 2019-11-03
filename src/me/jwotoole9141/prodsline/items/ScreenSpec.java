@@ -10,7 +10,7 @@ Defines the ScreenSpec interface.
 package me.jwotoole9141.prodsline.items;
 
 /**
- * An interface for accessing a screen resolution, refresh rate, and response time.
+ * An interface for accessing a screen's specification properties.
  *
  * @author Jared O'Toole
  */

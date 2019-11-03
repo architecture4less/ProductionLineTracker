@@ -29,9 +29,9 @@ Defines the JavaFX layout of the GUI window.
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane prefHeight="450.0" prefWidth="350.0" stylesheets="@stylesheet.css" tabClosingPolicy="UNAVAILABLE"
-  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="me.jwotoole9141.prodsline.Controller">
+<TabPane prefHeight="450.0" prefWidth="350.0" stylesheets="@stylesheet.css"
+  tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.171"
+  xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.jwotoole9141.prodsline.Controller">
   <Tab text="Production Line">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
       <VBox layoutX="607.0" layoutY="29.0" prefHeight="180.0" prefWidth="800.0"
@@ -80,10 +80,14 @@ Defines the JavaFX layout of the GUI window.
         </Label>
         <TableView fx:id="tblProducts">
           <columns>
-            <TableColumn fx:id="colProductsId" prefWidth="75.0" text="Id"/>
-            <TableColumn fx:id="colProductsName" prefWidth="75.0" text="Name"/>
-            <TableColumn fx:id="colProductsType" prefWidth="75.0" text="Type"/>
-            <TableColumn fx:id="colProductsManuf" prefWidth="75.0" text="Manufacturer"/>
+            <TableColumn fx:id="colProductsId" prefWidth="50.0"
+              text="Id"/>
+            <TableColumn fx:id="colProductsName" prefWidth="100.0"
+              text="Name"/>
+            <TableColumn fx:id="colProductsType" prefWidth="75.0"
+              text="Type"/>
+            <TableColumn fx:id="colProductsManuf"
+              prefWidth="100.0" text="Manufacturer"/>
           </columns>
         </TableView>
       </VBox>

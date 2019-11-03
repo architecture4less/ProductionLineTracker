@@ -19,17 +19,17 @@ public class Screen implements ScreenSpec {
   /**
    * The screen's resolution in WxH format.
    */
-  private String resolution;
+  private final String resolution;
 
   /**
    * The screen's refresh rate in milliseconds.
    */
-  private int refreshrate;
+  private final int refreshrate;
 
   /**
    * The screen's response time in milliseconds.
    */
-  private int responsetime;
+  private final int responsetime;
 
   /**
    * Create a screen with the given resolution, refresh rate, and response time.
@@ -50,6 +50,7 @@ public class Screen implements ScreenSpec {
    */
   @Override
   public String getResolution() {
+
     return resolution;
   }
 
@@ -58,6 +59,7 @@ public class Screen implements ScreenSpec {
    */
   @Override
   public int getRefreshRate() {
+
     return refreshrate;
   }
 
@@ -66,6 +68,7 @@ public class Screen implements ScreenSpec {
    */
   @Override
   public int getResponseTime() {
+
     return responsetime;
   }
 
@@ -79,7 +82,7 @@ public class Screen implements ScreenSpec {
 
     return String.format(
         "Resolution: %s%nRefresh rate: %s%nResponse time: %s",
-        resolution, refreshrate, responsetime
+        getResolution(), getRefreshRate(), getResponseTime()
     );
   }
 }

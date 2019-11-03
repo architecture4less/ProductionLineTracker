@@ -24,38 +24,52 @@ public enum ItemType {
   /**
    * The display name.
    */
-  private String display;
+  private final String display;
 
   /**
-   * The database code name.
+   * The two letter database code.
    */
-  private String code;
+  private final String code;
 
+  /**
+   * Construct an item type.
+   *
+   * @param display the display name
+   * @param code    the two letter database code
+   */
   ItemType(String display, String code) {
+
     this.display = display;
     this.code = code;
   }
 
   /**
-   * Get the type's database code name.
+   * Get the item type's database code name.
    *
    * @return the database code name
    */
   public String getCode() {
+
     return code;
   }
 
+  /**
+   * Get the display name for this item type.
+   *
+   * @return the display name
+   */
   @Override
   public String toString() {
+
     return display;
   }
 
   /**
-   * Get the ItemType with the specified display name.
+   * Get the item type with the specified code.
    *
-   * @param code the display name of the ItemType
-   * @return the ItemType object
-   * @throws IllegalArgumentException no ItemType with the specified display name
+   * @param code a two letter code
+   * @return the item type with the specified code
+   * @throws IllegalArgumentException no item type with the specified code exists
    */
   public static ItemType getFromCode(String code) throws IllegalArgumentException {
 

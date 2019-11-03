@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -36,6 +37,8 @@ import me.jwotoole9141.prodsline.items.ProductionRecord;
  * @author Jared O'Toole
  */
 public class Controller {
+  // NOTE: IntelliJ says declaration access can be weaker,
+  // but it is required to be public for FXML.
 
   /**
    * The 'new product name' field.
@@ -55,11 +58,11 @@ public class Controller {
   @FXML
   private ChoiceBox<ItemType> chbNewProdType;
 
-  // /**
-  //  * The 'add product' button.
-  //  */
-  // @FXML
-  // private Button btnAddProd;
+  /**
+   * The 'add product' button.
+   */
+  @FXML
+  private Button btnAddProd;
 
   /**
    * The 'add product' button message label.
@@ -107,15 +110,15 @@ public class Controller {
    * The 'production quantity' combo box.
    */
   @FXML
+  private ComboBox<String> cboProdQnty;
   // NOTE: the javaFX combo box would return a string
   // for getValue() even when its type was integer.
-  private ComboBox<String> cboProdQnty;
 
-  // /**
-  //  * The 'produce' button.
-  //  */
-  // @FXML
-  // private Button btnProduce;
+  /**
+   * The 'produce' button.
+   */
+  @FXML
+  private Button btnProduce;
 
   /**
    * The 'produce' button message label.
@@ -138,22 +141,22 @@ public class Controller {
     Model.productLine.clear();
     Model.productLine.addAll(Model.getProducts());
 
-    refreshChbNewProdType();
-    refreshTblProducts();
+    initChbNewProdType();
+    initTblProducts();
 
-    refreshLstProdOpts();
-    refreshCboProdQnty();
+    initLstProdOpts();
+    initCboProdQnty();
 
-    refreshTxtProdsLog(Model.getProdsRecords());
+    initTxtProdsLog(Model.getProdsRecords());
 
     lblProduceMsg.setText("");
     lblAddProdMsg.setText("");
   }
 
   /**
-   * Refresh the 'new product type' choice box data.
+   * Initialize the 'new product type' choice box data.
    */
-  private void refreshChbNewProdType() {
+  private void initChbNewProdType() {
 
     chbNewProdType.getItems().clear();
 
@@ -164,10 +167,10 @@ public class Controller {
   }
 
   /**
-   * Refresh the 'products' table data.
+   * Initialize the 'products' table data.
    */
   // NOTE: this method may be AKA 'setupProductLineTable'
-  private void refreshTblProducts() {
+  private void initTblProducts() {
 
     tblProducts.setItems(Model.productLine);
 
@@ -178,17 +181,17 @@ public class Controller {
   }
 
   /**
-   * Refresh the 'production options' list data.
+   * Initialize the 'production options' list data.
    */
-  private void refreshLstProdOpts() {
+  private void initLstProdOpts() {
 
     lstProdOpts.setItems(Model.productLine);
   }
 
   /**
-   * Refresh the 'production quantity' combo box data.
+   * Initialize the 'production quantity' combo box data.
    */
-  private void refreshCboProdQnty() {
+  private void initCboProdQnty() {
 
     cboProdQnty.getItems().clear();
 
@@ -200,11 +203,11 @@ public class Controller {
   }
 
   /**
-   * Refresh the 'production log' text area data.
+   * Initialize the 'production log' text area data.
    *
    * @param records the production records to display
    */
-  private void refreshTxtProdsLog(List<ProductionRecord> records) {
+  private void initTxtProdsLog(List<ProductionRecord> records) {
 
     txtProdsLog.setText(records.stream()
         .map(ProductionRecord::toString)
@@ -219,12 +222,13 @@ public class Controller {
   @FXML
   public void btnAddProdAction(ActionEvent event) {
 
+    System.out.println(btnAddProd.toString() + " was pressed!");
     event.consume();
 
     // create a new product using form info...
-    ItemType type = chbNewProdType.getValue();
-    String manuf = fldNewProdManuf.getText().trim();
     String name = fldNewProdName.getText().trim();
+    String manuf = fldNewProdManuf.getText().trim();
+    ItemType type = chbNewProdType.getValue();
 
     try {
       Product newProd = Model.addProduct(name, type, manuf);
@@ -244,7 +248,7 @@ public class Controller {
 
       // set the 'add prod' message label to failure...
       lblAddProdMsg.setTextFill(Color.web("red"));
-      lblAddProdMsg.setText("Couldn't add new product: " + ex.getMessage());
+      lblAddProdMsg.setText("Couldn't add product: " + ex.getMessage());
     }
   }
 
@@ -256,6 +260,7 @@ public class Controller {
   @FXML
   public void btnProduceAction(ActionEvent event) {
 
+    System.out.println(btnProduce.toString() + " was pressed!");
     event.consume();
 
     // create a production record using form info...
@@ -267,6 +272,7 @@ public class Controller {
     } catch (NumberFormatException ex) {
       qnty = null;
     }
+
     try {
       ProductionRecord[] records = Model.recordProduction(prod, qnty);
 
@@ -290,7 +296,7 @@ public class Controller {
 
       // set the 'produce' message label to failure...
       lblProduceMsg.setTextFill(Color.web("red"));
-      lblProduceMsg.setText("Couldn't do production: " + ex.getMessage());
+      lblProduceMsg.setText("Couldn't produce: " + ex.getMessage());
     }
   }
 }

@@ -15,5 +15,6 @@ package me.jwotoole9141.prodsline.items;
  * @author Jared O'Toole
  */
 public enum MonitorType {
+
   LCD, LED
 }
