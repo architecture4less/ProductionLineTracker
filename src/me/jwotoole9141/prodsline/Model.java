@@ -31,8 +31,6 @@ import me.jwotoole9141.prodsline.items.ProductionRecord;
  */
 public class Model {
 
-  static final ObservableList<Product> productLine = FXCollections.observableArrayList();
-
   /**
    * The JDBC driver class to use.
    */
@@ -47,6 +45,11 @@ public class Model {
    * The database connection.
    */
   private static Connection conn;
+
+  /**
+   * The list of products used in the GUI.
+   */
+  static final ObservableList<Product> productLine = FXCollections.observableArrayList();
 
   /**
    * Open a connection to the database.
