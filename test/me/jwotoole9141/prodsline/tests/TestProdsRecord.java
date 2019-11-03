@@ -18,7 +18,7 @@ import me.jwotoole9141.prodsline.Model;
 import me.jwotoole9141.prodsline.items.Product;
 import me.jwotoole9141.prodsline.items.ProductionRecord;
 
-public class TestProdsRecord {
+class TestProdsRecord {
 
   public static void main(String[] args) {
 

@@ -14,6 +14,10 @@ import me.jwotoole9141.prodsline.items.Product;
 
 class Widget extends Product {
 
+  Widget(String name, ItemType type, String manuf) {
+    super(name, type, manuf);
+  }
+
   Widget(int id, String name, ItemType type, String manuf) {
     super(id, name, type, manuf);
   }

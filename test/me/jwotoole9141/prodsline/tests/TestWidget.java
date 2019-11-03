@@ -13,20 +13,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import me.jwotoole9141.prodsline.Model;
+import me.jwotoole9141.prodsline.items.GenericProduct;
 import me.jwotoole9141.prodsline.items.ItemType;
+import me.jwotoole9141.prodsline.items.Product;
 
-public class TestWidget {
+class TestWidget {
 
   public static void main(String[] args) {
 
-    List<Widget> productLine = new ArrayList<>();
+    List<Product> productLine = new ArrayList<>();
 
     productLine.add(new Widget(-1, "Thingamajig", ItemType.VISUAL, "ACME"));
+    productLine.add(new Widget(7, "Creative Name (TM)", ItemType.VISUAL_MOBILE, "MEGACORP"));
+    productLine.add(new Widget("Thingamajig MK II", ItemType.VISUAL, "ACME"));
+    productLine.add(new Widget("Creative Name II (TM)", ItemType.AUDIO, "MEGACORP"));
+    productLine.add(new GenericProduct("neat thing", ItemType.AUDIO_MOBILE, "ACME"));
 
     Model.open();
 
     try {
-      Widget widget = productLine.get(0);
+      Product widget = productLine.get(0);
+      if (widget instanceof Widget) {
+        widget.setManuf("A.C.M.E.");
+      }
+
       Model.addProduct(widget.getName(), widget.getType(), widget.getManuf());
 
     } catch (SQLException e) {
