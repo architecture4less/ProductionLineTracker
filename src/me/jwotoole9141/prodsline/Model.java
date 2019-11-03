@@ -10,11 +10,11 @@ Defines the Model class.
 package me.jwotoole9141.prodsline;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -132,6 +132,10 @@ public class Model {
    * Production records are added to the PRODSRECORD table.
    * </p>
    *
+   * <p>
+   * The current system time is used for the production date.
+   * </p>
+   *
    * @param prod the product being produced
    * @param qnty the quantity being produced
    * @return an array of production records created
@@ -155,7 +159,7 @@ public class Model {
 
       ProductionRecord[] records = new ProductionRecord[qnty];
       int prodsCount = getProdsCount(prod.getId()) + 1;
-      Date curDate = new Date(System.currentTimeMillis());
+      Timestamp curDate = new Timestamp(System.currentTimeMillis());
 
       // iterate over the range of the given quantity...
       for (int i = 0; i < qnty; i++) {
@@ -167,7 +171,7 @@ public class Model {
         // add the given properties to a new row on the PRODSRECORD table...
         stmt.setInt(1, prod.getId());
         stmt.setString(2, serialNum);
-        stmt.setDate(3, curDate);
+        stmt.setTimestamp(3, curDate);
         stmt.execute();
 
         // create a new record object to be returned...
@@ -277,7 +281,7 @@ public class Model {
         int prodsNum = rs.getInt("prodsnum");
         int prodId = rs.getInt("prodid");
         String serialNum = rs.getString("serialnum");
-        Date date = rs.getDate("date");
+        Timestamp date = rs.getTimestamp("date");
 
         // create a new prods record to be returned...
         records.add(new ProductionRecord(prodsNum, prodId, serialNum, date));
