@@ -9,6 +9,10 @@ Defines the Model class.
 
 package me.jwotoole9141.prodsline;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,6 +21,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import me.jwotoole9141.prodsline.items.GenericProduct;
@@ -47,6 +55,16 @@ public class Model {
   private static Connection conn;
 
   /**
+   * The prefix pattern of the properties file username.
+   */
+  private static final Pattern userPattern = Pattern.compile("^user=\\w+$", Pattern.MULTILINE);
+
+  /**
+   * The prefix pattern of the properties file password.
+   */
+  private static final Pattern passPattern = Pattern.compile("^pass=\\w+$", Pattern.MULTILINE);
+
+  /**
    * The list of products used in the GUI.
    */
   static final ObservableList<Product> productLine = FXCollections.observableArrayList();
@@ -56,10 +74,32 @@ public class Model {
    */
   public static void open() {
 
+    // get username and password from properties file...
+
+    String fileData = "";
+    try (FileReader fr = new FileReader(new File("./res/properties.txt"))) {
+
+      try (BufferedReader br = new BufferedReader(fr)) {
+
+        fileData = br.lines().collect(Collectors.joining("\n"));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    Properties props = new Properties();
+
+    Matcher userMatcher = userPattern.matcher(fileData);
+    Matcher passMatcher = passPattern.matcher(fileData);
+
+    props.setProperty("user", userMatcher.find() ? userMatcher.group() : "");
+    props.setProperty("pass", passMatcher.find() ? passMatcher.group() : "");
+
     // try to open a database connection...
+
     try {
       Class.forName(JDBC_DRIVER);  // make sure the h2 driver class exists
-      conn = DriverManager.getConnection(DB_URL);
+      conn = DriverManager.getConnection(DB_URL, props);
 
     } catch (Exception ex) {
       ex.printStackTrace();
