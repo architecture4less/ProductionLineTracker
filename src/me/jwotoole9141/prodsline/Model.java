@@ -10,9 +10,10 @@ Defines the Model class.
 package me.jwotoole9141.prodsline;
 
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -40,6 +41,16 @@ import me.jwotoole9141.prodsline.items.ProductionRecord;
 public class Model {
 
   /**
+   * The list of products used in the GUI.
+   */
+  static final ObservableList<Product> productLine = FXCollections.observableArrayList();
+
+  /**
+   * The database connection.
+   */
+  private static Connection conn;
+
+  /**
    * The JDBC driver class to use.
    */
   private static final String JDBC_DRIVER = "org.h2.Driver";
@@ -50,42 +61,51 @@ public class Model {
   private static final String DB_URL = "jdbc:h2:./res/database";
 
   /**
-   * The database connection.
+   * The name of the database properties file.
    */
-  private static Connection conn;
+  private static final String PROPS_FILE = "properties.txt";
 
   /**
-   * The prefix pattern of the properties file username.
+   * The pattern of the properties file username prefix.
    */
   private static final Pattern userPattern = Pattern.compile("^user=\\w+$", Pattern.MULTILINE);
 
   /**
-   * The prefix pattern of the properties file password.
+   * The pattern of the properties file password prefix.
    */
   private static final Pattern passPattern = Pattern.compile("^pass=\\w+$", Pattern.MULTILINE);
-
-  /**
-   * The list of products used in the GUI.
-   */
-  static final ObservableList<Product> productLine = FXCollections.observableArrayList();
 
   /**
    * Open a connection to the database.
    */
   public static void open() {
 
-    // get username and password from properties file...
+    if (conn != null) {
+      close();
+    }
+
+    // get the database properties file...
 
     String fileData = "";
-    try (FileReader fr = new FileReader(new File("./res/properties.txt"))) {
 
-      try (BufferedReader br = new BufferedReader(fr)) {
+    try {
+      URL url = Model.class.getClassLoader().getResource(PROPS_FILE);
+      if (url == null) {
+        throw new FileNotFoundException(String.format(
+            "The resource '%s' was not found.", PROPS_FILE
+        ));
+      }
+      try (FileReader fr = new FileReader(url.getFile())) {
+        try (BufferedReader br = new BufferedReader(fr)) {
 
-        fileData = br.lines().collect(Collectors.joining("\n"));
+          fileData = br.lines().collect(Collectors.joining("\n"));
+        }
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    // get username and password from file...
 
     Properties props = new Properties();
 
@@ -95,14 +115,20 @@ public class Model {
     props.setProperty("user", userMatcher.find() ? userMatcher.group() : "");
     props.setProperty("pass", passMatcher.find() ? passMatcher.group() : "");
 
+    // make sure the h2 driver class exists
+
+    try {
+      Class.forName(JDBC_DRIVER);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+
     // try to open a database connection...
 
     try {
-      Class.forName(JDBC_DRIVER);  // make sure the h2 driver class exists
       conn = DriverManager.getConnection(DB_URL, props);
-
-    } catch (Exception ex) {
-      ex.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 
@@ -118,6 +144,7 @@ public class Model {
       } catch (SQLException ex) {
         ex.printStackTrace();
       }
+      conn = null;
     }
   }
 
@@ -138,6 +165,8 @@ public class Model {
    */
   public static Product addProduct(String name, ItemType type, String manuf)
       throws SQLException, IllegalArgumentException {
+
+    requireConnection();
 
     try (PreparedStatement stmt = conn.prepareStatement(
         "INSERT INTO product (name, type, manuf) VALUES (?, ?, ?);"
@@ -185,6 +214,8 @@ public class Model {
   public static ProductionRecord[] recordProduction(Product prod, Integer qnty)
       throws SQLException, IllegalArgumentException {
 
+    requireConnection();
+
     try (PreparedStatement stmt = conn.prepareStatement(
         "INSERT INTO prodsrecord (prodid, serialnum, date) VALUES (?, ?, ?);"
     )) {
@@ -231,6 +262,8 @@ public class Model {
    */
   public static Product getProduct(int id) {
 
+    requireConnection();
+
     try (PreparedStatement stmt = conn.prepareStatement(
         "SELECT * FROM product WHERE id = ?"
     )) {
@@ -268,6 +301,8 @@ public class Model {
    * @return a list of valid products
    */
   static List<Product> getProducts() {
+
+    requireConnection();
 
     List<Product> products = new ArrayList<>();
 
@@ -307,6 +342,8 @@ public class Model {
    */
   static List<ProductionRecord> getProdsRecords() {
 
+    requireConnection();
+
     List<ProductionRecord> records = new ArrayList<>();
 
     try (
@@ -344,6 +381,8 @@ public class Model {
    */
   private static int getMaxProdId() {
 
+    requireConnection();
+
     try (
         PreparedStatement stmt = conn.prepareStatement(
             "SELECT MAX(id) AS id FROM product");
@@ -370,6 +409,8 @@ public class Model {
    */
   private static int getMaxProdsNum() {
 
+    requireConnection();
+
     try (
         PreparedStatement stmt = conn.prepareStatement(
             "SELECT MAX(prodsnum) AS prodsnum FROM prodsrecord");
@@ -392,6 +433,8 @@ public class Model {
    * @return the number of production records that exist for this product if it exists, else zero
    */
   public static int getProdsCount(int prodId) {
+
+    requireConnection();
 
     try (PreparedStatement stmt = conn.prepareStatement(
         "SELECT COUNT(*) AS prodscount FROM prodsrecord WHERE (prodid = ?)"
