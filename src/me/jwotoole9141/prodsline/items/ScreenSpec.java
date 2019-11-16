@@ -17,21 +17,21 @@ package me.jwotoole9141.prodsline.items;
 public interface ScreenSpec {
 
   /**
-   * Get the screen's resolution in WxH format.
+   * Gets the screen's resolution in WxH format.
    *
    * @return the resolution
    */
   String getResolution();
 
   /**
-   * Get the screen's refresh rate in milliseconds.
+   * Gets the screen's refresh rate in milliseconds.
    *
    * @return the refresh rate
    */
   int getRefreshRate();
 
   /**
-   * Get the screen's response time in milliseconds.
+   * Gets the screen's response time in milliseconds.
    *
    * @return the response time
    */

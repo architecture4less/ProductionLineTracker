@@ -133,7 +133,7 @@ public class Controller {
   private TextArea txtProdsLog;
 
   /**
-   * Initialize the GUI with additional data.
+   * Initializes the GUI with additional data.
    */
   @FXML
   public void initialize() {
@@ -154,7 +154,7 @@ public class Controller {
   }
 
   /**
-   * Initialize the 'new product type' choice box data.
+   * Initializes the 'new product type' choice box data.
    */
   private void initChbNewProdType() {
 
@@ -167,7 +167,7 @@ public class Controller {
   }
 
   /**
-   * Initialize the 'products' table data.
+   * Initializes the 'products' table data.
    */
   // NOTE: this method may be AKA 'setupProductLineTable'
   private void initTblProducts() {
@@ -181,7 +181,7 @@ public class Controller {
   }
 
   /**
-   * Initialize the 'production options' list data.
+   * Initializes the 'production options' list data.
    */
   private void initLstProdOpts() {
 
@@ -189,7 +189,7 @@ public class Controller {
   }
 
   /**
-   * Initialize the 'production quantity' combo box data.
+   * Initializes the 'production quantity' combo box data.
    */
   private void initCboProdQnty() {
 
@@ -203,7 +203,7 @@ public class Controller {
   }
 
   /**
-   * Initialize the 'production log' text area data.
+   * Initializes the 'production log' text area data.
    *
    * @param records the production records to display
    */
@@ -215,7 +215,7 @@ public class Controller {
   }
 
   /**
-   * Handle the 'add product' button being pressed.
+   * Handles the 'add product' button being pressed.
    *
    * @param event the action performed
    */
@@ -253,7 +253,7 @@ public class Controller {
   }
 
   /**
-   * Handle the 'produce' button being pressed.
+   * Handles the 'produce' button being pressed.
    *
    * @param event the action performed.
    */

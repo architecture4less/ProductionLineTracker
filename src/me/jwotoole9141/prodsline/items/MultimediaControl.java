@@ -17,22 +17,22 @@ package me.jwotoole9141.prodsline.items;
 public interface MultimediaControl {
 
   /**
-   * Simulate pressing the 'play' button.
+   * Simulates pressing the 'play' button.
    */
   void play();
 
   /**
-   * Simulate pressing the 'stop' button.
+   * Simulates pressing the 'stop' button.
    */
   void stop();
 
   /**
-   * Simulate pressing the 'previous' button.
+   * Simulates pressing the 'previous' button.
    */
   void previous();
 
   /**
-   * Simulate pressing the 'next' button.
+   * Simulates pressing the 'next' button.
    */
   void next();
 }

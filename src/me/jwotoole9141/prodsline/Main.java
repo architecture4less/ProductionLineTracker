@@ -16,14 +16,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Main class of the Production Line Tracker application.
+ * The Main class of the Production Line Tracker application.
  *
  * @author Jared O'Toole
  */
 public class Main extends Application {
 
   /**
-   * Launch the application.
+   * Launches the application.
    *
    * @param args command-line arguments
    */

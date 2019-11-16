@@ -34,7 +34,7 @@ import me.jwotoole9141.prodsline.items.Product;
 import me.jwotoole9141.prodsline.items.ProductionRecord;
 
 /**
- * Facilitates interaction with the application's database.
+ * Facilitates interaction with the application's data.
  *
  * @author Jared O'Toole
  */
@@ -67,21 +67,21 @@ public class Model {
   private static final String PROPS_FILE = "properties.txt";
 
   /**
-   * The pattern of the properties file username prefix.
+   * The pattern to match the database username in the properties file.
    */
   private static final Pattern userPattern =
       Pattern.compile("(?<=^user=).*(?=$)", Pattern.MULTILINE);
 
   /**
-   * The pattern of the properties file password prefix.
+   * The pattern to match the database password in the properties file.
    */
   private static final Pattern passPattern =
       Pattern.compile("(?<=^pswd=).*(?=$)", Pattern.MULTILINE);
 
   /**
-   * Fetches the properties defined in the roperties file.
+   * Fetches the properties defined in the properties file.
    *
-   * @return properties such as user and pswd
+   * @return properties such as user and password
    */
   private static Properties getProperties() {
 
@@ -113,7 +113,7 @@ public class Model {
   }
 
   /**
-   * Open a connection to the database.
+   * Opens a connection to the database.
    */
   public static void open() {
 
@@ -137,7 +137,7 @@ public class Model {
   }
 
   /**
-   * Close the database connection.
+   * Closes the database connection.
    */
   public static void close() {
 
@@ -153,7 +153,7 @@ public class Model {
   }
 
   /**
-   * Test the database connection.
+   * Tests the database connection.
    *
    * @return true if the database is open and valid, else false
    */
@@ -172,7 +172,7 @@ public class Model {
   }
 
   /**
-   * Require that isOpen() returns true.
+   * Requires that isOpen() returns true.
    *
    * @throws IllegalStateException there is no connection to the database
    */
@@ -185,7 +185,7 @@ public class Model {
   }
 
   /**
-   * Add a new product to the database.
+   * Adds a new product to the database.
    *
    * <p>
    * Products are added to the PRODUCT table.
@@ -232,7 +232,7 @@ public class Model {
   }
 
   /**
-   * Record the production of a product to the database.
+   * Records the production of a product to the database.
    *
    * <p>
    * Production records are added to the PRODSRECORD table.
@@ -293,7 +293,7 @@ public class Model {
   }
 
   /**
-   * Get a product from the database with the specified id.
+   * Gets a product from the database with the specified id.
    *
    * @param id the product id number.
    * @return the product, if it exists, else null
@@ -331,7 +331,7 @@ public class Model {
   }
 
   /**
-   * Get a list of all products in the database.
+   * Gets a list of all products in the database.
    *
    * <p>
    * A product will not be returned if its row in the database contains an invalid property.
@@ -376,7 +376,7 @@ public class Model {
   }
 
   /**
-   * Get a list of all production records in the database.
+   * Gets a list of all production records in the database.
    *
    * @return a list of valid production records
    * @throws IllegalStateException there is no connection to the database
@@ -412,7 +412,7 @@ public class Model {
   }
 
   /**
-   * Get the maximum product id present in the database's PRODUCT table.
+   * Gets the maximum product id present in the database's PRODUCT table.
    *
    * <p>
    * This represents the most recently added product.
@@ -441,7 +441,7 @@ public class Model {
   }
 
   /**
-   * Get the maximum production number present in the database's PRODSRECORD table.
+   * Gets the maximum production number present in the database's PRODSRECORD table.
    *
    * <p>
    * This represents the most recently added production record.
@@ -470,7 +470,7 @@ public class Model {
   }
 
   /**
-   * Get the production count for a specified product.
+   * Gets the production count for a specified product.
    *
    * @param prodId the product's id
    * @return the number of production records that exist for this product if it exists, else zero
@@ -498,7 +498,7 @@ public class Model {
   }
 
   /**
-   * Generate a serial number using the given properties.
+   * Generates a serial number using the given properties.
    *
    * <p>
    * The serial number is composed of the first three letters of the manufacturer's name, followed

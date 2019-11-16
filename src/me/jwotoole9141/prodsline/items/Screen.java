@@ -32,7 +32,7 @@ public class Screen implements ScreenSpec {
   private final int responsetime;
 
   /**
-   * Create a screen with the given resolution, refresh rate, and response time.
+   * Creates a screen with the given resolution, refresh rate, and response time.
    *
    * @param resolution   the resolution in WxH format
    * @param refreshRate  the refresh rate in milliseconds
@@ -73,7 +73,7 @@ public class Screen implements ScreenSpec {
   }
 
   /**
-   * Get a description string for this screen.
+   * Gets a description string for this screen.
    *
    * @return a multi-line description
    */

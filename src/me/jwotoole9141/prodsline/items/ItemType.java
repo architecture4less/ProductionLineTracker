@@ -32,7 +32,7 @@ public enum ItemType {
   private final String code;
 
   /**
-   * Construct an item type.
+   * Constructs an item type.
    *
    * @param display the display name
    * @param code    the two letter database code
@@ -44,7 +44,7 @@ public enum ItemType {
   }
 
   /**
-   * Get the item type's database code name.
+   * Gets the item type's database code name.
    *
    * @return the database code name
    */
@@ -54,7 +54,7 @@ public enum ItemType {
   }
 
   /**
-   * Get the display name for this item type.
+   * Gets the display name for this item type.
    *
    * @return the display name
    */
@@ -65,7 +65,7 @@ public enum ItemType {
   }
 
   /**
-   * Get the item type with the specified code.
+   * Gets the item type with the specified code.
    *
    * @param code a two letter code
    * @return the item type with the specified code
