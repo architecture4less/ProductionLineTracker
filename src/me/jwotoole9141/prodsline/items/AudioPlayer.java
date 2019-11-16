@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Tue, Oct 8th, 2019
-PROJ: ProductionLineTracker
-FILE: AudioPlayer.java
-
-Defines the AudioPlayer class.
+ * AUTH: Jared O'Toole
+ * DATE: Tue, Oct 8th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: AudioPlayer.java
+ *
+ * Defines the AudioPlayer class.
  */
 
 package me.jwotoole9141.prodsline.items;

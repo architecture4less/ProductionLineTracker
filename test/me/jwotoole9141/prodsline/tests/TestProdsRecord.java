@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Sat, Nov 2nd, 2019
-PROJ: ProductionLineTracker
-FILE: TestProdsRecord.java
-
-Defines the production record test driver class.
+ * AUTH: Jared O'Toole
+ * DATE: Sat, Nov 2nd, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: TestProdsRecord.java
+ *
+ * Defines the production record test driver class.
  */
 
 package me.jwotoole9141.prodsline.tests;

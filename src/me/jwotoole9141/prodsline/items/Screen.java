@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Thu, Oct 10th, 2019
-PROJ: ProductionLineTracker
-FILE: Screen.java
-
-Defines the Screen class.
+ * AUTH: Jared O'Toole
+ * DATE: Thu, Oct 10th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: Screen.java
+ *
+ * Defines the Screen class.
  */
 
 package me.jwotoole9141.prodsline.items;

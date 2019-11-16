@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Sat, Sep 28th, 2019
-PROJ: ProductionLineTracker
-FILE: Product.java
-
-Defines the Product abstract class.
+ * AUTH: Jared O'Toole
+ * DATE: Sat, Sep 28th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: Product.java
+ *
+ * Defines the Product abstract class.
  */
 
 package me.jwotoole9141.prodsline.items;

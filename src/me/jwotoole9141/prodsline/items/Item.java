@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Fri, Sep 27th, 2019
-PROJ: ProductionLineTracker
-FILE: Item.java
-
-Defines the Item interface.
+ * AUTH: Jared O'Toole
+ * DATE: Fri, Sep 27th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: Item.java
+ *
+ * Defines the Item interface.
  */
 
 package me.jwotoole9141.prodsline.items;

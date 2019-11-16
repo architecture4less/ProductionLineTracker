@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Wed Oct 16th 2019
-PROJ: ProductionLineTracker
-FILE: ProductionRecord.java
-
-Defines the ProductionRecord class.
+ * AUTH: Jared O'Toole
+ * DATE: Wed Oct 16th 2019
+ * PROJ: ProductionLineTracker
+ * FILE: ProductionRecord.java
+ *
+ * Defines the ProductionRecord class.
  */
 
 package me.jwotoole9141.prodsline.items;

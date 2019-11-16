@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Wed, Sep 11th, 2019
-PROJ: ProductionLineTracker
-FILE: Main.java
-
-Defines the Main class.
+ * AUTH: Jared O'Toole
+ * DATE: Wed, Sep 11th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: Main.java
+ *
+ * Defines the Main class.
  */
 
 package me.jwotoole9141.prodsline;
@@ -16,7 +16,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * The main class of the Production Line Tracker application.
+ * Main class of the Production Line Tracker application.
  *
  * @author Jared O'Toole
  */

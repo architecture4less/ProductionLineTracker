@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Sat, Sep 21th, 2019
-PROJ: ProductionLineTracker
-FILE: Model.java
-
-Defines the Model class.
+ * AUTH: Jared O'Toole
+ * DATE: Sat, Sep 21th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: Model.java
+ *
+ * Defines the Model class.
  */
 
 package me.jwotoole9141.prodsline;

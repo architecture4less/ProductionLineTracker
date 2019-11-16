@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Thu, Oct 10th, 2019
-PROJ: ProductionLineTracker
-FILE: MoviePlayer.java
-
-Defines the MoviePlayer class.
+ * AUTH: Jared O'Toole
+ * DATE: Thu, Oct 10th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: MoviePlayer.java
+ *
+ * Defines the MoviePlayer class.
  */
 
 package me.jwotoole9141.prodsline.items;

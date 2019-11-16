@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Thu, Oct 10th, 2019
-PROJ: ProductionLineTracker
-FILE: MonitorType.java
-
-Defines the MonitorType enum.
+ * AUTH: Jared O'Toole
+ * DATE: Thu, Oct 10th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: MonitorType.java
+ *
+ * Defines the MonitorType enum.
  */
 
 package me.jwotoole9141.prodsline.items;

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-AUTH: Jared O'Toole
-DATE: Wed, Sep 11th, 2019
-PROJ: ProductionLineTracker
-FILE: prodsline_gui.fxml
+  AUTH: Jared O'Toole
+  DATE: Wed, Sep 11th, 2019
+  PROJ: ProductionLineTracker
+  FILE: prodsline_gui.fxml
 
-Defines the JavaFX layout of the GUI window.
+  Defines the JavaFX layout of the GUI window.
  -->
 
 <?import javafx.geometry.Insets?>

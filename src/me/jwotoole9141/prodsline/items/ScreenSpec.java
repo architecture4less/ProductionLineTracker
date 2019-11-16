@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Thu, Oct 10th, 2019
-PROJ: ProductionLineTracker
-FILE: ScreenSpec.java
-
-Defines the ScreenSpec interface.
+ * AUTH: Jared O'Toole
+ * DATE: Thu, Oct 10th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: ScreenSpec.java
+ *
+ * Defines the ScreenSpec interface.
  */
 
 package me.jwotoole9141.prodsline.items;

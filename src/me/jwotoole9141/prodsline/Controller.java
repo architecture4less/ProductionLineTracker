@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Wed, Sep 11th, 2019
-PROJ: ProductionLineTracker
-FILE: Controller.java
-
-Defines the controller class.
+ * AUTH: Jared O'Toole
+ * DATE: Wed, Sep 11th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: Controller.java
+ *
+ * Defines the controller class.
  */
 
 package me.jwotoole9141.prodsline;

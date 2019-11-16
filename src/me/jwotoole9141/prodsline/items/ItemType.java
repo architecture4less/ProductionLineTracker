@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Wed, Sep 25th, 2019
-PROJ: ProductionLineTracker
-FILE: ItemType.java
-
-Defines the ItemType enum.
+ * AUTH: Jared O'Toole
+ * DATE: Wed, Sep 25th, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: ItemType.java
+ *
+ * Defines the ItemType enum.
  */
 
 package me.jwotoole9141.prodsline.items;

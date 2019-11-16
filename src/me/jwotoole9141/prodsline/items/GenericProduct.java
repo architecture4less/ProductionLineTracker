@@ -1,10 +1,10 @@
 /*
-AUTH: Jared O'Toole
-DATE: Sat, Nov 2nd, 2019
-PROJ: ProductionLineTracker
-FILE: GenericProduct.java
-
-Defines the GenericProduct class.
+ * AUTH: Jared O'Toole
+ * DATE: Sat, Nov 2nd, 2019
+ * PROJ: ProductionLineTracker
+ * FILE: GenericProduct.java
+ *
+ * Defines the GenericProduct class.
  */
 
 package me.jwotoole9141.prodsline.items;
