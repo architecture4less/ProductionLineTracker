@@ -11,9 +11,9 @@ package me.jwotoole9141.prodsline;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -43,7 +43,8 @@ public class Model {
   /**
    * The list of products used in the GUI.
    */
-  static final ObservableList<Product> productLine = FXCollections.observableArrayList();
+  static final ObservableList<Product> productLine =
+      FXCollections.observableArrayList();
 
   /**
    * The database connection.
@@ -68,12 +69,48 @@ public class Model {
   /**
    * The pattern of the properties file username prefix.
    */
-  private static final Pattern userPattern = Pattern.compile("^user=\\w+$", Pattern.MULTILINE);
+  private static final Pattern userPattern =
+      Pattern.compile("(?<=^user=).*(?=$)", Pattern.MULTILINE);
 
   /**
    * The pattern of the properties file password prefix.
    */
-  private static final Pattern passPattern = Pattern.compile("^pass=\\w+$", Pattern.MULTILINE);
+  private static final Pattern passPattern =
+      Pattern.compile("(?<=^pswd=).*(?=$)", Pattern.MULTILINE);
+
+  /**
+   * Fetches the properties defined in the roperties file.
+   *
+   * @return properties such as user and pswd
+   */
+  private static Properties getProperties() {
+
+    String fileData = "";
+
+    try (InputStream is = Main.class.getClassLoader().getResourceAsStream(PROPS_FILE)) {
+      if (is == null) {
+        throw new FileNotFoundException(String.format(
+            "The resource '%s' was not found.", PROPS_FILE
+        ));
+      }
+      try (InputStreamReader isr = new InputStreamReader(is)) {
+        try (BufferedReader br = new BufferedReader(isr)) {
+          fileData = br.lines().collect(Collectors.joining("\n"));
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Properties props = new Properties();
+
+    Matcher userMatcher = userPattern.matcher(fileData);
+    Matcher passMatcher = passPattern.matcher(fileData);
+
+    props.setProperty("user", userMatcher.find() ? userMatcher.group() : "");
+    props.setProperty("password", passMatcher.find() ? passMatcher.group() : "");
+
+    return props;
+  }
 
   /**
    * Open a connection to the database.
@@ -84,39 +121,7 @@ public class Model {
       close();
     }
 
-    // get the database properties file...
-
-    String fileData = "";
-
-    try {
-      URL url = Model.class.getClassLoader().getResource(PROPS_FILE);
-      if (url == null) {
-        throw new FileNotFoundException(String.format(
-            "The resource '%s' was not found.", PROPS_FILE
-        ));
-      }
-      try (FileReader fr = new FileReader(url.getFile())) {
-        try (BufferedReader br = new BufferedReader(fr)) {
-
-          fileData = br.lines().collect(Collectors.joining("\n"));
-        }
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    // get username and password from file...
-
-    Properties props = new Properties();
-
-    Matcher userMatcher = userPattern.matcher(fileData);
-    Matcher passMatcher = passPattern.matcher(fileData);
-
-    props.setProperty("user", userMatcher.find() ? userMatcher.group() : "");
-    props.setProperty("pass", passMatcher.find() ? passMatcher.group() : "");
-
     // make sure the h2 driver class exists
-
     try {
       Class.forName(JDBC_DRIVER);
     } catch (Exception ex) {
@@ -124,9 +129,8 @@ public class Model {
     }
 
     // try to open a database connection...
-
     try {
-      conn = DriverManager.getConnection(DB_URL, props);
+      conn = DriverManager.getConnection(DB_URL, getProperties());
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -149,6 +153,38 @@ public class Model {
   }
 
   /**
+   * Test the database connection.
+   *
+   * @return true if the database is open and valid, else false
+   */
+  private static boolean isOpen() {
+
+    if (conn != null) {
+      try {
+        if (conn.isValid(1)) {
+          return true;
+        }
+      } catch (SQLException e) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Require that isOpen() returns true.
+   *
+   * @throws IllegalStateException there is no connection to the database
+   */
+  private static void requireConnection() throws IllegalStateException {
+
+    if (!isOpen()) {
+      throw new IllegalStateException(
+          "Attempted a database operation without a database connection.");
+    }
+  }
+
+  /**
    * Add a new product to the database.
    *
    * <p>
@@ -162,9 +198,10 @@ public class Model {
    * @throws SQLException             the database couldn't perform the operation
    * @throws IllegalArgumentException 'name' is null or empty, 'type' is null or unsupported, or
    *                                  'manuf' is empty or less than three chars
+   * @throws IllegalStateException    there is no connection to the database
    */
   public static Product addProduct(String name, ItemType type, String manuf)
-      throws SQLException, IllegalArgumentException {
+      throws SQLException, IllegalArgumentException, IllegalStateException {
 
     requireConnection();
 
@@ -210,9 +247,10 @@ public class Model {
    * @return an array of production records created
    * @throws SQLException             the database could not perform the operation
    * @throws IllegalArgumentException 'prod' is null or 'qnty' is null or less than one
+   * @throws IllegalStateException    there is no connection to the database
    */
   public static ProductionRecord[] recordProduction(Product prod, Integer qnty)
-      throws SQLException, IllegalArgumentException {
+      throws SQLException, IllegalArgumentException, IllegalStateException {
 
     requireConnection();
 
@@ -259,8 +297,9 @@ public class Model {
    *
    * @param id the product id number.
    * @return the product, if it exists, else null
+   * @throws IllegalStateException there is no connection to the database
    */
-  public static Product getProduct(int id) {
+  public static Product getProduct(int id) throws IllegalStateException {
 
     requireConnection();
 
@@ -299,8 +338,9 @@ public class Model {
    * </p>
    *
    * @return a list of valid products
+   * @throws IllegalStateException there is no connection to the database
    */
-  static List<Product> getProducts() {
+  static List<Product> getProducts() throws IllegalStateException {
 
     requireConnection();
 
@@ -339,8 +379,9 @@ public class Model {
    * Get a list of all production records in the database.
    *
    * @return a list of valid production records
+   * @throws IllegalStateException there is no connection to the database
    */
-  static List<ProductionRecord> getProdsRecords() {
+  static List<ProductionRecord> getProdsRecords() throws IllegalStateException {
 
     requireConnection();
 
@@ -378,8 +419,9 @@ public class Model {
    * </p>
    *
    * @return the maximum product id if any products exist, else zero
+   * @throws IllegalStateException there is no connection to the database
    */
-  private static int getMaxProdId() {
+  private static int getMaxProdId() throws IllegalStateException {
 
     requireConnection();
 
@@ -406,8 +448,9 @@ public class Model {
    * </p>
    *
    * @return the maximum production number if any records exist, else zero
+   * @throws IllegalStateException there is no connection to the database
    */
-  private static int getMaxProdsNum() {
+  private static int getMaxProdsNum() throws IllegalStateException {
 
     requireConnection();
 
@@ -431,8 +474,9 @@ public class Model {
    *
    * @param prodId the product's id
    * @return the number of production records that exist for this product if it exists, else zero
+   * @throws IllegalStateException there is no connection to the database
    */
-  public static int getProdsCount(int prodId) {
+  public static int getProdsCount(int prodId) throws IllegalStateException {
 
     requireConnection();
 
