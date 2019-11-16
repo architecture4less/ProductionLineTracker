@@ -9,11 +9,9 @@
 
 package me.jwotoole9141.prodsline;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,9 +21,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import me.jwotoole9141.prodsline.items.GenericProduct;
@@ -64,51 +59,30 @@ public class Model {
   /**
    * The name of the database properties file.
    */
-  private static final String PROPS_FILE = "properties.txt";
-
-  /**
-   * The pattern to match the database username in the properties file.
-   */
-  private static final Pattern userPattern =
-      Pattern.compile("(?<=^user=).*(?=$)", Pattern.MULTILINE);
-
-  /**
-   * The pattern to match the database password in the properties file.
-   */
-  private static final Pattern passPattern =
-      Pattern.compile("(?<=^pswd=).*(?=$)", Pattern.MULTILINE);
+  private static final String PROPERTIES_FILE = "db.properties";
 
   /**
    * Fetches the properties defined in the properties file.
    *
    * @return properties such as user and password
    */
-  private static Properties getProperties() {
+  public static Properties getProperties() {
 
-    String fileData = "";
+    Properties props = new Properties();
 
-    try (InputStream is = Main.class.getClassLoader().getResourceAsStream(PROPS_FILE)) {
+    try (InputStream is = Main.class.getClassLoader()
+        .getResourceAsStream(PROPERTIES_FILE)) {
+
       if (is == null) {
         throw new FileNotFoundException(String.format(
-            "The resource '%s' was not found.", PROPS_FILE
+            "The resource '%s' was not found.", PROPERTIES_FILE
         ));
       }
-      try (InputStreamReader isr = new InputStreamReader(is)) {
-        try (BufferedReader br = new BufferedReader(isr)) {
-          fileData = br.lines().collect(Collectors.joining("\n"));
-        }
-      }
+      props.load(is);
+
     } catch (IOException e) {
       e.printStackTrace();
     }
-    Properties props = new Properties();
-
-    Matcher userMatcher = userPattern.matcher(fileData);
-    Matcher passMatcher = passPattern.matcher(fileData);
-
-    props.setProperty("user", userMatcher.find() ? userMatcher.group() : "");
-    props.setProperty("password", passMatcher.find() ? passMatcher.group() : "");
-
     return props;
   }
 
