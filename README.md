@@ -1,10 +1,10 @@
 <!--
-AUTH: Jared O'Toole
-DATE: Wed, Sep 11th, 2019
-PROJ: ProductionLineTracker
-FILE: README.md
-
-A description of the project.
+  AUTH: Jared O'Toole
+  DATE: Wed, Sep 11th, 2019
+  PROJ: ProductionLineTracker
+  FILE: README.md
+  
+  A description of the project.
 -->
 
 # ProductionLineTracker
@@ -435,3 +435,57 @@ The audio players and the movie players share the same control interface on the 
 ---
 
 ## Sprint 3
+
+### Week 12
+
+> Lambda Expressions
+
+- [X] **Issue 7 - Compare Products and Full Database Integration**
+
+- [X] To make your H2 database enabled program more portable, copy the H2 driver jar file from its install location (likely Program Files (x86) H2 bin), paste it into your res folder, and update the location in the IntelliJ Project Structure (Modules -> Dependencies).  
+
+- Controller initialize method should do things that you want to happen once when the program starts:
+  - [X] define the ObservableList (it can be declared at class level)
+  - [X] call setupProductLineTable 
+  - [X] associate the ObservableList with the Product Line ListView 
+  - [X] call loadProductList
+  - [X] call loadProductionLog
+
+- Add Product button should:
+  - [X] insert added product into database
+  - [X] call loadProductList
+
+- loadProductList method should:
+ - [X] Create Product objects from the Product database table and add them to the productLine ObservableList (which will automatically update the Product Line ListView).
+   - [Sample code to read from a database, create an object, and save to list](https://sites.google.com/site/profvanselow/course/cop-3003/bike-project)
+
+- Record Production button should:
+  - [X] Get the selected product from the Product Line ListView and the quantity from the comboBox. 
+  - [X] Create an ArrayList of ProductionRecord objects named productionRun. 
+  - [X] Send the productionRun to an addToProductionDB method. (Tip: use a TimeStamp object for the date)
+  - [X] call loadProductionLog
+  - [X] call showProduction
+
+- showProduction should:
+  - [X] populate the TextArea on the Production Log tab with the information from the productionLog, replacing the productId with the product name, with one line for each product produced
+
+- The addToProductionDB method should:
+  - [X] Loop through the productionRun, inserting productionRecord object information into the ProductionRecord database table.
+
+- The loadProductionLog method should:
+  - [X] Create ProductionRecord objects from the records in the ProductionRecord database table. 
+  - [X] Populate the productionLog ArrayList
+  - [X] call showProduction
+
+## Week 13
+
+> Strings, Regular Expressions
+
+- [ ] **Issue 8**
+
+- [X] Set a database password and read the password from a file. 
+- [ ] The program is required to create an audit trail of the production line so that it records which employee recorded production. To accomplish this you will need to 
+  - create a class and tab named Employee that will allow the user to 
+    - input their full name and then create 
+    - a user id of their first name, a period, and then their surname, 
+    - an email address of their first initial and last name. 
