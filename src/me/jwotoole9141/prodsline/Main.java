@@ -9,9 +9,10 @@
 
 package me.jwotoole9141.prodsline;
 
+import java.io.FileNotFoundException;
+import java.net.URL;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -21,6 +22,11 @@ import javafx.stage.Stage;
  * @author Jared O'Toole
  */
 public class Main extends Application {
+
+  /**
+   * The name of the prodsline gui fxml file.
+   */
+  private static final String PRODSLINE_GUI_FXML = "gui/prodsline_gui.fxml";
 
   /**
    * Launches the application.
@@ -48,11 +54,17 @@ public class Main extends Application {
     // connect to the database...
     Model.open();
 
-    // create the gui window...
-    Parent root = FXMLLoader.load(getClass().getResource("gui/prodsline_gui.fxml"));
+    // load the fxml file...
+    URL url = getClass().getResource(PRODSLINE_GUI_FXML);
+    if (url == null) {
+      throw new FileNotFoundException(String.format(
+          "The resource '%s' was not found.", PRODSLINE_GUI_FXML
+      ));
+    }
 
+    // create the gui window...
     primaryStage.setTitle("Production Line Tracker");
-    primaryStage.setScene(new Scene(root, 350, 450));
+    primaryStage.setScene(new Scene(FXMLLoader.load(url), 350, 450));
     primaryStage.show();
   }
 

@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import me.jwotoole9141.prodsline.items.GenericProduct;
 import me.jwotoole9141.prodsline.items.ItemType;
@@ -39,19 +40,9 @@ public class Model {
   private static Connection conn;
 
   /**
-   * The JDBC driver class to use.
-   */
-  private static final String JDBC_DRIVER = "org.h2.Driver";
-
-  /**
-   * The URL of the database.
-   */
-  private static final String DB_URL = "jdbc:h2:./res/database";
-
-  /**
    * The name of the database properties file.
    */
-  private static final String PROPERTIES_FILE = "db.properties";
+  private static final String DB_PROPERTIES = "db.properties";
 
   /**
    * Fetches the properties defined in the properties file.
@@ -63,11 +54,11 @@ public class Model {
     Properties props = new Properties();
 
     try (InputStream is = Main.class.getClassLoader()
-        .getResourceAsStream(PROPERTIES_FILE)) {
+        .getResourceAsStream(DB_PROPERTIES)) {
 
       if (is == null) {
         throw new FileNotFoundException(String.format(
-            "The resource '%s' was not found.", PROPERTIES_FILE
+            "The resource '%s' was not found.", DB_PROPERTIES
         ));
       }
       props.load(is);
@@ -86,18 +77,18 @@ public class Model {
     if (conn != null) {
       close();
     }
-
-    // make sure the h2 driver class exists...
     try {
-      Class.forName(JDBC_DRIVER);
-    } catch (Exception ex) {
+      Properties props = getProperties();
+
+      String dbUrl = (String) Objects.requireNonNull(props.remove("url"));
+      String jdbcDriver = (String) Objects.requireNonNull(props.remove("driver"));
+
+      Class.forName(jdbcDriver);
+      conn = DriverManager.getConnection(dbUrl, props);
+
+    } catch (SQLException | ClassNotFoundException
+        | ClassCastException | NullPointerException ex) {
       ex.printStackTrace();
-    }
-
-    try {
-      conn = DriverManager.getConnection(DB_URL, getProperties());
-    } catch (SQLException e) {
-      e.printStackTrace();
     }
   }
 
