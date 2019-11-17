@@ -234,9 +234,9 @@ public class Controller {
         (ListChangeListener<ProductionRecord>) c ->
             txtProdsLog.appendText(
                 c.getAddedSubList().stream()
-                .filter(Objects::nonNull)
-                .map(ProductionRecord::toString)
-                .collect(Collectors.joining("\n")) + "\n"
+                    .filter(Objects::nonNull)
+                    .map(ProductionRecord::toString)
+                    .collect(Collectors.joining("\n")) + "\n"
             )
     );
   }
