@@ -21,8 +21,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import me.jwotoole9141.prodsline.items.GenericProduct;
 import me.jwotoole9141.prodsline.items.ItemType;
 import me.jwotoole9141.prodsline.items.Product;
@@ -34,12 +32,6 @@ import me.jwotoole9141.prodsline.items.ProductionRecord;
  * @author Jared O'Toole
  */
 public class Model {
-
-  /**
-   * The list of products used in the GUI.
-   */
-  static final ObservableList<Product> productLine =
-      FXCollections.observableArrayList();
 
   /**
    * The database connection.
@@ -95,14 +87,13 @@ public class Model {
       close();
     }
 
-    // make sure the h2 driver class exists
+    // make sure the h2 driver class exists...
     try {
       Class.forName(JDBC_DRIVER);
     } catch (Exception ex) {
       ex.printStackTrace();
     }
 
-    // try to open a database connection...
     try {
       conn = DriverManager.getConnection(DB_URL, getProperties());
     } catch (SQLException e) {
@@ -115,7 +106,6 @@ public class Model {
    */
   public static void close() {
 
-    // try to close the database conn...
     if (conn != null) {
       try {
         conn.close();
@@ -138,7 +128,7 @@ public class Model {
         if (conn.isValid(1)) {
           return true;
         }
-      } catch (SQLException e) {
+      } catch (SQLException ex) {
         return false;
       }
     }
@@ -159,10 +149,10 @@ public class Model {
   }
 
   /**
-   * Adds a new product to the database.
+   * Adds a new product to the database and product line.
    *
    * <p>
-   * Products are added to the PRODUCT table.
+   * New products are added to the PRODUCT table.
    * </p>
    *
    * @param name  the new product's name
@@ -170,8 +160,8 @@ public class Model {
    * @param manuf the new product's manufacturer
    * @return the created product
    * @throws SQLException             the database couldn't perform the operation
-   * @throws IllegalArgumentException 'name' is null or empty, 'type' is null or unsupported, or
-   *                                  'manuf' is empty or less than three chars
+   * @throws IllegalArgumentException 'name' is null or empty, 'type' is null, or 'manuf' is empty
+   *                                  or less than three chars
    * @throws IllegalStateException    there is no connection to the database
    */
   public static Product addProduct(String name, ItemType type, String manuf)
@@ -180,10 +170,9 @@ public class Model {
     requireConnection();
 
     try (PreparedStatement stmt = conn.prepareStatement(
-        "INSERT INTO product (name, type, manuf) VALUES (?, ?, ?);"
-    )) {
+        "INSERT INTO product (name, type, manuf) VALUES (?, ?, ?);")) {
 
-      // validate the given parameters...
+      // validate the given properties...
       if (name == null || name.isEmpty()) {
         throw new IllegalArgumentException("A product name was not given.");
       }
@@ -194,13 +183,13 @@ public class Model {
         throw new IllegalArgumentException("The Manufacturer name must be at least three chars.");
       }
 
-      // add the given properties to a new row on the PRODUCT table...
+      // add the given properties to the database...
       stmt.setString(1, name);
       stmt.setString(2, type.getCode());
       stmt.setString(3, manuf);
       stmt.execute();
 
-      // return a new product of the appropriate class...
+      // create a new product to be returned...
       return new GenericProduct(getMaxProdId(), name, type, manuf);
     }
   }
@@ -212,19 +201,18 @@ public class Model {
    * Production records are added to the PRODSRECORD table.
    * </p>
    *
-   * <p>
-   * The current system time is used for the production date.
-   * </p>
-   *
    * @param prod the product being produced
    * @param qnty the quantity being produced
+   * @param time the time of the production
    * @return an array of production records created
    * @throws SQLException             the database could not perform the operation
    * @throws IllegalArgumentException 'prod' is null or 'qnty' is null or less than one
    * @throws IllegalStateException    there is no connection to the database
    */
-  public static ProductionRecord[] recordProduction(Product prod, Integer qnty)
+  public static List<ProductionRecord> recordProduction(Product prod, Integer qnty, Timestamp time)
       throws SQLException, IllegalArgumentException, IllegalStateException {
+
+    // NOTE: this method may be AKA 'addToProductionDB'
 
     requireConnection();
 
@@ -232,7 +220,7 @@ public class Model {
         "INSERT INTO prodsrecord (prodid, serialnum, date) VALUES (?, ?, ?);"
     )) {
 
-      // validate the given parameters...
+      // validate the given properties...
       if (prod == null) {
         throw new IllegalArgumentException("No product was selected.");
       }
@@ -240,29 +228,26 @@ public class Model {
         throw new IllegalArgumentException("Invalid quantity chosen.");
       }
 
-      ProductionRecord[] records = new ProductionRecord[qnty];
+      List<ProductionRecord> prodsRun = new ArrayList<>();
       int prodsCount = getProdsCount(prod.getId()) + 1;
-      Timestamp curDate = new Timestamp(System.currentTimeMillis());
 
       // iterate over the range of the given quantity...
       for (int i = 0; i < qnty; i++) {
 
         String serialNum = genSerialNum(
-            prod.getManuf(), prod.getType(), prodsCount++
-        );
+            prod.getManuf(), prod.getType(), prodsCount++);
 
         // add the given properties to a new row on the PRODSRECORD table...
         stmt.setInt(1, prod.getId());
         stmt.setString(2, serialNum);
-        stmt.setTimestamp(3, curDate);
+        stmt.setTimestamp(3, time);
         stmt.execute();
 
-        // create a new record object to be returned...
-        records[i] = new ProductionRecord(
-            getMaxProdsNum(), prod.getId(), serialNum, curDate
-        );
+        // create a new record to be returned...
+        prodsRun.add(new ProductionRecord(
+            getMaxProdsNum(), prod.getId(), serialNum, time));
       }
-      return records;
+      return prodsRun;
     }
   }
 
@@ -316,6 +301,8 @@ public class Model {
    */
   static List<Product> getProducts() throws IllegalStateException {
 
+    // NOTE: this method may be AKA 'loadProductList'
+
     requireConnection();
 
     List<Product> products = new ArrayList<>();
@@ -356,6 +343,8 @@ public class Model {
    * @throws IllegalStateException there is no connection to the database
    */
   static List<ProductionRecord> getProdsRecords() throws IllegalStateException {
+
+    // NOTE: this method may be AKA 'loadProductionLog'
 
     requireConnection();
 

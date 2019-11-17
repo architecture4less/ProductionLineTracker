@@ -10,10 +10,12 @@
 package me.jwotoole9141.prodsline;
 
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -37,8 +39,21 @@ import me.jwotoole9141.prodsline.items.ProductionRecord;
  * @author Jared O'Toole
  */
 public class Controller {
+
   // NOTE: IntelliJ says declaration access can be weaker,
   // but it is required to be public for FXML.
+
+  /**
+   * The list of products loaded from the database.
+   */
+  private static final ObservableList<Product> productLine =
+      FXCollections.observableArrayList();
+
+  /**
+   * The list of production records loaded from the database.
+   */
+  private static final ObservableList<ProductionRecord> productionLog =
+      FXCollections.observableArrayList();
 
   /**
    * The 'new product name' field.
@@ -111,6 +126,7 @@ public class Controller {
    */
   @FXML
   private ComboBox<String> cboProdQnty;
+
   // NOTE: the javaFX combo box would return a string
   // for getValue() even when its type was integer.
 
@@ -138,19 +154,20 @@ public class Controller {
   @FXML
   public void initialize() {
 
-    Model.productLine.clear();
-    Model.productLine.addAll(Model.getProducts());
+    productLine.clear();
+    productionLog.clear();
 
     initChbNewProdType();
     initTblProducts();
-
     initLstProdOpts();
     initCboProdQnty();
-
-    initTxtProdsLog(Model.getProdsRecords());
+    initTxtProdsLog();
 
     lblProduceMsg.setText("");
     lblAddProdMsg.setText("");
+
+    productLine.addAll(Model.getProducts());
+    productionLog.addAll(Model.getProdsRecords());
   }
 
   /**
@@ -169,10 +186,11 @@ public class Controller {
   /**
    * Initializes the 'products' table data.
    */
-  // NOTE: this method may be AKA 'setupProductLineTable'
   private void initTblProducts() {
 
-    tblProducts.setItems(Model.productLine);
+    // NOTE: this method may be AKA 'setupProductLineTable'
+
+    tblProducts.setItems(productLine);
 
     colProductsId.setCellValueFactory(new PropertyValueFactory<>("id"));
     colProductsName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -185,7 +203,7 @@ public class Controller {
    */
   private void initLstProdOpts() {
 
-    lstProdOpts.setItems(Model.productLine);
+    lstProdOpts.setItems(productLine);
   }
 
   /**
@@ -204,14 +222,23 @@ public class Controller {
 
   /**
    * Initializes the 'production log' text area data.
-   *
-   * @param records the production records to display
    */
-  private void initTxtProdsLog(List<ProductionRecord> records) {
+  private void initTxtProdsLog() {
 
-    txtProdsLog.setText(records.stream()
-        .map(ProductionRecord::toString)
-        .collect(Collectors.joining("\n")) + "\n");
+    txtProdsLog.setText("");
+
+    // NOTE: this listener implements the
+    // behavior of 'showProduction'
+
+    productionLog.addListener(
+        (ListChangeListener<ProductionRecord>) c ->
+            txtProdsLog.appendText(
+                c.getAddedSubList().stream()
+                .filter(Objects::nonNull)
+                .map(ProductionRecord::toString)
+                .collect(Collectors.joining("\n")) + "\n"
+            )
+    );
   }
 
   /**
@@ -223,7 +250,6 @@ public class Controller {
   public void btnAddProdAction(ActionEvent event) {
 
     System.out.println(btnAddProd.toString() + " was pressed!");
-    event.consume();
 
     // create a new product using form info...
     String name = fldNewProdName.getText().trim();
@@ -231,8 +257,13 @@ public class Controller {
     ItemType type = chbNewProdType.getValue();
 
     try {
+      // NOTE: a new product is returned and put into
+      // productLine instead of reloading everything
+      // from the database.
+
+      // add to database and the product line...
       Product newProd = Model.addProduct(name, type, manuf);
-      Model.productLine.add(newProd);
+      productLine.add(newProd);
 
       // set the 'add prod' message label to success...
       lblAddProdMsg.setTextFill(Color.web("green"));
@@ -241,7 +272,7 @@ public class Controller {
           newProd.getId(), newProd.getName()
       ));
 
-    } catch (SQLException ex) {
+    } catch (SQLException | IllegalStateException ex) {
       ex.printStackTrace();
 
     } catch (IllegalArgumentException ex) {
@@ -250,6 +281,7 @@ public class Controller {
       lblAddProdMsg.setTextFill(Color.web("red"));
       lblAddProdMsg.setText("Couldn't add product: " + ex.getMessage());
     }
+    event.consume();
   }
 
   /**
@@ -261,11 +293,11 @@ public class Controller {
   public void btnProduceAction(ActionEvent event) {
 
     System.out.println(btnProduce.toString() + " was pressed!");
-    event.consume();
 
-    // create a production record using form info...
+    // create production records using form info...
     Product prod = lstProdOpts.getSelectionModel().getSelectedItem();
     Integer qnty;
+    Timestamp time = new Timestamp(System.currentTimeMillis());
 
     try {
       qnty = Integer.parseInt(cboProdQnty.getValue());
@@ -274,13 +306,12 @@ public class Controller {
     }
 
     try {
-      ProductionRecord[] records = Model.recordProduction(prod, qnty);
+      // NOTE: new production records are returned and put
+      // into productionLog instead of reloading everything
+      // from the database.
 
-      // append the prods log...
-      txtProdsLog.appendText(Arrays.stream(records)
-          .filter(Objects::nonNull)
-          .map(ProductionRecord::toString)
-          .collect(Collectors.joining("\n")) + "\n");
+      // record to database and the production log...
+      productionLog.addAll(Model.recordProduction(prod, qnty, time));
 
       // set the 'produce' message label to success...
       lblProduceMsg.setTextFill(Color.web("green"));
@@ -298,5 +329,6 @@ public class Controller {
       lblProduceMsg.setTextFill(Color.web("red"));
       lblProduceMsg.setText("Couldn't produce: " + ex.getMessage());
     }
+    event.consume();
   }
 }
