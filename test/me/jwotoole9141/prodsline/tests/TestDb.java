@@ -19,7 +19,7 @@ class TestDb {
     Model.open();
     Properties props = Model.getProperties();
     System.out.printf(
-        "user:%s\nname:%s\n",
+        "user:%s\npassword:%s\n",
         props.getProperty("user"),
         props.getProperty("password")
     );

@@ -10,6 +10,7 @@
 package me.jwotoole9141.prodsline.tests;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,7 @@ class TestProdsRecord {
     records.add(new ProductionRecord(prod, Model.getProdsCount(prod.getId())));
 
     try {
-      Model.recordProduction(prod, 5);
+      Model.recordProduction(prod, 5, new Timestamp(System.currentTimeMillis()));
     } catch (SQLException e) {
       e.printStackTrace();
     }
