@@ -231,13 +231,16 @@ public class Controller {
     // behavior of 'showProduction'
 
     productionLog.addListener(
-        (ListChangeListener<ProductionRecord>) c ->
+        (ListChangeListener<ProductionRecord>) c -> {
+          while (c.next()) {
             txtProdsLog.appendText(
                 c.getAddedSubList().stream()
                     .filter(Objects::nonNull)
                     .map(ProductionRecord::toString)
                     .collect(Collectors.joining("\n")) + "\n"
-            )
+            );
+          }
+        }
     );
   }
 
