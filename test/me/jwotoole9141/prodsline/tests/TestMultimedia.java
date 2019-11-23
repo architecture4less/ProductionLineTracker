@@ -10,10 +10,10 @@
 package me.jwotoole9141.prodsline.tests;
 
 import java.util.ArrayList;
-import me.jwotoole9141.prodsline.item.AudioPlayer;
+import me.jwotoole9141.prodsline.prod.AudioPlayer;
 import me.jwotoole9141.prodsline.item.Item;
 import me.jwotoole9141.prodsline.item.MonitorType;
-import me.jwotoole9141.prodsline.item.MoviePlayer;
+import me.jwotoole9141.prodsline.prod.MoviePlayer;
 import me.jwotoole9141.prodsline.item.MultimediaControl;
 import me.jwotoole9141.prodsline.item.Screen;
 import me.jwotoole9141.prodsline.item.ScreenSpec;

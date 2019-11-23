@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import me.jwotoole9141.prodsline.Model;
-import me.jwotoole9141.prodsline.item.GenericProduct;
+import me.jwotoole9141.prodsline.prod.GenericProduct;
 import me.jwotoole9141.prodsline.item.ItemType;
 import me.jwotoole9141.prodsline.item.Product;
 

@@ -7,7 +7,13 @@
  * Defines the MoviePlayer class.
  */
 
-package me.jwotoole9141.prodsline.item;
+package me.jwotoole9141.prodsline.prod;
+
+import me.jwotoole9141.prodsline.item.ItemType;
+import me.jwotoole9141.prodsline.item.MonitorType;
+import me.jwotoole9141.prodsline.item.MultimediaControl;
+import me.jwotoole9141.prodsline.item.Product;
+import me.jwotoole9141.prodsline.item.Screen;
 
 /**
  * A representation of a movie player product with multimedia controls.

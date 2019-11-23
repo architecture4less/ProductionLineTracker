@@ -12,11 +12,11 @@ package me.jwotoole9141.prodsline.tests;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import me.jwotoole9141.prodsline.item.AudioPlayer;
-import me.jwotoole9141.prodsline.item.GenericProduct;
+import me.jwotoole9141.prodsline.prod.AudioPlayer;
+import me.jwotoole9141.prodsline.prod.GenericProduct;
 import me.jwotoole9141.prodsline.item.ItemType;
 import me.jwotoole9141.prodsline.item.MonitorType;
-import me.jwotoole9141.prodsline.item.MoviePlayer;
+import me.jwotoole9141.prodsline.prod.MoviePlayer;
 import me.jwotoole9141.prodsline.item.Product;
 import me.jwotoole9141.prodsline.item.Screen;
 
