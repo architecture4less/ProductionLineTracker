@@ -7,7 +7,7 @@
  * Defines the MultimediaControl interface.
  */
 
-package me.jwotoole9141.prodsline.items;
+package me.jwotoole9141.prodsline.item;
 
 /**
  * An interface for simulating the controls of a multimedia device.

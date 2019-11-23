@@ -7,7 +7,7 @@
  * Defines the ScreenSpec interface.
  */
 
-package me.jwotoole9141.prodsline.items;
+package me.jwotoole9141.prodsline.item;
 
 /**
  * An interface for accessing a screen's specification properties.

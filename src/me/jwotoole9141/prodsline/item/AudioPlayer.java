@@ -7,7 +7,7 @@
  * Defines the AudioPlayer class.
  */
 
-package me.jwotoole9141.prodsline.items;
+package me.jwotoole9141.prodsline.item;
 
 /**
  * A representation of an audio player product with multimedia controls.

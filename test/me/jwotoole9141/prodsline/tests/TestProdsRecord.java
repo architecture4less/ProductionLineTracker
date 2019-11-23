@@ -16,8 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import me.jwotoole9141.prodsline.Model;
-import me.jwotoole9141.prodsline.items.Product;
-import me.jwotoole9141.prodsline.items.ProductionRecord;
+import me.jwotoole9141.prodsline.item.Product;
+import me.jwotoole9141.prodsline.item.ProductionRecord;
 
 class TestProdsRecord {
 

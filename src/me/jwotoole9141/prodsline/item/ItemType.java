@@ -7,7 +7,7 @@
  * Defines the ItemType enum.
  */
 
-package me.jwotoole9141.prodsline.items;
+package me.jwotoole9141.prodsline.item;
 
 /**
  * An enumeration of product item types.

@@ -7,7 +7,7 @@
  * Defines the Item interface.
  */
 
-package me.jwotoole9141.prodsline.items;
+package me.jwotoole9141.prodsline.item;
 
 /**
  * An interface for an item with an id, name, and manufacturer.

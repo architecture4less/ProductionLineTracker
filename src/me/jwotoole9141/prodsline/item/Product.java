@@ -7,7 +7,7 @@
  * Defines the Product abstract class.
  */
 
-package me.jwotoole9141.prodsline.items;
+package me.jwotoole9141.prodsline.item;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

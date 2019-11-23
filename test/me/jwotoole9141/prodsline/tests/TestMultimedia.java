@@ -10,13 +10,13 @@
 package me.jwotoole9141.prodsline.tests;
 
 import java.util.ArrayList;
-import me.jwotoole9141.prodsline.items.AudioPlayer;
-import me.jwotoole9141.prodsline.items.Item;
-import me.jwotoole9141.prodsline.items.MonitorType;
-import me.jwotoole9141.prodsline.items.MoviePlayer;
-import me.jwotoole9141.prodsline.items.MultimediaControl;
-import me.jwotoole9141.prodsline.items.Screen;
-import me.jwotoole9141.prodsline.items.ScreenSpec;
+import me.jwotoole9141.prodsline.item.AudioPlayer;
+import me.jwotoole9141.prodsline.item.Item;
+import me.jwotoole9141.prodsline.item.MonitorType;
+import me.jwotoole9141.prodsline.item.MoviePlayer;
+import me.jwotoole9141.prodsline.item.MultimediaControl;
+import me.jwotoole9141.prodsline.item.Screen;
+import me.jwotoole9141.prodsline.item.ScreenSpec;
 
 class TestMultimedia {
 

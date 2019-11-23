@@ -7,7 +7,7 @@
  * Defines the ProductionRecord class.
  */
 
-package me.jwotoole9141.prodsline.items;
+package me.jwotoole9141.prodsline.item;
 
 import java.util.Date;
 import me.jwotoole9141.prodsline.Model;

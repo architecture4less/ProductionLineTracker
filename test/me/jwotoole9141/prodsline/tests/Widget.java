@@ -9,8 +9,8 @@
 
 package me.jwotoole9141.prodsline.tests;
 
-import me.jwotoole9141.prodsline.items.ItemType;
-import me.jwotoole9141.prodsline.items.Product;
+import me.jwotoole9141.prodsline.item.ItemType;
+import me.jwotoole9141.prodsline.item.Product;
 
 class Widget extends Product {
 

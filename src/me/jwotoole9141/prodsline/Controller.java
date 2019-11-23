@@ -29,9 +29,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
-import me.jwotoole9141.prodsline.items.ItemType;
-import me.jwotoole9141.prodsline.items.Product;
-import me.jwotoole9141.prodsline.items.ProductionRecord;
+import me.jwotoole9141.prodsline.item.ItemType;
+import me.jwotoole9141.prodsline.item.Product;
+import me.jwotoole9141.prodsline.item.ProductionRecord;
 
 /**
  * Handles user interaction with the GUI.

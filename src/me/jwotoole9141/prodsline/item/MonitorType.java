@@ -7,7 +7,7 @@
  * Defines the MonitorType enum.
  */
 
-package me.jwotoole9141.prodsline.items;
+package me.jwotoole9141.prodsline.item;
 
 /**
  * An enumeration of the monitor types of visual products.

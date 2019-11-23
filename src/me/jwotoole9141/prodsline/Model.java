@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
-import me.jwotoole9141.prodsline.items.GenericProduct;
-import me.jwotoole9141.prodsline.items.ItemType;
-import me.jwotoole9141.prodsline.items.Product;
-import me.jwotoole9141.prodsline.items.ProductionRecord;
+import me.jwotoole9141.prodsline.item.GenericProduct;
+import me.jwotoole9141.prodsline.item.ItemType;
+import me.jwotoole9141.prodsline.item.Product;
+import me.jwotoole9141.prodsline.item.ProductionRecord;
 
 /**
  * Facilitates interaction with the application's data.

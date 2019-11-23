@@ -7,7 +7,7 @@
  * Defines the GenericProduct class.
  */
 
-package me.jwotoole9141.prodsline.items;
+package me.jwotoole9141.prodsline.item;
 
 /**
  * A representation of a generic product.
