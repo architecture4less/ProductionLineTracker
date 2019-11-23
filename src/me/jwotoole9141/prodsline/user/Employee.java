@@ -7,7 +7,7 @@
  * Defines the Employee class.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.user;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

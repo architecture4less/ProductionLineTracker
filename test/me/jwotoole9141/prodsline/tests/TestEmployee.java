@@ -9,7 +9,7 @@
 
 package me.jwotoole9141.prodsline.tests;
 
-import me.jwotoole9141.prodsline.Employee;
+import me.jwotoole9141.prodsline.user.Employee;
 
 public class TestEmployee {
 
