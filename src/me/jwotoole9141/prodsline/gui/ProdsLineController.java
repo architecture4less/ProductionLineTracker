@@ -39,7 +39,7 @@ import me.jwotoole9141.prodsline.item.ProductionRecord;
  *
  * @author Jared O'Toole
  */
-public class Controller {
+public class ProdsLineController {
 
   // NOTE: IntelliJ says declaration access can be weaker,
   // but it is required to be public for FXML.
