@@ -6,7 +6,7 @@
   PROJ: ProductionLineTracker
   FILE: prodsline_gui.fxml
 
-  Defines the JavaFX layout of the GUI window.
+  Defines the JavaFX layout of the prods line GUI window.
  -->
 
 <?import javafx.geometry.Insets?>

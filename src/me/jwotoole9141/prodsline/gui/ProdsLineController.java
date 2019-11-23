@@ -2,9 +2,9 @@
  * AUTH: Jared O'Toole
  * DATE: Wed, Sep 11th, 2019
  * PROJ: ProductionLineTracker
- * FILE: Controller.java
+ * FILE: ProdsLineController.java
  *
- * Defines the controller class.
+ * Defines the prods line controller class.
  */
 
 package me.jwotoole9141.prodsline.gui;
@@ -35,7 +35,7 @@ import me.jwotoole9141.prodsline.item.Product;
 import me.jwotoole9141.prodsline.item.ProductionRecord;
 
 /**
- * Handles user interaction with the GUI.
+ * Handles user interaction with the prods line GUI.
  *
  * @author Jared O'Toole
  */
