@@ -63,6 +63,12 @@ public class Model {
       }
       props.load(is);
 
+      // decrypt the stored password
+      String pw = props.getProperty("password");
+      if (pw != null) {
+        props.setProperty("password", reverseStr(pw));
+      }
+
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -469,5 +475,17 @@ public class Model {
     return manuf.substring(0, 3).toUpperCase()
         + type.getCode()
         + String.format("%05d", prodsCount);
+  }
+
+  /**
+   * Gets a string that is the reverse of the given string using recursion.
+   *
+   * @param string the string to be reversed
+   * @return the reversed string
+   */
+  private static String reverseStr(String string) {
+
+    return (string.length() <= 1) ? string : string.substring(string.length() - 1 /* to end */)
+        + reverseStr(string.substring(0, string.length() - 1));
   }
 }
