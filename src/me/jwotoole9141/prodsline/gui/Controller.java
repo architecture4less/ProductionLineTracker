@@ -7,7 +7,7 @@
  * Defines the controller class.
  */
 
-package me.jwotoole9141.prodsline;
+package me.jwotoole9141.prodsline.gui;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -29,6 +29,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
+import me.jwotoole9141.prodsline.Model;
 import me.jwotoole9141.prodsline.item.ItemType;
 import me.jwotoole9141.prodsline.item.Product;
 import me.jwotoole9141.prodsline.item.ProductionRecord;

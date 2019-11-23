@@ -296,7 +296,7 @@ public class Model {
    * @return a list of valid products
    * @throws IllegalStateException there is no connection to the database
    */
-  static List<Product> getProducts() throws IllegalStateException {
+  public static List<Product> getProducts() throws IllegalStateException {
 
     // NOTE: this method may be AKA 'loadProductList'
 
@@ -339,7 +339,7 @@ public class Model {
    * @return a list of valid production records
    * @throws IllegalStateException there is no connection to the database
    */
-  static List<ProductionRecord> getProdsRecords() throws IllegalStateException {
+  public static List<ProductionRecord> getProdsRecords() throws IllegalStateException {
 
     // NOTE: this method may be AKA 'loadProductionLog'
 
