@@ -9,12 +9,15 @@
 
 package me.jwotoole9141.prodsline.items;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 /**
  * An abstract representation of a product.
  *
  * @author Jared O'Toole
  */
-public abstract class Product implements Item {
+public abstract class Product implements Item, Comparable<Product> {
 
   /**
    * The unique id number of the product.
@@ -139,6 +142,26 @@ public abstract class Product implements Item {
     return String.format(
         "Name: %s%nManufacturer: %s%nType: %s",
         name, manuf, type.getCode()
+    );
+  }
+
+  @Override
+  public int compareTo(Product other) {
+    return this.name.compareTo(other.name);
+  }
+
+  /**
+   * Prints all of the products in the collection of the specified class to the console.
+   *
+   * @param type the product class to print
+   * @param products the products to filter and print
+   */
+  public static void printAllOfType(Class<? extends Product> type, Collection<Product> products) {
+
+    System.out.println(products.stream()
+        .filter(p -> p.getClass().equals(type))
+        .map(Product::toString)
+        .collect(Collectors.joining("\n\n"))
     );
   }
 }
