@@ -22,10 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
-import me.jwotoole9141.prodsline.prod.GenericProduct;
 import me.jwotoole9141.prodsline.item.ItemType;
 import me.jwotoole9141.prodsline.item.Product;
 import me.jwotoole9141.prodsline.item.ProductionRecord;
+import me.jwotoole9141.prodsline.prod.GenericProduct;
+import me.jwotoole9141.prodsline.user.Employee;
 
 /**
  * Facilitates interaction with the application's data.
@@ -94,7 +95,7 @@ public class Model {
 
     } catch (SQLException | ClassNotFoundException
         | ClassCastException | NullPointerException ex) {
-      ex.printStackTrace();
+      Main.showError(ex);
     }
   }
 
@@ -107,7 +108,7 @@ public class Model {
       try {
         conn.close();
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        Main.showError(ex);
       }
       conn = null;
     }
@@ -201,25 +202,29 @@ public class Model {
    * @param prod the product being produced
    * @param qnty the quantity being produced
    * @param time the time of the production
+   * @param user the user recording this production
    * @return an array of production records created
    * @throws SQLException             the database could not perform the operation
    * @throws IllegalArgumentException 'prod' is null or 'qnty' is null or less than one
    * @throws IllegalStateException    there is no connection to the database
    */
-  public static List<ProductionRecord> recordProduction(Product prod, Integer qnty, Timestamp time)
-      throws SQLException, IllegalArgumentException, IllegalStateException {
+  public static List<ProductionRecord> recordProduction(Product prod, Integer qnty, Timestamp time,
+      Employee user) throws SQLException, IllegalArgumentException, IllegalStateException {
 
     // NOTE: this method may be AKA 'addToProductionDB'
 
     requireConnection();
 
     try (PreparedStatement stmt = conn.prepareStatement(
-        "INSERT INTO prodsrecord (prodid, serialnum, date) VALUES (?, ?, ?);"
+        "INSERT INTO prodsrecord (prodid, emplid, serialnum, date) VALUES (?, ?, ?, ?);"
     )) {
 
       // validate the given properties...
       if (prod == null) {
         throw new IllegalArgumentException("No product was selected.");
+      }
+      if (user == null) {
+        throw new IllegalStateException("An employee was not specified.");
       }
       if (qnty == null || qnty < 1) {
         throw new IllegalArgumentException("Invalid quantity chosen.");
@@ -236,15 +241,46 @@ public class Model {
 
         // add the given properties to a new row on the PRODSRECORD table...
         stmt.setInt(1, prod.getId());
-        stmt.setString(2, serialNum);
-        stmt.setTimestamp(3, time);
+        stmt.setInt(2, user.getId());
+        stmt.setString(3, serialNum);
+        stmt.setTimestamp(4, time);
         stmt.execute();
 
         // create a new record to be returned...
         prodsRun.add(new ProductionRecord(
-            getMaxProdsNum(), prod.getId(), serialNum, time));
+            getMaxProdsNum(), prod.getId(), user.getId(), serialNum, time));
       }
       return prodsRun;
+    }
+  }
+
+  /**
+   * Registers a new employee to be able to use the production line tracker.
+   *
+   * @param name     the first and last name, separated by a space
+   * @param password the password, containing an upper, lower, and special character
+   * @return the employee's credentials
+   * @throws SQLException             the database could not perform the operation
+   * @throws IllegalArgumentException the employee credentials were invald
+   * @throws IllegalStateException    there is no connection to the database
+   */
+  public static Employee registerUser(String name, String password)
+      throws SQLException, IllegalArgumentException, IllegalStateException {
+
+    requireConnection();
+
+    try (PreparedStatement stmt = conn.prepareStatement(
+        "INSERT INTO employee (name, pswd) VAlUES (?, ?)")) {
+
+      // validate the given properties...
+      final Employee employee = new Employee(0, name, password, false);
+
+      stmt.setString(1, name);
+      stmt.setString(2, password);
+      stmt.execute();
+
+      employee.setId(getMaxEmployeeId());
+      return employee;
     }
   }
 
@@ -262,11 +298,9 @@ public class Model {
     try (PreparedStatement stmt = conn.prepareStatement(
         "SELECT * FROM product WHERE id = ?"
     )) {
-
       stmt.setInt(1, id);
-      stmt.execute();
 
-      try (ResultSet rs = stmt.getResultSet()) {
+      try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
 
           // get properties from the result set...
@@ -281,7 +315,40 @@ public class Model {
         return null;
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      Main.showError(ex);
+    }
+    return null;
+  }
+
+  /**
+   * Gets an employee's credentials from the database with the specified username.
+   *
+   * @param username the username of the employee
+   * @return the employee's credentials
+   * @throws SQLException          the database could not complete the operation
+   * @throws IllegalStateException there is no connection to the database
+   */
+  public static Employee getUser(String username) throws IllegalStateException, SQLException {
+
+    requireConnection();
+
+    try (PreparedStatement stmt = conn.prepareStatement(
+        "SELECT * FROM employee WHERE user = ?"
+    )) {
+      stmt.setString(1, username);
+
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+
+          int id = rs.getInt("id");
+          String name = rs.getString("name");
+          String password = rs.getString("pswd");
+
+          return new Employee(id, name, password, false);
+        }
+      }
+    } catch (IllegalArgumentException ex) {
+      Main.showError(ex);
     }
     return null;
   }
@@ -328,7 +395,7 @@ public class Model {
         products.add(new GenericProduct(id, name, type, manuf));
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      Main.showError(ex);
     }
     return products;
   }
@@ -358,15 +425,16 @@ public class Model {
         // get properties from the result set...
         int prodsNum = rs.getInt("prodsnum");
         int prodId = rs.getInt("prodid");
+        int emplId = rs.getInt("emplid");
         String serialNum = rs.getString("serialnum");
         Timestamp date = rs.getTimestamp("date");
 
         // create a new prods record to be returned...
-        records.add(new ProductionRecord(prodsNum, prodId, serialNum, date));
+        records.add(new ProductionRecord(prodsNum, prodId, emplId, serialNum, date));
       }
 
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      Main.showError(ex);
     }
     return records;
   }
@@ -395,7 +463,7 @@ public class Model {
         return rs.getInt("id");
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      Main.showError(ex);
     }
     return 0;
   }
@@ -424,7 +492,35 @@ public class Model {
         return rs.getInt("prodsnum");
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      Main.showError(ex);
+    }
+    return 0;
+  }
+
+  /**
+   * Gets the maximum employee id present in the database's EMPLOYEE table.
+   *
+   * <p>
+   * This represents the most recently added employee.
+   * </p>
+   *
+   * @return the maximum employee id if any employees exist, else zero
+   * @throws IllegalStateException there is no connection to the database
+   */
+  private static int getMaxEmployeeId() throws IllegalStateException {
+
+    requireConnection();
+
+    try (PreparedStatement stmt = conn.prepareStatement(
+        "SELECT MAX(id) AS emplid FROM employee");
+
+        ResultSet rs = stmt.executeQuery()
+    ) {
+      if (rs.next()) {
+        return rs.getInt("emplid");
+      }
+    } catch (SQLException ex) {
+      Main.showError(ex);
     }
     return 0;
   }
@@ -452,7 +548,7 @@ public class Model {
         }
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      Main.showError(ex);
     }
     return 0;
   }
