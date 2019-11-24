@@ -10,3 +10,21 @@
 TextField, TextArea, ChoiceBox, ComboBox {
   -fx-font-family: "Consolas", monospace;
 }
+
+TextField:readonly {
+  -fx-background-color: hsb(0, 0%, 92%);
+  -fx-border-color: hsb(0, 0%, 75%);
+  -fx-border-width: 1px;
+  -fx-border-radius: 4px;
+}
+
+Button {
+  -fx-background-color: hsb(0, 40%, 100%);
+  -fx-border-color: hsb(0, 15%, 60%);
+  -fx-border-width: 1px;
+  -fx-border-radius: 4px;
+}
+
+Button:hover {
+  -fx-background-color: hsb(0, 25%, 100%);
+}
