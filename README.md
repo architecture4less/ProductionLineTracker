@@ -34,15 +34,21 @@ class at Florida Gulf Coast University for the 2019 fall semester. It is a Java 
   - [Week 9](#week-9)
   - [Week 10](#week-10)
 - [Sprint 3](#sprint-3)
+  - [Week 11](#week-11)
+  - [Week 12](#week-12)
+  - [Week 13](#week-13)
+  - [Week 14](#week-14)
+  - [Week 15](#week-15)
+- [Additional Optional Challenges](#additional-optional-challenges)
 
 ## Demonstration
 ![A demonstrative GIF of the application](demo.gif)
 
 ## Documentation
-[JavaDoc](https://Architecture4less.github.io/ProductionLineTracker/doc/index.html)
+[JavaDoc](https://Architecture4less.github.io/ProductionLineTracker/docs/index.html)
 
-**Since private repositories cannot use GitHub pages through a free account, this link will not work.
-The documentation will become available with the final submission.
+**Since private repositories cannot use GitHub pages through a free account, this link will only
+work once the repository is made public.
 
 ## Diagrams
 
@@ -481,11 +487,115 @@ The audio players and the movie players share the same control interface on the 
 
 > Strings, Regular Expressions
 
-- [ ] **Issue 8**
+- [X] **Issue 8**
 
 - [X] Set a database password and read the password from a file. 
-- [ ] The program is required to create an audit trail of the production line so that it records which employee recorded production. To accomplish this you will need to 
-  - create a class and tab named Employee that will allow the user to 
-    - input their full name and then create 
-    - a user id of their first name, a period, and then their surname, 
-    - an email address of their first initial and last name. 
+- [X] The program is required to create an audit trail of the production line so that it records which employee recorded production. To accomplish this you will need to 
+  - [X] create a class and tab named Employee that will allow the user to 
+    - [X] input their full name and then create 
+    - [X] a user id of their first name, a period, and then their surname, 
+    - [X] an email address of their first initial and last name. 
+
+- The class will have 4 fields
+  - [X] `StringBuilder name;`
+  - [X] `String username;`
+  - [X] `String password;`
+  - [X] `String email;`
+
+- The class will have the following methods defined:
+  - [X] `private void setUsername`
+  - [X] `private boolean checkName`
+  - [X] `private void setEmail`
+  - [X] `private boolean isValidPassword`
+
+- [X] The constructor will accept a String for name (firstname and surname) and String for password. 
+
+- [X] The constructor will call checkName to check if the name contains a space. 
+  - [X] If it does, it will call setUsername and setEmail, passing the name in to both. 
+  - [X] If it doesn't contain a space, set the username to "default" and the email to "user@oracleacademy.Test"
+
+- [X] setUsername will set the username field to the first initial of the first name and then the last name, all lowercase. 
+
+- [X] setEmail will set the email field to the first name, then a period, then the last name (all lowercase) followed by @oracleacademy.Test
+
+- [X] The constructor will call isValidPassword. 
+  - [X] If the password is valid (containing a lowercase letter, uppercase letter, and a special character) the password field gets set to the supplied password. 
+  - [X] If the password is invalid, the password field gets set to "pw".
+
+- [X] Overload toString to produce:
+  ```
+  Employee Details
+  Name : Tim Lee
+  Username : tlee
+  Email : tim.lee@oracleacademy.Test
+  Initial Password : aBcd!
+  ```
+
+### Week 14 
+
+> Recursion, Modules
+
+- [X] **Issue 9**
+
+- To ensure that sensitive information is not leaked it is important that the information saved to file is encoded. 
+  - To meet these regulations you need to add a method that will reverse the order of the text stored for the database password. 
+    - This should be done recursively using a method named reverseString(). The following new methods have to be defined:
+      - [X] public String reverseString(String pw)
+
+### Week 15 
+
+> Quality Review and Deployment
+
+## Additional Optional Challenges
+
+**Sorting and Searching**
+
+- [X] Add functionality to your classes that would allow them to be sorted by name with the `Collections.sort` method.
+- [X] Add functionality to your user interface to show production based on factors like product type, manufacturer, name, etc.
+
+<!--
+- [ ] **Issue 11 - deptId**
+
+- [ ] An additional piece of information is required to be produced for the auditing with the users department information being required as well. 
+  - The department code is made up of four letters and two numbers.
+  - The format of the department code is the first letter must be in uppercase with the following three all being lowercase and no spaces.
+
+- The following three fields need to be added to the EmployeeInfo class:
+  - [ ] String deptId;
+  - [ ] Pattern p;
+  - [ ] Scanner in;
+
+- The following new methods have to be defined:
+  - [ ] public String getDeptId()
+  - [ ] private void setDeptId()
+  - [ ] private String getId()
+  - [ ] private boolean validId(String id)
+
+- [ ] As there will be multiple inputs across the class now the scanner will need to be declared and closed in the constructor. 
+  - The pattern to control the format of the input will also have to be declared in the constructor. 
+  - In between opening and closing the scanner, the constructor will need to not only get the name but also the deptId of the user.
+
+- [ ] setDeptId() will call getDeptId() to get the id from the user before validId() is used to check if the input matches the pattern. 
+  - If the pattern matches then the given id is set to deptId otherwise a default value of None01 should be assigned. 
+
+- [ ] As there are now two values to be displayed (code, deptId) create a toString() method that will override the output and allow you to simply display the value of the object to the screen.
+
+- [ ] Update the TestProductionLine class to use the toString() method to display the values to the console.
+
+- [ ] **Issue 13**
+-->
+
+- [X] Create a method called print that would take your collection and list all of the contents. 
+  - It should handle all of your classes.
+
+<!--
+- [ ] **Issue 14**
+-->
+
+- [X] Create a static method called printType in Product that will iterate through your Collection and print all the classes of a particular type.
+  - Example – print only AudioPlayer classes in the collection.
+
+- [X] For an extra bonus you could modify it so that it would accept the Class that you want to print in the parameter list. 
+  - This way we could use it against classes that we have not yet built.
+
+- [X] Limit the collection to only use subclasses of Product.
