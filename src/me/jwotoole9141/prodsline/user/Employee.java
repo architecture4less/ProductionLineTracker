@@ -34,14 +34,18 @@ public class Employee {
    *
    * @param firstLastName the employee's first and last name, separated by a space
    * @param password      the employee's initial password (one upper, lower, and special character)
+   * @param useDefaults   if true, replace invalid arguments with defaults
    */
-  public Employee(String firstLastName, String password) {
+  public Employee(String firstLastName, String password, boolean useDefaults) {
 
     // try to set the name, or set a default...
     try {
       setName(firstLastName);
     } catch (IllegalArgumentException ex) {
 
+      if (!useDefaults) {
+        throw ex;
+      }
       this.name = firstLastName.trim();
       this.username = "default";
       this.email = "user" + EMAIL_SUFFIX;
@@ -52,6 +56,9 @@ public class Employee {
       setPassword(password);
     } catch (IllegalArgumentException ex) {
 
+      if (!useDefaults) {
+        throw ex;
+      }
       this.password = "pw";
     }
   }
