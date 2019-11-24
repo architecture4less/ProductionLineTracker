@@ -19,24 +19,67 @@ import java.util.regex.Pattern;
  */
 public class Employee {
 
+  /**
+   * The suffix for email addresses.
+   */
   private static final String EMAIL_SUFFIX = "@oracleacademy.Test";
+
+  /**
+   * The pattern for any invalid name characters.
+   */
+  private static final Pattern INVAL_PATTERN = Pattern.compile("[^a-zA-Z ]+");
+
+  /**
+   * The pattern for any lowercase letters.
+   */
   private static final Pattern LOWER_PATTERN = Pattern.compile("[a-z]+");
+
+  /**
+   * The pattern for any uppercase letters.
+   */
   private static final Pattern UPPER_PATTERN = Pattern.compile("[A-Z]+");
+
+  /**
+   * The pattern for any special characters.
+   */
   private static final Pattern OTHER_PATTERN = Pattern.compile("[^a-zA-Z0-9]+");
 
+  /**
+   * The employee's identity number.
+   */
+  private int id;
+
+  /**
+   * The employee's first and last name.
+   */
   private String name;
+
+  /**
+   * The employee's username.
+   */
   private String username;
+
+  /**
+   * The employee's pasword.
+   */
   private String password;
+
+  /**
+   * The employee's email address.
+   */
   private String email;
 
   /**
    * Creates a representation of an employee with their credentials.
    *
-   * @param firstLastName the employee's first and last name, separated by a space
+   * @param id            the employee's identity number (auto-incremented by the database)
+   * @param firstLastName the employee's first and last name, separated by a space (letters only)
    * @param password      the employee's initial password (one upper, lower, and special character)
    * @param useDefaults   if true, replace invalid arguments with defaults
    */
-  public Employee(String firstLastName, String password, boolean useDefaults) {
+  public Employee(int id, String firstLastName, String password, boolean useDefaults) {
+
+    this.id = id;
 
     // try to set the name, or set a default...
     try {
@@ -61,6 +104,15 @@ public class Employee {
       }
       this.password = "pw";
     }
+  }
+
+  /**
+   * Gets the employee's id.
+   *
+   * @return the identity number
+   */
+  public int getId() {
+    return id;
   }
 
   /**
@@ -100,10 +152,20 @@ public class Employee {
   }
 
   /**
-   * Sets the employee's first & last name, username, and email address.
+   * Sets the employee's id.
+   *
+   * @param id the new identity number
+   */
+  public void setId(int id) {
+
+    this.id = id;
+  }
+
+  /**
+   * Sets the employee's first &amp; last name, username, and email address.
    *
    * <p>
-   * A valid name contains a first name and a last name separated by a space.
+   * A valid name contains a first and a last name (letters only) separated by a space.
    * </p>
    *
    * @param firstLastName the name
@@ -113,8 +175,8 @@ public class Employee {
 
     if (!isValidName(firstLastName)) {
       throw new IllegalArgumentException(
-          "The given name was invalid. There should be a "
-              + "first and last name separated by a space.");
+          "The given name was invalid. There should be a first "
+              + "and last name (letters only) separated by a space.");
     }
     this.name = firstLastName.trim();
 
@@ -147,7 +209,7 @@ public class Employee {
    * Tests if the given name is valid or not.
    *
    * <p>
-   * A valid name contains a first name and a last name separated by a space.
+   * A valid name contains a first and a last name (letters only) separated by a space.
    * </p>
    *
    * @param name the employee's name
@@ -155,7 +217,12 @@ public class Employee {
    */
   private boolean isValidName(String name) {
 
-    return name.contains(" ");
+    // NOTE: this method may be AKA 'checkName'.
+    // it additionally checks that only normal ascii
+    // letters and spaces are used for the name.
+
+    Matcher invalMatcher = INVAL_PATTERN.matcher(name);
+    return name.contains(" ") && !invalMatcher.find();
   }
 
   /**
