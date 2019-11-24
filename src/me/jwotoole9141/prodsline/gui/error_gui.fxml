@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  AUTH: Jared O'Toole
+  DATE: Sat, Nov 23rd, 2019
+  PROJ: ProductionLineTracker
+  FILE: error_gui.fxml
+
+  Defines the JavaFX layout of the error GUI window.
+ -->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane prefHeight="200.0" prefWidth="536.0" stylesheets="@stylesheet.css"
+  xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="me.jwotoole9141.prodsline.gui.ErrorController">
+  <VBox layoutX="84.0" layoutY="64.0" prefHeight="231.0" prefWidth="536.0"
+    AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0"
+    AnchorPane.topAnchor="12.0">
+    <Label text="An exception occured:">
+      <VBox.margin>
+        <Insets bottom="4.0"/>
+      </VBox.margin>
+    </Label>
+    <TextArea fx:id="txtErrorMsg" editable="false" minWidth="400.0" prefHeight="150.0"
+      prefWidth="400.0" styleClass="errorText" wrapText="true">
+      <VBox.margin>
+        <Insets bottom="6.0"/>
+      </VBox.margin>
+    </TextArea>
+    <HBox>
+      <VBox.margin>
+        <Insets/>
+      </VBox.margin>
+      <Pane maxHeight="0.0" prefHeight="0.0" prefWidth="469.0" HBox.hgrow="ALWAYS"/>
+      <Button fx:id="btnOkay" mnemonicParsing="false" onAction="#btnOkayAction" prefHeight="27.0"
+        prefWidth="85.0" text="Okay"/>
+    </HBox>
+  </VBox>
+</AnchorPane>

@@ -15,10 +15,11 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -28,7 +29,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
 <TabPane prefHeight="450.0" prefWidth="350.0" stylesheets="@stylesheet.css"
   tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.171"
   xmlns:fx="http://javafx.com/fxml/1"
@@ -95,6 +95,34 @@
       <VBox layoutX="459.0" layoutY="129.0" prefHeight="571.0" prefWidth="800.0"
         AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0"
         AnchorPane.topAnchor="12.0">
+        <Label text="Filter &amp; Sort Products">
+          <VBox.margin>
+            <Insets bottom="4.0"/>
+          </VBox.margin>
+        </Label>
+        <GridPane hgap="8.0" minHeight="30.0" prefHeight="30.0" prefWidth="326.0">
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0"/>
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+          </rowConstraints>
+          <padding>
+            <Insets bottom="12.0"/>
+          </padding>
+          <TextField fx:id="fldFilterOptsVal" GridPane.columnIndex="1">
+            <GridPane.margin>
+              <Insets/>
+            </GridPane.margin>
+          </TextField>
+          <ChoiceBox fx:id="chbFilterOptsKey" prefWidth="9.999999999E9"/>
+        </GridPane>
+        <HBox>
+          <Pane HBox.hgrow="ALWAYS"/>
+          <Button fx:id="btnFilterOpts" mnemonicParsing="false" onAction="#btnFilterOptsAction"
+            text="Filter Products"/>
+        </HBox>
         <Label text="Choose Product">
           <VBox.margin>
             <Insets bottom="4.0"/>
@@ -120,16 +148,63 @@
   </Tab>
   <Tab text="Production Log">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-      <TextArea fx:id="txtProdsLog" editable="false" layoutX="14.0" layoutY="14.0"
-        prefHeight="571.0" prefWidth="800.0" AnchorPane.bottomAnchor="12.0"
-        AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0"/>
+      <VBox prefHeight="421.0" prefWidth="350.0" AnchorPane.bottomAnchor="12.0"
+        AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+        <Label text="Filter &amp; Sort Productions">
+          <opaqueInsets>
+            <Insets/>
+          </opaqueInsets>
+          <VBox.margin>
+            <Insets bottom="4.0"/>
+          </VBox.margin>
+        </Label>
+        <GridPane hgap="8.0" minHeight="30.0" prefHeight="30.0" prefWidth="326.0">
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0"/>
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+          </rowConstraints>
+          <padding>
+            <Insets bottom="12.0"/>
+          </padding>
+          <TextField fx:id="fldFilterLogVal" GridPane.columnIndex="1">
+            <GridPane.margin>
+              <Insets/>
+            </GridPane.margin>
+          </TextField>
+          <ChoiceBox fx:id="chbFilterLogKey" prefWidth="9.999999999E9"/>
+        </GridPane>
+        <HBox>
+          <VBox.margin>
+            <Insets bottom="12.0"/>
+          </VBox.margin>
+          <Pane HBox.hgrow="ALWAYS">
+            <HBox.margin>
+              <Insets/>
+            </HBox.margin>
+            <padding>
+              <Insets bottom="5.0"/>
+            </padding>
+          </Pane>
+          <Button fx:id="btnFilterLog" mnemonicParsing="false" onAction="#btnFilterLogAction"
+            text="Filter Productions"/>
+        </HBox>
+        <Label text="Production Records">
+          <VBox.margin>
+            <Insets bottom="4.0"/>
+          </VBox.margin>
+        </Label>
+        <TextArea fx:id="txtProdsLog" editable="false" prefHeight="571.0" prefWidth="800.0"/>
+      </VBox>
     </AnchorPane>
   </Tab>
   <Tab text="Employee">
     <AnchorPane>
       <VBox layoutX="12.0" layoutY="14.0" prefHeight="421.0" prefWidth="350.0"
-        AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0"
-        AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+        AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0"
+        AnchorPane.topAnchor="12.0">
         <Label text="You are logged in with the following credentials:">
           <opaqueInsets>
             <Insets/>
@@ -196,11 +271,9 @@
           <Label text="New Name"/>
           <Label text="New Password" GridPane.rowIndex="1"/>
           <TextField fx:id="fldUpdateEmplName" GridPane.columnIndex="1"/>
-          <TextField fx:id="fldUpdateEmplPass" GridPane.columnIndex="1"
-            GridPane.rowIndex="1"/>
+          <PasswordField fx:id="fldUpdateEmplPass" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
           <Label text="Current Password" GridPane.rowIndex="2"/>
-          <TextField fx:id="fldEmplPass" GridPane.columnIndex="1"
-            GridPane.rowIndex="2"/>
+          <PasswordField fx:id="fldEmplPass" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
         </GridPane>
         <HBox>
           <Pane HBox.hgrow="ALWAYS">
@@ -211,15 +284,14 @@
               <Insets bottom="5.0"/>
             </padding>
           </Pane>
-          <Button fx:id="btnUpdateEmpl" mnemonicParsing="false"
-            onAction="#btnUpdateEmplAction" text="Save Changes"/>
+          <Button fx:id="btnUpdateEmpl" mnemonicParsing="false" onAction="#btnUpdateEmplAction"
+            text="Save Changes"/>
         </HBox>
         <HBox alignment="TOP_RIGHT">
           <VBox.margin>
             <Insets bottom="12.0"/>
           </VBox.margin>
-          <Label fx:id="lblUpdateEmplMsg"
-            text="Error: Could not update your credentials"/>
+          <Label fx:id="lblUpdateEmplMsg" text="Error: Could not update your credentials"/>
         </HBox>
       </VBox>
     </AnchorPane>
