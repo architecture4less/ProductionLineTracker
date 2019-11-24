@@ -29,10 +29,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
+import me.jwotoole9141.prodsline.Main;
 import me.jwotoole9141.prodsline.Model;
 import me.jwotoole9141.prodsline.item.ItemType;
 import me.jwotoole9141.prodsline.item.Product;
 import me.jwotoole9141.prodsline.item.ProductionRecord;
+import me.jwotoole9141.prodsline.user.Employee;
 
 /**
  * Handles user interaction with the prods line GUI.
@@ -43,6 +45,11 @@ public class ProdsLineController {
 
   // NOTE: IntelliJ says declaration access can be weaker,
   // but it is required to be public for FXML.
+
+  /**
+   * The employee currently logged into the prods line tracker.
+   */
+  private static Employee user;
 
   /**
    * The list of products loaded from the database.
@@ -150,7 +157,61 @@ public class ProdsLineController {
   private TextArea txtProdsLog;
 
   /**
-   * Initializes the GUI with additional data.
+   * The 'employee name' field.
+   */
+  @FXML
+  public TextField fldEmplName;
+
+  /**
+   * The 'employee username' field.
+   */
+  @FXML
+  public TextField fldEmplUser;
+
+  /**
+   * The 'employee email' field.
+   */
+  @FXML
+  public TextField fldEmplEmail;
+
+  /**
+   * The 'logout' button.
+   */
+  @FXML
+  public Button btnLogout;
+
+  /**
+   * The 'update employee name' field.
+   */
+  @FXML
+  public TextField fldUpdateEmplName;
+
+  /**
+   * The 'update employee password' field.
+   */
+  @FXML
+  public TextField fldUpdateEmplPass;
+
+  /**
+   * The 'employee password' field.
+   */
+  @FXML
+  public TextField fldEmplPass;
+
+  /**
+   * The 'update employee' button.
+   */
+  @FXML
+  public Button btnUpdateEmpl;
+
+  /**
+   * The 'update employee' button message label.
+   */
+  @FXML
+  public Label lblUpdateEmplMsg;
+
+  /**
+   * Initializes the prods line GUI with additional data.
    */
   @FXML
   public void initialize() {
@@ -169,6 +230,8 @@ public class ProdsLineController {
 
     productLine.addAll(Model.getProducts());
     productionLog.addAll(Model.getProdsRecords());
+
+    Main.launchLoginPopup();
   }
 
   /**
@@ -245,6 +308,29 @@ public class ProdsLineController {
     );
   }
 
+  private void updateUserDisplay() {
+
+    if (user != null) {
+
+      fldEmplName.setText(user.getName());
+      fldEmplUser.setText(user.getUsername());
+      fldEmplEmail.setText(user.getEmail());
+    }
+    else {
+      fldEmplName.setText("");
+      fldEmplUser.setText("");
+      fldEmplEmail.setText("");
+    }
+  }
+
+  private void requireUserLoggedIn() {
+
+    if (user == null) {
+      throw new IllegalStateException(
+          "You must be logged in to do that.");
+    }
+  }
+
   /**
    * Handles the 'add product' button being pressed.
    *
@@ -254,6 +340,8 @@ public class ProdsLineController {
   public void btnAddProdAction(ActionEvent event) {
 
     System.out.println(btnAddProd.toString() + " was pressed!");
+
+    requireUserLoggedIn();
 
     // create a new product using form info...
     String name = fldNewProdName.getText().trim();
@@ -276,7 +364,7 @@ public class ProdsLineController {
           newProd.getId(), newProd.getName()
       ));
 
-    } catch (SQLException | IllegalStateException ex) {
+    } catch (IllegalStateException | SQLException ex) {
       ex.printStackTrace();
 
     } catch (IllegalArgumentException ex) {
@@ -297,6 +385,8 @@ public class ProdsLineController {
   public void btnProduceAction(ActionEvent event) {
 
     System.out.println(btnProduce.toString() + " was pressed!");
+
+    requireUserLoggedIn();
 
     // create production records using form info...
     Product prod = lstProdOpts.getSelectionModel().getSelectedItem();
@@ -324,7 +414,7 @@ public class ProdsLineController {
           prod.getId(), prod.getName(), qnty
       ));
 
-    } catch (SQLException ex) {
+    } catch (IllegalStateException | SQLException ex) {
       ex.printStackTrace();
 
     } catch (IllegalArgumentException ex) {
@@ -333,6 +423,76 @@ public class ProdsLineController {
       lblProduceMsg.setTextFill(Color.web("red"));
       lblProduceMsg.setText("Couldn't produce: " + ex.getMessage());
     }
+    event.consume();
+  }
+
+  /**
+   * Handles the 'logout' button being pressed.
+   *
+   * @param event the action performed
+   */
+  public void btnLogoutAction(ActionEvent event) {
+
+    requireUserLoggedIn();
+
+    user = null;
+    updateUserDisplay();
+    Main.launchLoginPopup();
+
+    event.consume();
+  }
+
+  /**
+   * Handles the 'update employee' button being pressed.
+   *
+   * @param event the action performed
+   */
+  public void btnUpdateEmplAction(ActionEvent event) {
+
+    requireUserLoggedIn();
+
+    try {
+      // if the password field matches the employee's password...
+      if (fldEmplPass.getText().equals(user.getPassword())) {
+
+        String newName = fldUpdateEmplName.getText();
+        String newPass = fldUpdateEmplPass.getText();
+
+        boolean updated = false;
+
+        // update the name if specified...
+        if (!newName.isEmpty()) {
+          user.setName(newName);
+          updated = true;
+        }
+
+        // update the password if specified...
+        if (!newPass.isEmpty()) {
+          user.setPassword(newPass);
+          updated = true;
+        }
+
+        // set the label to success if something was updated...
+        if (updated) {
+          lblUpdateEmplMsg.setTextFill(Color.web("green"));
+          lblUpdateEmplMsg.setText("Updated credentials successfully.");
+        }
+        else {
+          throw new IllegalArgumentException("Nothing was updated.");
+        }
+      }
+    } catch (IllegalArgumentException ex) {
+
+      // set the label to failure...
+      lblUpdateEmplMsg.setTextFill(Color.web("red"));
+      lblUpdateEmplMsg.setText(ex.getMessage());
+
+    } catch (IllegalStateException ex) {
+
+      Main.launchErrorPopup();
+      // TODO set error message
+    }
+
     event.consume();
   }
 }
