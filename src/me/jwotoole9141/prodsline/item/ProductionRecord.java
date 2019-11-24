@@ -27,7 +27,12 @@ public class ProductionRecord {
   /**
    * The id number of the produced product.
    */
-  private int productID;
+  private int productId;
+
+  /**
+   * The id number of the employee who made this record.
+   */
+  private int employeeId;
 
   /**
    * The serial number of the produced product.
@@ -42,20 +47,19 @@ public class ProductionRecord {
   /**
    * Creates a record for a produced product.
    *
-   * <p>
+   *
    * <ul>
    *   <li>A default production number of 0 is automatically assigned.</li>
    *   <li>A default serial number of "0" is automatically assigned.</li>
    *   <li>The current system time is used for date of production.</li>
    * </ul>
-   * </p>
    *
-   * @param productID the id of the product being produced
+   * @param productId the id of the product being produced
    */
-  public ProductionRecord(int productID) {
+  public ProductionRecord(int productId) {
 
     this.prodsNumber = 0;
-    this.productID = productID;
+    this.productId = productId;
     this.serialNumber = "0";
     this.dateProduced = new Date();
   }
@@ -63,12 +67,10 @@ public class ProductionRecord {
   /**
    * Creates a record for a produced product.
    *
-   * <p>
    * <ul>
    *   <li>A default production number of 0 is automatically assigned.</li>
    *   <li>The current system time is used for date of production.</li>
    * </ul>
-   * </p>
    *
    * @param product    the product being produced
    * @param prodsCount the number of times this product has been produced
@@ -76,7 +78,7 @@ public class ProductionRecord {
   public ProductionRecord(Product product, int prodsCount) {
 
     this.prodsNumber = 0;
-    this.productID = product.getId();
+    this.productId = product.getId();
     this.serialNumber = Model.genSerialNum(product.getManuf(), product.getType(), prodsCount);
     this.dateProduced = new Date();
   }
@@ -90,14 +92,17 @@ public class ProductionRecord {
    * </p>
    *
    * @param prodsNumber  the unique production number
-   * @param productID    the produced product id
+   * @param productId    the produced product id
+   * @param employeeId   the employee producee id
    * @param serialNumber the produced product serial number
    * @param dateProduced the date of this production
    */
-  public ProductionRecord(int prodsNumber, int productID, String serialNumber, Date dateProduced) {
+  public ProductionRecord(int prodsNumber, int productId, int employeeId,
+      String serialNumber, Date dateProduced) {
 
     this.prodsNumber = prodsNumber;
-    this.productID = productID;
+    this.productId = productId;
+    this.employeeId = employeeId;
     this.serialNumber = serialNumber;
     this.dateProduced = new Date(dateProduced.getTime());
   }
@@ -117,9 +122,19 @@ public class ProductionRecord {
    *
    * @return the product id
    */
-  public int getProductID() {
+  public int getProductId() {
 
-    return productID;
+    return productId;
+  }
+
+  /**
+   * Gets the employee recordee identification number.
+   *
+   * @return the employee id
+   */
+  public int getEmployeeId() {
+
+    return employeeId;
   }
 
   /**
@@ -135,7 +150,7 @@ public class ProductionRecord {
   /**
    * Gets the recorded date of production.
    *
-   * @return the production date & time
+   * @return the production date &amp; time
    */
   public Date getDateProduced() {
 
@@ -155,11 +170,21 @@ public class ProductionRecord {
   /**
    * Sets the recorded product identification number.
    *
-   * @param productID the product id
+   * @param productId the product id
    */
-  public void setProductID(int productID) {
+  public void setProductId(int productId) {
 
-    this.productID = productID;
+    this.productId = productId;
+  }
+
+  /**
+   * Sets the identification number of the employee recordee.
+   *
+   * @param employeeId the employee id
+   */
+  public void setEmployeeId(int employeeId) {
+
+    this.employeeId = employeeId;
   }
 
   /**
@@ -175,7 +200,7 @@ public class ProductionRecord {
   /**
    * Sets the recorded date of production.
    *
-   * @param dateProduced the production date & time
+   * @param dateProduced the production date &amp; time
    */
   public void setDateProduced(Date dateProduced) {
 
@@ -194,8 +219,8 @@ public class ProductionRecord {
   @Override
   public String toString() {
 
-    if (productID > 0) {
-      Product prod = Model.getProduct(productID);
+    if (productId > 0) {
+      Product prod = Model.getProduct(productId);
 
       if (prod != null) {
         return String.format(
@@ -204,9 +229,10 @@ public class ProductionRecord {
         );
       }
     }
+    // NOTE: the string includes employee id in addition.
     return String.format(
-        "Prod. Num: %d Product ID: %d Serial Num: %s Date: %s",
-        prodsNumber, productID, serialNumber, dateProduced
+        "Prod. Num: %d Product ID: %d Employee ID: %d Serial Num: %s Date: %s",
+        prodsNumber, productId, employeeId, serialNumber, dateProduced
     );
   }
 }
