@@ -4,10 +4,10 @@
  * PROJ: ProductionLineTracker
  * FILE: stylesheet.css
  *
- * Defines the stylesheet for the GUI window.
+ * Defines the stylesheet for the app's GUI.
  */
 
-TextField, TextArea, ChoiceBox, ComboBox {
+TextField, PasswordField, TextArea, ChoiceBox, ComboBox {
   -fx-font-family: "Consolas", monospace;
 }
 
@@ -27,4 +27,13 @@ Button {
 
 Button:hover {
   -fx-background-color: hsb(0, 25%, 100%);
+}
+
+.errorText {
+  -fx-font-family: "Ariel", serif;
+
+  -fx-background-color: hsb(0, 0%, 98%);
+  -fx-border-color: hsb(0, 0%, 80%);
+  -fx-border-width: 1px;
+  -fx-border-radius: 4px;
 }
