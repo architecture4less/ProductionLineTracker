@@ -145,6 +145,12 @@ public abstract class Product implements Item, Comparable<Product> {
     );
   }
 
+  /**
+   * Compares this product to the other product by name.
+   *
+   * @param other another, non-null product
+   * @return the difference in sorting order between names
+   */
   @Override
   public int compareTo(Product other) {
     return this.name.compareTo(other.name);
@@ -153,7 +159,7 @@ public abstract class Product implements Item, Comparable<Product> {
   /**
    * Prints all of the products in the collection of the specified class to the console.
    *
-   * @param type the product class to print
+   * @param type     the product class to print
    * @param products the products to filter and print
    */
   public static void printAllOfType(Class<? extends Product> type, Collection<Product> products) {
