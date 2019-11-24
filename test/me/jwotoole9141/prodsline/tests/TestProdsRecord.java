@@ -18,14 +18,27 @@ import java.util.Objects;
 import me.jwotoole9141.prodsline.Model;
 import me.jwotoole9141.prodsline.item.Product;
 import me.jwotoole9141.prodsline.item.ProductionRecord;
+import me.jwotoole9141.prodsline.user.Employee;
 
+/**
+ * Tests the production record class.
+ *
+ * @author Jared O'Toole
+ */
 class TestProdsRecord {
 
+  /**
+   * Runs the test.
+   *
+   * @param args unused command-line args
+   */
   public static void main(String[] args) {
 
     List<ProductionRecord> records = new ArrayList<>();
 
     Model.open();
+
+    Employee user = new Employee(3, "Tim Lee", "abCd!", false);
 
     Product prod = Objects.requireNonNull(Model.getProduct(1));
 
@@ -33,7 +46,7 @@ class TestProdsRecord {
     records.add(new ProductionRecord(prod, Model.getProdsCount(prod.getId())));
 
     try {
-      Model.recordProduction(prod, 5, new Timestamp(System.currentTimeMillis()));
+      Model.recordProduction(prod, 5, new Timestamp(System.currentTimeMillis()), user);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -42,12 +55,13 @@ class TestProdsRecord {
 
     ProductionRecord rec = records.get(0);
     ProductionRecord newRec = new ProductionRecord(
-        rec.getProdsNumber(), rec.getProductID(),
+        rec.getProdsNumber(), rec.getProductId(), rec.getEmployeeId(),
         rec.getSerialNumber(), rec.getDateProduced());
 
     newRec.setDateProduced(new Date());
-    newRec.setProductID(0);
+    newRec.setProductId(0);
     newRec.setProdsNumber(0);
+    newRec.setEmployeeId(5);
     newRec.setSerialNumber("0");
 
     records.add(newRec);

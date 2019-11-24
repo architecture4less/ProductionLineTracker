@@ -13,12 +13,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import me.jwotoole9141.prodsline.Model;
-import me.jwotoole9141.prodsline.prod.GenericProduct;
 import me.jwotoole9141.prodsline.item.ItemType;
 import me.jwotoole9141.prodsline.item.Product;
+import me.jwotoole9141.prodsline.prod.GenericProduct;
 
+/**
+ * Tests the widget class.
+ *
+ * @author Jared O'Toole
+ */
 class TestWidget {
 
+  /**
+   * Runs the test.
+   *
+   * @param args unused command-line args
+   */
   public static void main(String[] args) {
 
     List<Product> productLine = new ArrayList<>();

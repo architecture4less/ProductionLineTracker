@@ -11,13 +11,23 @@ package me.jwotoole9141.prodsline.tests;
 
 import me.jwotoole9141.prodsline.user.Employee;
 
-public class TestEmployee {
+/**
+ * Tests the employee class.
+ *
+ * @author Jared O'Toole
+ */
+class TestEmployee {
 
+  /**
+   * Runs the test.
+   *
+   * @param args unused command-line args
+   */
   public static void main(String[] args) {
 
-    System.out.println(new Employee("Tim Lee", "aBc!"));
+    System.out.println(new Employee(1, "Tim Lee", "aBc!", true));
     System.out.println();
-    System.out.println(new Employee("Bart", "1234"));
+    System.out.println(new Employee(3, "Bart", "1234", true));
     System.out.println();
   }
 }

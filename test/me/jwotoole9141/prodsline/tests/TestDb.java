@@ -12,14 +12,24 @@ package me.jwotoole9141.prodsline.tests;
 import java.util.Properties;
 import me.jwotoole9141.prodsline.Model;
 
+/**
+ * Tests reading the database properties file and opening / closing the database.
+ *
+ * @author Jared O'Toole
+ */
 class TestDb {
 
+  /**
+   * Runs the test.
+   *
+   * @param args unused command-line args
+   */
   public static void main(String[] args) {
 
     Model.open();
     Properties props = Model.getProperties();
     System.out.printf(
-        "user:%s\npassword:%s\n",
+        "user:%s%npassword:%s%n",
         props.getProperty("user"),
         props.getProperty("password")
     );

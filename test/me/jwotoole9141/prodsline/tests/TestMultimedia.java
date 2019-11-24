@@ -10,16 +10,26 @@
 package me.jwotoole9141.prodsline.tests;
 
 import java.util.ArrayList;
-import me.jwotoole9141.prodsline.prod.AudioPlayer;
 import me.jwotoole9141.prodsline.item.Item;
 import me.jwotoole9141.prodsline.item.MonitorType;
-import me.jwotoole9141.prodsline.prod.MoviePlayer;
 import me.jwotoole9141.prodsline.item.MultimediaControl;
 import me.jwotoole9141.prodsline.item.Screen;
 import me.jwotoole9141.prodsline.item.ScreenSpec;
+import me.jwotoole9141.prodsline.prod.AudioPlayer;
+import me.jwotoole9141.prodsline.prod.MoviePlayer;
 
+/**
+ * Tests the multimedia interface.
+ *
+ * @author Jared O'Toole
+ */
 class TestMultimedia {
 
+  /**
+   * Runs the test.
+   *
+   * @param args unused command-line args
+   */
   public static void main(String[] args) {
 
     AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
