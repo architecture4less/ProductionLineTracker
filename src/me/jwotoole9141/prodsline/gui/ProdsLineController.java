@@ -11,6 +11,8 @@ package me.jwotoole9141.prodsline.gui;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
@@ -33,7 +35,9 @@ import me.jwotoole9141.prodsline.Main;
 import me.jwotoole9141.prodsline.Model;
 import me.jwotoole9141.prodsline.item.ItemType;
 import me.jwotoole9141.prodsline.item.Product;
+import me.jwotoole9141.prodsline.item.ProductFilter;
 import me.jwotoole9141.prodsline.item.ProductionRecord;
+import me.jwotoole9141.prodsline.item.RecordFilter;
 import me.jwotoole9141.prodsline.user.Employee;
 
 /**
@@ -49,18 +53,18 @@ public class ProdsLineController {
   /**
    * The employee currently logged into the prods line tracker.
    */
-  private static Employee user;
+  private Employee user;
 
   /**
    * The list of products loaded from the database.
    */
-  private static final ObservableList<Product> productLine =
+  private final ObservableList<Product> productLine =
       FXCollections.observableArrayList();
 
   /**
    * The list of production records loaded from the database.
    */
-  private static final ObservableList<ProductionRecord> productionLog =
+  private final ObservableList<ProductionRecord> productionLog =
       FXCollections.observableArrayList();
 
   /**
@@ -124,6 +128,24 @@ public class ProdsLineController {
   private TableColumn<?, Product> colProductsManuf;
 
   /**
+   * The 'filter options key' choice box.
+   */
+  @FXML
+  public ChoiceBox<ProductFilter> chbFilterOptsKey;
+
+  /**
+   * The 'filter options value' field.
+   */
+  @FXML
+  public TextField fldFilterOptsVal;
+
+  /**
+   * The 'filter options' button.
+   */
+  @FXML
+  public Button btnFilterOpts;
+
+  /**
    * The 'production options' list.
    */
   @FXML
@@ -149,6 +171,24 @@ public class ProdsLineController {
    */
   @FXML
   private Label lblProduceMsg;
+
+  /**
+   * The 'filter log key' choice box.
+   */
+  @FXML
+  public ChoiceBox<RecordFilter> chbFilterLogKey;
+
+  /**
+   * The 'filter log value' field.
+   */
+  @FXML
+  public TextField fldFilterLogVal;
+
+  /**
+   * The 'filter log' button.
+   */
+  @FXML
+  public Button btnFilterLog;
 
   /**
    * The 'production log' text area.
@@ -221,17 +261,25 @@ public class ProdsLineController {
 
     initChbNewProdType();
     initTblProducts();
+
+    initChbFilterOptsKey();
     initLstProdOpts();
     initCboProdQnty();
+
+    initChbFilterLogKey();
     initTxtProdsLog();
 
     lblProduceMsg.setText("");
     lblAddProdMsg.setText("");
+    lblUpdateEmplMsg.setText("");
 
-    productLine.addAll(Model.getProducts());
-    productionLog.addAll(Model.getProdsRecords());
+    try {
+      productLine.addAll(Model.getProducts());
+      productionLog.addAll(Model.getProdsRecords());
 
-    Main.launchLoginPopup();
+    } catch (IllegalStateException ex) {
+      Main.showError(ex);
+    }
   }
 
   /**
@@ -240,10 +288,7 @@ public class ProdsLineController {
   private void initChbNewProdType() {
 
     chbNewProdType.getItems().clear();
-
-    for (ItemType type : ItemType.values()) {
-      chbNewProdType.getItems().add(type);
-    }
+    chbNewProdType.getItems().addAll(ItemType.values());
     chbNewProdType.getSelectionModel().selectFirst();
   }
 
@@ -260,6 +305,16 @@ public class ProdsLineController {
     colProductsName.setCellValueFactory(new PropertyValueFactory<>("name"));
     colProductsType.setCellValueFactory(new PropertyValueFactory<>("type"));
     colProductsManuf.setCellValueFactory(new PropertyValueFactory<>("manuf"));
+  }
+
+  /**
+   * Initializes the 'filter options key' choice box.
+   */
+  private void initChbFilterOptsKey() {
+
+    chbFilterOptsKey.getItems().clear();
+    chbFilterOptsKey.getItems().addAll(ProductFilter.values());
+    chbFilterOptsKey.getSelectionModel().selectFirst();
   }
 
   /**
@@ -285,6 +340,16 @@ public class ProdsLineController {
   }
 
   /**
+   * Initializes the 'filter log key' choice box.
+   */
+  private void initChbFilterLogKey() {
+
+    chbFilterLogKey.getItems().clear();
+    chbFilterLogKey.getItems().addAll(RecordFilter.values());
+    chbFilterLogKey.getSelectionModel().selectFirst();
+  }
+
+  /**
    * Initializes the 'production log' text area data.
    */
   private void initTxtProdsLog() {
@@ -297,17 +362,51 @@ public class ProdsLineController {
     productionLog.addListener(
         (ListChangeListener<ProductionRecord>) c -> {
           while (c.next()) {
-            txtProdsLog.appendText(
-                c.getAddedSubList().stream()
-                    .filter(Objects::nonNull)
-                    .map(ProductionRecord::toString)
-                    .collect(Collectors.joining("\n")) + "\n"
-            );
+            appendTxtProdsLog(c.getAddedSubList());
           }
         }
     );
   }
 
+  /**
+   * Appends the given records to the 'prods log' text area.
+   *
+   * @param list the production records
+   */
+  private void appendTxtProdsLog(List<? extends ProductionRecord> list) {
+
+    txtProdsLog.appendText(
+        list.stream()
+            .filter(Objects::nonNull)
+            .map(ProductionRecord::toString)
+            .collect(Collectors.joining("\n")) + "\n"
+    );
+  }
+
+  // /**
+  //  * Gets the user currently logged into the prods line tracker.
+  //  *
+  //  * @return the employee user
+  //  */
+  // public Employee getUser() {
+  //
+  //   return this.user;
+  // }
+
+  /**
+   * Sets the user currently logged into the prods line tracker.
+   *
+   * @param user the employee user
+   */
+  public void setUser(Employee user) {
+
+    this.user = user;
+    updateUserDisplay();
+  }
+
+  /**
+   * Updates the employee tab with the credentials of the user currently logged in.
+   */
   private void updateUserDisplay() {
 
     if (user != null) {
@@ -315,14 +414,18 @@ public class ProdsLineController {
       fldEmplName.setText(user.getName());
       fldEmplUser.setText(user.getUsername());
       fldEmplEmail.setText(user.getEmail());
-    }
-    else {
+    } else {
       fldEmplName.setText("");
       fldEmplUser.setText("");
       fldEmplEmail.setText("");
     }
   }
 
+  /**
+   * Requires that a user has been logged in.
+   *
+   * @throws IllegalStateException a user has not been logged in
+   */
   private void requireUserLoggedIn() {
 
     if (user == null) {
@@ -365,7 +468,7 @@ public class ProdsLineController {
       ));
 
     } catch (IllegalStateException | SQLException ex) {
-      ex.printStackTrace();
+      Main.showError(ex);
 
     } catch (IllegalArgumentException ex) {
 
@@ -405,7 +508,7 @@ public class ProdsLineController {
       // from the database.
 
       // record to database and the production log...
-      productionLog.addAll(Model.recordProduction(prod, qnty, time));
+      productionLog.addAll(Model.recordProduction(prod, qnty, time, user));
 
       // set the 'produce' message label to success...
       lblProduceMsg.setTextFill(Color.web("green"));
@@ -415,7 +518,7 @@ public class ProdsLineController {
       ));
 
     } catch (IllegalStateException | SQLException ex) {
-      ex.printStackTrace();
+      Main.showError(ex);
 
     } catch (IllegalArgumentException ex) {
 
@@ -433,11 +536,9 @@ public class ProdsLineController {
    */
   public void btnLogoutAction(ActionEvent event) {
 
-    requireUserLoggedIn();
-
     user = null;
     updateUserDisplay();
-    Main.launchLoginPopup();
+    Main.logout();
 
     event.consume();
   }
@@ -453,45 +554,128 @@ public class ProdsLineController {
 
     try {
       // if the password field matches the employee's password...
-      if (fldEmplPass.getText().equals(user.getPassword())) {
 
-        String newName = fldUpdateEmplName.getText();
-        String newPass = fldUpdateEmplPass.getText();
+      String newName = fldUpdateEmplName.getText();
+      String newPass = fldUpdateEmplPass.getText();
 
-        boolean updated = false;
-
-        // update the name if specified...
-        if (!newName.isEmpty()) {
-          user.setName(newName);
-          updated = true;
-        }
-
-        // update the password if specified...
-        if (!newPass.isEmpty()) {
-          user.setPassword(newPass);
-          updated = true;
-        }
-
-        // set the label to success if something was updated...
-        if (updated) {
-          lblUpdateEmplMsg.setTextFill(Color.web("green"));
-          lblUpdateEmplMsg.setText("Updated credentials successfully.");
-        }
-        else {
-          throw new IllegalArgumentException("Nothing was updated.");
-        }
+      // make sure the password is correct...
+      if (!fldEmplPass.getText().equals(user.getPassword())) {
+        throw new IllegalArgumentException(
+            "Invalid password entered.");
       }
+      boolean updated = false;
+
+      // update the name if specified...
+      if (!newName.isEmpty()) {
+        user.setName(newName);
+        updated = true;
+      }
+
+      // update the password if specified...
+      if (!newPass.isEmpty()) {
+        user.setPassword(newPass);
+        updated = true;
+      }
+
+      // set the label to success if something was updated...
+      if (updated) {
+
+        // lblUpdateEmplMsg.setTextFill(Color.web("green"));
+        // lblUpdateEmplMsg.setText("Updated credentials successfully.");
+
+        lblUpdateEmplMsg.setTextFill(Color.web("red"));
+        lblUpdateEmplMsg.setText("This has not yet been implemented.");
+
+      } else {
+        throw new IllegalArgumentException("Nothing was updated.");
+      }
+    } catch (IllegalStateException ex) {
+      Main.showError(ex);
+
     } catch (IllegalArgumentException ex) {
 
       // set the label to failure...
       lblUpdateEmplMsg.setTextFill(Color.web("red"));
       lblUpdateEmplMsg.setText(ex.getMessage());
 
-    } catch (IllegalStateException ex) {
-
-      Main.launchErrorPopup();
-      // TODO set error message
     }
+
+    fldUpdateEmplName.setText("");
+    fldUpdateEmplPass.setText("");
+    fldEmplPass.setText("");
+
+    event.consume();
+  }
+
+  /**
+   * Handles the 'filter options' button being pressed.
+   *
+   * @param event the action being performed
+   */
+  public void btnFilterOptsAction(ActionEvent event) {
+
+    // get the filter key and value...
+    ProductFilter key = chbFilterOptsKey.getSelectionModel().getSelectedItem();
+    String val = fldFilterOptsVal.getText().toLowerCase();
+
+    // if no key was selected, quit...
+    if (key == ProductFilter.NONE) {
+
+      lstProdOpts.setItems(productLine);
+      return;
+    }
+
+    ArrayList<Product> alterList = new ArrayList<>();
+
+    // if a val was given, filter the product options...
+    if (val.isEmpty()) {
+      alterList.addAll(productLine);
+    } else {
+      alterList.addAll(productLine.filtered(key.getFilter(val)));
+    }
+
+    // order the product options by key...
+    alterList.sort(key.getComparator());
+
+    // update product list...
+    lstProdOpts.setItems(FXCollections.observableArrayList(alterList));
+
+    event.consume();
+  }
+
+  /**
+   * Handles the 'filter log' button being pressed.
+   *
+   * @param event the action being performed
+   */
+  public void btnFilterLogAction(ActionEvent event) {
+
+    // get the filter key and value...
+    RecordFilter key = chbFilterLogKey.getSelectionModel().getSelectedItem();
+    String val = fldFilterLogVal.getText().toLowerCase();
+
+    if (key == RecordFilter.NONE) {
+
+      txtProdsLog.setText("");
+      appendTxtProdsLog(productionLog);
+      return;
+    }
+
+    ArrayList<ProductionRecord> alterLog = new ArrayList<>();
+
+    // if a val was given, filter the prods log...
+    if (val.isEmpty()) {
+      alterLog.addAll(productionLog);
+    } else {
+      alterLog.addAll(productionLog.filtered(key.getFilter(val)));
+    }
+
+    // order the prods log by key...
+    alterLog.sort(key.getComparator());
+
+    // update prods log...
+    txtProdsLog.setText("");
+    appendTxtProdsLog(alterLog);
 
     event.consume();
   }
