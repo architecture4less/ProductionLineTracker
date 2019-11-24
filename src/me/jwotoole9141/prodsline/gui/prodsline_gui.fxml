@@ -31,7 +31,8 @@
 
 <TabPane prefHeight="450.0" prefWidth="350.0" stylesheets="@stylesheet.css"
   tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.171"
-  xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.jwotoole9141.prodsline.gui.ProdsLineController">
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="me.jwotoole9141.prodsline.gui.ProdsLineController">
   <Tab text="Production Line">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
       <VBox layoutX="607.0" layoutY="29.0" prefHeight="180.0" prefWidth="800.0"
@@ -80,14 +81,10 @@
         </Label>
         <TableView fx:id="tblProducts">
           <columns>
-            <TableColumn fx:id="colProductsId" prefWidth="50.0"
-              text="Id"/>
-            <TableColumn fx:id="colProductsName" prefWidth="100.0"
-              text="Name"/>
-            <TableColumn fx:id="colProductsType" prefWidth="75.0"
-              text="Type"/>
-            <TableColumn fx:id="colProductsManuf"
-              prefWidth="100.0" text="Manufacturer"/>
+            <TableColumn fx:id="colProductsId" prefWidth="50.0" text="Id"/>
+            <TableColumn fx:id="colProductsName" prefWidth="100.0" text="Name"/>
+            <TableColumn fx:id="colProductsType" prefWidth="75.0" text="Type"/>
+            <TableColumn fx:id="colProductsManuf" prefWidth="100.0" text="Manufacturer"/>
           </columns>
         </TableView>
       </VBox>
@@ -126,6 +123,105 @@
       <TextArea fx:id="txtProdsLog" editable="false" layoutX="14.0" layoutY="14.0"
         prefHeight="571.0" prefWidth="800.0" AnchorPane.bottomAnchor="12.0"
         AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0"/>
+    </AnchorPane>
+  </Tab>
+  <Tab text="Employee">
+    <AnchorPane>
+      <VBox layoutX="12.0" layoutY="14.0" prefHeight="421.0" prefWidth="350.0"
+        AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0"
+        AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+        <Label text="You are logged in with the following credentials:">
+          <opaqueInsets>
+            <Insets/>
+          </opaqueInsets>
+          <VBox.margin>
+            <Insets bottom="4.0"/>
+          </VBox.margin>
+        </Label>
+        <GridPane minHeight="60.0" prefHeight="88.0" prefWidth="326.0">
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0"/>
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+          </rowConstraints>
+          <VBox.margin>
+            <Insets bottom="4.0"/>
+          </VBox.margin>
+          <Label text="Your Name"/>
+          <Label text="Your Username" GridPane.rowIndex="1"/>
+          <TextField fx:id="fldEmplName" editable="false" GridPane.columnIndex="1"/>
+          <TextField fx:id="fldEmplUser" editable="false" GridPane.columnIndex="1"
+            GridPane.rowIndex="1"/>
+          <Label text="Your Email" GridPane.rowIndex="2"/>
+          <TextField fx:id="fldEmplEmail" editable="false" GridPane.columnIndex="1"
+            GridPane.rowIndex="2"/>
+        </GridPane>
+        <HBox>
+          <VBox.margin>
+            <Insets bottom="12.0"/>
+          </VBox.margin>
+          <Pane HBox.hgrow="ALWAYS">
+            <HBox.margin>
+              <Insets/>
+            </HBox.margin>
+            <padding>
+              <Insets bottom="5.0"/>
+            </padding>
+          </Pane>
+          <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogoutAction"
+            text="Log Out"/>
+        </HBox>
+        <Label text="You may update your credentials here:">
+          <VBox.margin>
+            <Insets bottom="4.0"/>
+          </VBox.margin>
+        </Label>
+        <GridPane minHeight="60.0" prefHeight="90.0" prefWidth="326.0">
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0"/>
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+          </rowConstraints>
+          <VBox.margin>
+            <Insets bottom="4.0"/>
+          </VBox.margin>
+          <Label text="New Name"/>
+          <Label text="New Password" GridPane.rowIndex="1"/>
+          <TextField fx:id="fldUpdateEmplName" GridPane.columnIndex="1"/>
+          <TextField fx:id="fldUpdateEmplPass" GridPane.columnIndex="1"
+            GridPane.rowIndex="1"/>
+          <Label text="Current Password" GridPane.rowIndex="2"/>
+          <TextField fx:id="fldEmplPass" GridPane.columnIndex="1"
+            GridPane.rowIndex="2"/>
+        </GridPane>
+        <HBox>
+          <Pane HBox.hgrow="ALWAYS">
+            <HBox.margin>
+              <Insets/>
+            </HBox.margin>
+            <padding>
+              <Insets bottom="5.0"/>
+            </padding>
+          </Pane>
+          <Button fx:id="btnUpdateEmpl" mnemonicParsing="false"
+            onAction="#btnUpdateEmplAction" text="Save Changes"/>
+        </HBox>
+        <HBox alignment="TOP_RIGHT">
+          <VBox.margin>
+            <Insets bottom="12.0"/>
+          </VBox.margin>
+          <Label fx:id="lblUpdateEmplMsg"
+            text="Error: Could not update your credentials"/>
+        </HBox>
+      </VBox>
     </AnchorPane>
   </Tab>
 </TabPane>
