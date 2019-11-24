@@ -44,6 +44,9 @@ class at Florida Gulf Coast University for the 2019 fall semester. It is a Java 
 ## Demonstration
 ![A demonstrative GIF of the application](demo.gif)
 
+- Make sure db.properties has the password '4321' set. 
+- You can log into the production line tracker with the username 'tlee' and password 'abCd!'. 
+
 ## Documentation
 [JavaDoc](https://Architecture4less.github.io/ProductionLineTracker/docs/index.html)
 
@@ -93,6 +96,10 @@ Jared O'Toole <jwotoole9141@eagle.fgcu.edu>
 - Querying data from a database
 - Using Enums
 - Using abstract classes & interfaces with polymorphism
+- Using String Builder
+- Using Regex
+- Designing recursive functions
+- Reading properties from a file
 
 ## Problem Statement
 
