@@ -37,17 +37,103 @@ public class Employee {
    */
   public Employee(String firstLastName, String password) {
 
-    this.name = firstLastName.trim();
+    // try to set the name, or set a default...
+    try {
+      setName(firstLastName);
+    } catch (IllegalArgumentException ex) {
 
-    if (checkName(name)) {
-      String[] tokens = name.split(" ", 2);
-      setUsername(tokens[0], tokens[1]);
-      setEmail(tokens[0], tokens[1]);
-    } else {
+      this.name = firstLastName.trim();
       this.username = "default";
       this.email = "user" + EMAIL_SUFFIX;
     }
-    this.password = isValidPassword(password) ? password : "pw";
+
+    // try to set the password, or set a default...
+    try {
+      setPassword(password);
+    } catch (IllegalArgumentException ex) {
+
+      this.password = "pw";
+    }
+  }
+
+  /**
+   * Gets the employee's name.
+   *
+   * @return the first and last name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Gets the employee's username.
+   *
+   * @return the username
+   */
+  public String getUsername() {
+    return username;
+  }
+
+  /**
+   * Gets the employee's email.
+   *
+   * @return the email address
+   */
+  public String getEmail() {
+    return email;
+  }
+
+  /**
+   * Gets the employee's password.
+   *
+   * @return the password
+   */
+  public String getPassword() {
+    return password;
+  }
+
+  /**
+   * Sets the employee's first & last name, username, and email address.
+   *
+   * <p>
+   * A valid name contains a first name and a last name separated by a space.
+   * </p>
+   *
+   * @param firstLastName the name
+   * @throws IllegalArgumentException an invalid name was given
+   */
+  public void setName(String firstLastName) {
+
+    if (!isValidName(firstLastName)) {
+      throw new IllegalArgumentException(
+          "The given name was invalid. There should be a "
+              + "first and last name separated by a space.");
+    }
+    this.name = firstLastName.trim();
+
+    String[] tokens = name.split(" ", 2);
+    setUsername(tokens[0], tokens[1]);
+    setEmail(tokens[0], tokens[1]);
+  }
+
+  /**
+   * Sets the employee's password.
+   *
+   * <p>
+   * A valid password contains at least one lowercase character, one uppercase character, and one
+   * special character (that is not a letter or a number).
+   * </p>
+   *
+   * @param password the password
+   * @throws IllegalArgumentException an invalid password was given
+   */
+  public void setPassword(String password) {
+
+    if (!isValidPassword(password)) {
+      throw new IllegalArgumentException("The given password was invalid. It should "
+          + "contain a capital letter, a lowercase letter, and a special character.");
+    }
+    this.password = password;
   }
 
   /**
@@ -60,7 +146,7 @@ public class Employee {
    * @param name the employee's name
    * @return true if the name is valid, else false
    */
-  private boolean checkName(String name) {
+  private boolean isValidName(String name) {
 
     return name.contains(" ");
   }
