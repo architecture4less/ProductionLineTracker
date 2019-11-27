@@ -48,10 +48,7 @@ class at Florida Gulf Coast University for the 2019 fall semester. It is a Java 
 - You can log into the production line tracker with the username 'tlee' and password 'abCd!'. 
 
 ## Documentation
-[JavaDoc](https://Architecture4less.github.io/ProductionLineTracker/docs/index.html)
-
-**Since private repositories cannot use GitHub pages through a free account, this link will only
-work once the repository is made public.
+[ProductionLineTracker JavaDocs](https://architecture4less.github.io/ProductionLineTracker/)
 
 ## Diagrams
 
